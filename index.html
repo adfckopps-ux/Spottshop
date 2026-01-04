@@ -3,88 +3,217 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPOTTSHOP | Premium Streetwear</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
+    <title>Spottshop - Premium Streetwear</title>
     <style>
-        body { font-family: 'Inter', sans-serif; background-color: #0a0a0a; color: #ffffff; }
-        .product-card:hover img { transform: scale(1.05); }
-        .glass { background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); }
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+        header {
+            background-color: #000;
+            color: #fff;
+            text-align: center;
+            padding: 20px;
+            font-size: 2em;
+            font-weight: bold;
+        }
+        .container {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #222;
+            color: #fff;
+            padding: 20px;
+            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+        }
+        .sidebar h3 {
+            margin-top: 0;
+            color: #fff;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar li {
+            margin: 10px 0;
+        }
+        .sidebar a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+            padding: 10px;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+        .sidebar a:hover {
+            background-color: #444;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .product-card:hover {
+            transform: scale(1.05);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .product-card h4 {
+            margin: 10px;
+            color: #000;
+        }
+        .product-card p {
+            margin: 10px;
+            color: #666;
+        }
+        .price {
+            font-weight: bold;
+            color: #e74c3c;
+            font-size: 1.2em;
+        }
+        .category-section {
+            display: none;
+        }
+        .category-section.active {
+            display: block;
+        }
+        .questions {
+            background-color: #f9f9f9;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        .questions h4 {
+            color: #000;
+        }
+        .questions ul {
+            list-style: none;
+            padding: 0;
+        }
+        .questions li {
+            margin: 10px 0;
+        }
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #000;
+            color: #fff;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+        }
     </style>
 </head>
 <body>
-
-    <nav class="flex justify-between items-center p-6 sticky top-0 z-50 glass">
-        <div class="text-2xl font-black tracking-tighter">SPOTTSHOP</div>
-        <div class="hidden md:flex space-x-8 text-sm uppercase tracking-widest font-medium">
-            <a href="#" class="hover:text-gray-400 transition">New Arrivals</a>
-            <a href="#" class="hover:text-gray-400 transition">Baggy Jeans</a>
-            <a href="#" class="hover:text-gray-400 transition">Outerwear</a>
-            <a href="#" class="hover:text-gray-400 transition">Hoodies</a>
-        </div>
-        <div class="flex space-x-5 items-center">
-            <span class="cursor-pointer">Search</span>
-            <div class="relative cursor-pointer">
-                <span>Cart</span>
-                <span class="absolute -top-2 -right-3 bg-white text-black text-[10px] px-1 rounded-full font-bold">0</span>
-            </div>
-        </div>
-    </nav>
-
-    <header class="h-[70vh] flex flex-col justify-center items-center text-center px-4">
-        <h1 class="text-6xl md:text-8xl font-black italic uppercase mb-4 tracking-tighter">Volume 01</h1>
-        <p class="text-gray-400 max-w-md mb-8 font-light">Oversized silhouettes and industrial aesthetics. Redefining the modern uniform.</p>
-        <button class="bg-white text-black px-10 py-4 font-bold uppercase text-sm hover:bg-gray-200 transition">Shop Collection</button>
+    <header>
+        Spottshop
     </header>
-
-    <main class="max-w-7xl mx-auto px-6 pb-24">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
-            
-            <div class="product-card group cursor-pointer">
-                <div class="overflow-hidden bg-zinc-900 aspect-[3/4] mb-4">
-                    <img src="https://images.unsplash.com/photo-1542272604-787c3835535d?auto=format&fit=crop&q=80&w=800" alt="Baggy Jeans" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
-                </div>
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-bold text-lg uppercase">Raw Edge Baggy Denim</h3>
-                        <p class="text-gray-500 text-sm italic">Washed Graphite</p>
-                    </div>
-                    <span class="font-light">$120</span>
-                </div>
-            </div>
-
-            <div class="product-card group cursor-pointer">
-                <div class="overflow-hidden bg-zinc-900 aspect-[3/4] mb-4">
-                    <img src="https://images.unsplash.com/photo-1556821840-3a63f95609a7?auto=format&fit=crop&q=80&w=800" alt="Hoodie" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
-                </div>
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-bold text-lg uppercase">Heavyweight Boxy Hoodie</h3>
-                        <p class="text-gray-500 text-sm italic">Oatmeal Melange</p>
-                    </div>
-                    <span class="font-light">$95</span>
-                </div>
-            </div>
-
-            <div class="product-card group cursor-pointer">
-                <div class="overflow-hidden bg-zinc-900 aspect-[3/4] mb-4">
-                    <img src="https://images.unsplash.com/photo-1551028719-00167b16eac5?auto=format&fit=crop&q=80&w=800" alt="Jacket" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition duration-500">
-                </div>
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-bold text-lg uppercase">Technical Bomber Jacket</h3>
-                        <p class="text-gray-500 text-sm italic">Obsidian Black</p>
-                    </div>
-                    <span class="font-light">$185</span>
-                </div>
-            </div>
-
+    <div class="container">
+        <div class="sidebar">
+            <h3>Categories</h3>
+            <ul>
+                <li><a href="#" onclick="showCategory('baggy-jeans')">Baggy Jeans</a></li>
+                <li><a href="#" onclick="showCategory('hoodies-jackets')">Hoodies and Jackets</a></li>
+                <li><a href="#" onclick="showCategory('questions')">Questions</a></li>
+            </ul>
         </div>
-    </main>
-
-    <footer class="border-t border-zinc-800 py-12 px-6 text-center">
-        <p class="text-[10px] uppercase tracking-[0.5em] text-gray-600">© 2026 Spottshop Studios. All Rights Reserved.</p>
+        <div class="main-content">
+            <div id="baggy-jeans" class="category-section active">
+                <h2>Baggy Jeans</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" alt="Baggy Jeans 1">
+                        <h4>In Stock</h4>
+                        <p>Available now in various sizes.</p>
+                        <p class="price">229 DH</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" alt="Baggy Jeans 2">
+                        <h4>New Drop</h4>
+                        <p>Fresh arrivals - limited stock!</p>
+                        <p class="price">229 DH</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" alt="Baggy Jeans 3">
+                        <h4>In Stock</h4>
+                        <p>Classic fits for everyday wear.</p>
+                        <p class="price">229 DH</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://i.postimg.cc/Qd0DCWtv/IMG-20260104-154454-515.jpg" alt="Baggy Jeans 4">
+                        <h4>New Drop</h4>
+                        <p>Exclusive designs just dropped.</p>
+                        <p class="price">229 DH</p>
+                    </div>
+                </div>
+            </div>
+            <div id="hoodies-jackets" class="category-section">
+                <h2>Hoodies and Jackets</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" alt="Hoodie 1">
+                        <h4>Hoodie</h4>
+                        <p>Comfortable and stylish.</p>
+                    </div>
+                    <div class="product-card">
+                        <img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" alt="Jacket 1">
+                        <h4>Jacket</h4>
+                        <p>Perfect for layering.</p>
+                    </div>
+                    <!-- Add more products as needed -->
+                </div>
+            </div>
+            <div id="questions" class="category-section">
+                <h2>Questions</h2>
+                <div class="questions">
+                    <h4>Our Policies</h4>
+                    <ul>
+                        <li><strong>Fast Delivery to all Moroccan cities</strong></li>
+                        <li><strong>Cash on delivery</strong></li>
+                        <li><strong>The buyer can be compensated in case of an error whether in delivery or in the product</strong></li>
+                    </ul>
+                    <h4>سياساتنا</h4>
+                    <ul>
+                        <li><strong>التوصيل السريع لجميع المدن المغربية</strong></li>
+                        <li><strong>الدفع عند الإستلام</strong></li>
+                        <li><strong>يحق للمشتري الحصول على تعويض في حالة وجود خطأ سواء في التسليم أو في المنتج</strong></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer>
+        &copy; 2023 Spottshop. All rights reserved.
     </footer>
-
+    <script>
+        function showCategory(categoryId) {
+            // Hide all sections
+            const sections = document.querySelectorAll('.category-section');
+            sections.forEach(section => section.classList.remove('active'));
+            // Show the selected section
+            document.getElementById(categoryId).classList.add('active');
+        }
+    </script>
 </body>
 </html>
