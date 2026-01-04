@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPOTTSHOP | Dark Aesthetic</title>
+    <title>SPOTTSHOP | Streetwear</title>
     <style>
         :root {
             --bg-dark: #0a0a0a;
@@ -19,7 +19,7 @@
             font-family: 'Inter', -apple-system, sans-serif;
             background-color: var(--bg-dark);
             color: var(--accent);
-            overflow-x: hidden;
+            scroll-behavior: smooth;
         }
 
         /* --- Navigation --- */
@@ -36,7 +36,7 @@
             backdrop-filter: blur(10px);
         }
 
-        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; }
+        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; cursor: pointer; }
         .nav-right { display: flex; gap: 25px; align-items: center; }
         .cart-icon { cursor: pointer; position: relative; font-size: 1.2rem; }
         #cart-count {
@@ -57,42 +57,45 @@
         .side-panel.active { right: 0; }
         .close-btn { position: absolute; top: 20px; left: 20px; cursor: pointer; font-size: 1.2rem; }
 
-        /* --- Form Styling --- */
+        .nav-menu a {
+            display: block; color: var(--accent); text-decoration: none;
+            font-size: 1.2rem; margin-bottom: 25px; text-transform: uppercase; font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        /* --- Checkout Form --- */
         .checkout-form { display: none; margin-top: 20px; border-top: 1px solid var(--border); padding-top: 20px; }
         .checkout-form.active { display: block; }
         input {
             width: 100%; background: #222; border: 1px solid var(--border);
-            padding: 12px; margin-bottom: 10px; color: white; box-sizing: border-box;
-        }
-        
-        .nav-menu a {
-            display: block; color: var(--accent); text-decoration: none;
-            font-size: 1.2rem; margin-bottom: 25px; text-transform: uppercase; font-weight: bold;
+            padding: 12px; margin-bottom: 10px; color: white; box-sizing: border-box; outline: none;
         }
 
         /* --- Product Grid --- */
         .container { padding: 40px 5%; }
-        .section-title { margin-bottom: 40px; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-        .product-card { background: var(--card-bg); padding: 15px; border: 1px solid var(--border); position: relative; }
-        .product-image { width: 100%; height: 350px; object-fit: cover; }
+        .section-title { margin-bottom: 40px; font-size: 1.5rem; text-transform: uppercase; letter-spacing: 2px; border-left: 4px solid white; padding-left: 15px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
+        .product-card { background: var(--card-bg); padding: 15px; border: 1px solid var(--border); transition: 0.3s; }
+        .product-card:hover { border-color: #555; }
+        .product-image { width: 100%; height: 400px; object-fit: cover; }
         
         .badge-stock { background: white; color: black; font-size: 10px; padding: 3px 8px; font-weight: bold; display: inline-block; margin: 10px 0; }
-        .new-drop { color: var(--green); font-size: 10px; font-weight: bold; letter-spacing: 1px; }
+        .new-drop { color: var(--green); font-size: 10px; font-weight: bold; letter-spacing: 1px; margin-bottom: 5px; display: block; }
 
-        select { width: 100%; background: #222; color: white; border: none; padding: 10px; margin: 10px 0; }
-        .btn-action { width: 100%; padding: 15px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
+        select { width: 100%; background: #222; color: white; border: 1px solid #333; padding: 10px; margin: 10px 0; }
+        .btn-action { width: 100%; padding: 15px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px; transition: 0.2s; }
         .btn-add { background: white; color: black; }
+        .btn-add:hover { background: #ccc; }
         .btn-validate { background: var(--green); color: black; }
 
         .image-stack { display: flex; gap: 5px; }
-        .image-stack img { width: 50%; height: 120px; object-fit: cover; }
+        .image-stack img { width: 50%; height: 150px; object-fit: cover; }
     </style>
 </head>
-<body>
+<body id="top">
 
 <nav>
-    <div class="logo">SPOTTSHOP</div>
+    <div class="logo" onclick="window.scrollTo(0,0)">SPOTTSHOP</div>
     <div class="nav-right">
         <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
         <div class="hamburger" onclick="toggleNav()">☰</div>
@@ -102,28 +105,26 @@
 <div class="side-panel" id="navMenu">
     <div class="close-btn" onclick="toggleNav()">✕</div>
     <div class="nav-menu">
+        <a href="#top" onclick="toggleNav()">Home</a>
         <a href="#jeans" onclick="toggleNav()">Baggy Jeans</a>
         <a href="#accessories" onclick="toggleNav()">Accessories</a>
-        <a href="#" style="color:#444">Jackets <span style="font-size:10px">COMING SOON</span></a>
-        <a href="#" style="color:#444">Hoodies <span style="font-size:10px">COMING SOON</span></a>
+        <a href="#" style="color:#444">Jackets <span style="font-size:10px">(COMING SOON)</span></a>
+        <a href="#" style="color:#444">Hoodies <span style="font-size:10px">(COMING SOON)</span></a>
     </div>
 </div>
 
 <div class="side-panel" id="cartPanel">
     <div class="close-btn" onclick="toggleCart()">✕</div>
-    <h2 style="letter-spacing: 2px;">YOUR ORDER</h2>
-    
+    <h2 style="letter-spacing: 2px;">YOUR CART</h2>
     <div id="cart-items-container"></div>
     <div id="cart-total" style="margin: 20px 0; font-weight: bold; font-size: 1.2rem;">Total: 0 DH</div>
-
-    <button class="btn-action btn-add" id="order-init-btn" onclick="showForm()">ORDER NOW</button>
-
+    <button class="btn-action btn-add" id="order-init-btn" onclick="showForm()">PROCEED TO ORDER</button>
     <div class="checkout-form" id="checkoutForm">
-        <h3 style="font-size: 1rem; margin-bottom: 15px;">SHIPPING DETAILS</h3>
+        <h3 style="font-size: 1rem; margin-bottom: 15px;">SHIPPING INFO</h3>
         <input type="text" id="cust-name" placeholder="Full Name">
         <input type="tel" id="cust-phone" placeholder="Phone Number">
         <input type="text" id="cust-city" placeholder="City">
-        <button class="btn-action btn-validate" onclick="validateAndSend()">VALIDATE ORDER</button>
+        <button class="btn-action btn-validate" onclick="validateAndSend()">VALIDATE VIA WHATSAPP</button>
     </div>
 </div>
 
@@ -131,33 +132,53 @@
     <h2 class="section-title">Baggy Jeans</h2>
     <div class="grid">
         <div class="product-card">
-            <div class="new-drop">NEW DROP</div>
+            <span class="new-drop">NEW DROP</span>
             <img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" class="product-image">
             <div class="badge-stock">IN STOCK</div>
             <h3>Black Baggy Jeans</h3>
             <p>229 DH</p>
-            <select id="size-black"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-            <button class="btn-action btn-add" onclick="addToCart('Black Baggy Jeans', 229, 'size-black')">ADD TO CART</button>
+            <select id="size-1"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+            <button class="btn-action btn-add" onclick="addToCart('Black Baggy Jeans', 229, 'size-1')">ADD TO CART</button>
         </div>
 
         <div class="product-card">
-            <div class="new-drop">NEW DROP</div>
+            <span class="new-drop">NEW DROP</span>
+            <img src="https://i.postimg.cc/xjkmYFMB/IMG-20260104-202444-277.jpg" class="product-image">
+            <div class="badge-stock">IN STOCK</div>
+            <h3>Black Distressed Baggy</h3>
+            <p>229 DH</p>
+            <select id="size-dist-1"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+            <button class="btn-action btn-add" onclick="addToCart('Black Distressed Baggy (V1)', 229, 'size-dist-1')">ADD TO CART</button>
+        </div>
+
+        <div class="product-card">
+            <span class="new-drop">NEW DROP</span>
+            <img src="https://i.postimg.cc/L8G7CWt0/IMG-20260104-154454-515.jpg" class="product-image">
+            <div class="badge-stock">IN STOCK</div>
+            <h3>Black Distressed Baggy</h3>
+            <p>229 DH</p>
+            <select id="size-dist-2"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+            <button class="btn-action btn-add" onclick="addToCart('Black Distressed Baggy (V2)', 229, 'size-dist-2')">ADD TO CART</button>
+        </div>
+
+        <div class="product-card">
+            <span class="new-drop">NEW DROP</span>
             <img src="https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" class="product-image">
             <div class="badge-stock">IN STOCK</div>
             <h3>Grey Baggy Jeans</h3>
             <p>229 DH</p>
-            <select id="size-grey"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-            <button class="btn-action btn-add" onclick="addToCart('Grey Baggy Jeans', 229, 'size-grey')">ADD TO CART</button>
+            <select id="size-2"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+            <button class="btn-action btn-add" onclick="addToCart('Grey Baggy Jeans', 229, 'size-2')">ADD TO CART</button>
         </div>
 
         <div class="product-card">
-            <div class="new-drop">NEW DROP</div>
+            <span class="new-drop">NEW DROP</span>
             <img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" class="product-image">
             <div class="badge-stock">IN STOCK</div>
             <h3>Light Blue Baggy</h3>
             <p>229 DH</p>
-            <select id="size-blue"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-            <button class="btn-action btn-add" onclick="addToCart('Light Blue Baggy', 229, 'size-blue')">ADD TO CART</button>
+            <select id="size-3"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+            <button class="btn-action btn-add" onclick="addToCart('Light Blue Baggy', 229, 'size-3')">ADD TO CART</button>
         </div>
     </div>
 </div>
@@ -172,7 +193,7 @@
             </div>
             <div class="badge-stock">IN STOCK</div>
             <h3>Wallet Chain</h3>
-            <p>Bundle Pricing</p>
+            <p>Bundle Discount Available</p>
             <select id="qty-chain">
                 <option value="1 (50 DH)">1 Chain - 50 DH</option>
                 <option value="2 (80 DH)">2 Chains - 80 DH</option>
@@ -217,7 +238,9 @@
         container.innerHTML = "";
         cart.forEach(item => {
             total += item.price;
-            container.innerHTML += `<div style="margin-bottom:10px; font-size:0.9rem;">• ${item.name} (${item.size}) - ${item.price}DH</div>`;
+            container.innerHTML += `<div style="margin-bottom:12px; border-bottom:1px solid #222; padding-bottom:5px; font-size:0.9rem;">
+                <strong>${item.name}</strong><br>Size: ${item.size} — ${item.price}DH
+            </div>`;
         });
         document.getElementById('cart-count').innerText = cart.length;
         document.getElementById('cart-total').innerText = `Total: ${total} DH`;
@@ -228,22 +251,21 @@
         const phone = document.getElementById('cust-phone').value;
         const city = document.getElementById('cust-city').value;
 
-        if(!name || !phone || !city) return alert("Please fill all details");
+        if(!name || !phone || !city) return alert("Please fill in all shipping details");
 
         let itemsList = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
         let total = cart.reduce((sum, i) => sum + i.price, 0);
 
         let message = `*NEW ORDER - SPOTTSHOP*\n\n` +
-                      `*Customer:* ${name}\n` +
-                      `*Phone:* ${phone}\n` +
-                      `*City:* ${city}\n\n` +
-                      `*Items:*\n${itemsList}\n\n` +
-                      `*Total:* ${total} DH`;
+                      `*NAME:* ${name}\n` +
+                      `*PHONE:* ${phone}\n` +
+                      `*CITY:* ${city}\n\n` +
+                      `*ITEMS:*\n${itemsList}\n\n` +
+                      `*TOTAL:* ${total} DH`;
 
         window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(message)}`, '_blank');
     }
 </script>
 
 </body>
-                                                                  </html>
-                                                                  
+</html>
