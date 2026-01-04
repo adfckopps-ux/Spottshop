@@ -3,216 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Spottshop - Premium Streetwear</title>
+    <title>SPOTTSHOP | Premium Streetwear Morocco</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg: #050505;
+            --card-bg: #111111;
+            --accent: #ffffff;
+            --text-dim: #666;
+            --coming-soon: #ff3e3e;
+        }
+
         body {
-            font-family: 'Arial', sans-serif;
+            font-family: 'Inter', sans-serif;
             margin: 0;
-            padding: 0;
-            background-color: #f4f4f4;
-            color: #333;
+            background-color: var(--bg);
+            color: var(--accent);
+            overflow-x: hidden;
         }
-        header {
-            background-color: #000;
-            color: #fff;
-            text-align: center;
-            padding: 20px;
-            font-size: 2em;
-            font-weight: bold;
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 40px;
+            background: rgba(5, 5, 5, 0.9);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid #1a1a1a;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
         }
+
+        .logo {
+            font-weight: 900;
+            font-size: 1.8em;
+            letter-spacing: -2px;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .nav-links a {
+            color: var(--accent);
+            text-decoration: none;
+            font-size: 0.75em;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-left: 30px;
+            transition: 0.3s;
+        }
+
+        /* Layout */
         .container {
             display: flex;
-            min-height: 100vh;
+            max-width: 1600px;
+            margin: 0 auto;
         }
+
         .sidebar {
             width: 250px;
-            background-color: #222;
-            color: #fff;
-            padding: 20px;
-            box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+            padding: 60px 40px;
+            border-right: 1px solid #1a1a1a;
+            height: calc(100vh - 80px);
+            position: sticky;
+            top: 80px;
         }
+
         .sidebar h3 {
-            margin-top: 0;
-            color: #fff;
+            font-size: 0.65em;
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            color: var(--text-dim);
+            margin-bottom: 30px;
         }
-        .sidebar ul {
-            list-style: none;
-            padding: 0;
-        }
-        .sidebar li {
-            margin: 10px 0;
-        }
+
+        .sidebar ul { list-style: none; padding: 0; }
+        .sidebar li { margin-bottom: 20px; }
+        
         .sidebar a {
-            color: #fff;
+            color: var(--accent);
             text-decoration: none;
-            display: block;
-            padding: 10px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            font-size: 0.9em;
+            transition: 0.3s;
         }
-        .sidebar a:hover {
-            background-color: #444;
-        }
-        .main-content {
-            flex: 1;
-            padding: 20px;
-            background-color: #fff;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
+
+        .sidebar a:hover { padding-left: 8px; color: var(--text-dim); }
+
+        .main-content { flex: 1; padding: 60px; }
+
+        h2 { font-size: 2.5em; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 40px; }
+
+        /* Product Grid */
         .product-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 50px 30px;
         }
-        .product-card {
-            border: 1px solid #ddd;
-            border-radius: 10px;
+
+        .product-card { position: relative; transition: 0.4s ease; }
+
+        .img-wrapper {
+            background: #111;
+            aspect-ratio: 3/4;
             overflow: hidden;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            transition: transform 0.3s;
+            margin-bottom: 20px;
         }
-        .product-card:hover {
-            transform: scale(1.05);
-        }
+
         .product-card img {
             width: 100%;
-            height: 200px;
+            height: 100%;
             object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
         }
-        .product-card h4 {
-            margin: 10px;
-            color: #000;
+
+        .product-card:hover img { transform: scale(1.05); }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: white;
+            color: black;
+            padding: 5px 12px;
+            font-size: 10px;
+            font-weight: 900;
+            text-transform: uppercase;
+            z-index: 10;
         }
-        .product-card p {
-            margin: 10px;
-            color: #666;
-        }
-        .price {
-            font-weight: bold;
-            color: #e74c3c;
-            font-size: 1.2em;
-        }
-        .category-section {
-            display: none;
-        }
-        .category-section.active {
-            display: block;
-        }
-        .questions {
-            background-color: #f9f9f9;
-            padding: 20px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-        .questions h4 {
-            color: #000;
-        }
-        .questions ul {
-            list-style: none;
-            padding: 0;
-        }
-        .questions li {
-            margin: 10px 0;
-        }
-        footer {
-            text-align: center;
-            padding: 10px;
-            background-color: #000;
-            color: #fff;
-            position: fixed;
+
+        .product-info h4 { margin: 0; font-size: 1.1em; text-transform: uppercase; }
+        .product-info p { color: var(--text-dim); font-size: 0.85em; margin: 5px 0 15px 0; }
+
+        .price { font-weight: 700; font-size: 1.1em; letter-spacing: 1px; }
+
+        .add-to-cart {
+            margin-top: 15px;
             width: 100%;
-            bottom: 0;
+            background: white;
+            color: black;
+            border: none;
+            padding: 12px;
+            font-weight: 900;
+            text-transform: uppercase;
+            font-size: 10px;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+
+        /* Coming Soon Styles */
+        .coming-soon-img { filter: blur(20px) brightness(0.5); pointer-events: none; }
+
+        /* Sidebar Cart */
+        #cart-sidebar {
+            position: fixed;
+            right: -100%;
+            top: 0;
+            width: 350px;
+            height: 100%;
+            background: #0a0a0a;
+            z-index: 2000;
+            transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            border-left: 1px solid #222;
+            padding: 40px;
+            box-shadow: -20px 0 40px rgba(0,0,0,0.8);
+        }
+
+        .cart-item { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; }
+
+        /* Policy Section */
+        .policy-card {
+            background: var(--card-bg);
+            padding: 50px;
+            border: 1px solid #1a1a1a;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+        }
+
+        .category-section { display: none; }
+        .category-section.active { display: block; animation: fadeInUp 0.6s ease forwards; }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 900px) {
+            .container { flex-direction: column; }
+            .sidebar { width: 100%; height: auto; position: static; border-right: none; padding: 20px; }
+            #cart-sidebar { width: 80%; }
         }
     </style>
 </head>
 <body>
-    <header>
-        Spottshop
-    </header>
+
+    <nav>
+        <div class="logo" onclick="showCategory('baggy-jeans')">SPOTTSHOP</div>
+        <div class="nav-links">
+            <a href="javascript:void(0)" onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</a>
+        </div>
+    </nav>
+
     <div class="container">
-        <div class="sidebar">
-            <h3>Categories</h3>
+        <aside class="sidebar">
+            <h3>Collections</h3>
             <ul>
                 <li><a href="#" onclick="showCategory('baggy-jeans')">Baggy Jeans</a></li>
-                <li><a href="#" onclick="showCategory('hoodies-jackets')">Hoodies and Jackets</a></li>
-                <li><a href="#" onclick="showCategory('questions')">Questions</a></li>
+                <li><a href="#" onclick="showCategory('hoodies-jackets')">Hoodies & Jackets</a></li>
+                <li><a href="#" onclick="showCategory('questions')">Policy / الأسئلة</a></li>
             </ul>
+        </aside>
+
+        <main class="main-content">
+            
+            <section id="baggy-jeans" class="category-section active">
+                <h2>Baggy Denim</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="badge">In Stock</div>
+                        <div class="img-wrapper"><img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg"></div>
+                        <div class="product-info">
+                            <h4>Graphite Wide Leg</h4>
+                            <span class="price">229 DH</span>
+                            <button class="add-to-cart" onclick="addToCart('Graphite Wide Leg', 229)">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="badge">New Drop</div>
+                        <div class="img-wrapper"><img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg"></div>
+                        <div class="product-info">
+                            <h4>Acid Grey Cargo</h4>
+                            <span class="price">229 DH</span>
+                            <button class="add-to-cart" onclick="addToCart('Acid Grey Cargo', 229)">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="img-wrapper"><img src="https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg"></div>
+                        <div class="product-info">
+                            <h4>Essential Stone</h4>
+                            <span class="price">229 DH</span>
+                            <button class="add-to-cart" onclick="addToCart('Essential Stone', 229)">Add to Cart</button>
+                        </div>
+                    </div>
+
+                    <div class="product-card">
+                        <div class="badge">Limited</div>
+                        <div class="img-wrapper"><img src="https://i.postimg.cc/Qd0DCWtv/IMG-20260104-154454-515.jpg"></div>
+                        <div class="product-info">
+                            <h4>Pitch Black Denim</h4>
+                            <span class="price">229 DH</span>
+                            <button class="add-to-cart" onclick="addToCart('Pitch Black Denim', 229)">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="hoodies-jackets" class="category-section">
+                <h2>Outerwear</h2>
+                <div class="product-grid">
+                    <div class="product-card">
+                        <div class="badge" style="background:var(--coming-soon); color:white">Coming Soon</div>
+                        <div class="img-wrapper"><img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" class="coming-soon-img"></div>
+                        <div class="product-info">
+                            <h4>Boxy Tech Hoodie</h4>
+                            <p>Premium Fleece</p>
+                        </div>
+                    </div>
+                    <div class="product-card">
+                        <div class="badge" style="background:var(--coming-soon); color:white">Coming Soon</div>
+                        <div class="img-wrapper"><img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" class="coming-soon-img"></div>
+                        <div class="product-info">
+                            <h4>Padded Work Jacket</h4>
+                            <p>Industrial series</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="questions" class="category-section">
+                <h2>Our Policies</h2>
+                <div class="policy-card">
+                    <div style="font-size:0.9em; color:#888">
+                        <h4 style="color:white; text-transform:uppercase">Shipping</h4>
+                        <p>• Fast Delivery to all Moroccan cities</p>
+                        <p>• Cash on delivery</p>
+                        <p>• Buyer compensation for errors</p>
+                    </div>
+                    <div style="text-align: right; direction: rtl; font-size:0.9em; color:#888">
+                        <h4 style="color:white; text-transform:uppercase">سياسة المتجر</h4>
+                        <p>• التوصيل السريع لجميع المدن المغربية</p>
+                        <p>• الدفع عند الإستلام</p>
+                        <p>• تعويض المشتري في حالة وجود خطأ</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <div id="cart-sidebar">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px">
+            <h2 style="margin:0; font-size:1.2em">YOUR BAG</h2>
+            <span onclick="toggleCart()" style="cursor:pointer; font-size:2em">&times;</span>
         </div>
-        <div class="main-content">
-            <div id="baggy-jeans" class="category-section active">
-                <h2>Baggy Jeans</h2>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" alt="Baggy Jeans 1">
-                        <h4>In Stock</h4>
-                        <p>Available now in various sizes.</p>
-                        <p class="price">229 DH</p>
-                    </div>
-                    <div class="product-card">
-                        <img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" alt="Baggy Jeans 2">
-                        <h4>New Drop</h4>
-                        <p>Fresh arrivals - limited stock!</p>
-                        <p class="price">229 DH</p>
-                    </div>
-                    <div class="product-card">
-                        <img src="https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" alt="Baggy Jeans 3">
-                        <h4>In Stock</h4>
-                        <p>Classic fits for everyday wear.</p>
-                        <p class="price">229 DH</p>
-                    </div>
-                    <div class="product-card">
-                        <img src="https://i.postimg.cc/Qd0DCWtv/IMG-20260104-154454-515.jpg" alt="Baggy Jeans 4">
-                        <h4>New Drop</h4>
-                        <p>Exclusive designs just dropped.</p>
-                        <p class="price">229 DH</p>
-                    </div>
-                </div>
+        <div id="cart-items"></div>
+        <div id="cart-footer" style="display:none; border-top:1px solid #222; margin-top:30px; padding-top:20px">
+            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:900">
+                <span>TOTAL</span>
+                <span id="cart-total">0 DH</span>
             </div>
-            <div id="hoodies-jackets" class="category-section">
-                <h2>Hoodies and Jackets</h2>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" alt="Hoodie 1">
-                        <h4>Hoodie</h4>
-                        <p>Comfortable and stylish.</p>
-                    </div>
-                    <div class="product-card">
-                        <img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" alt="Jacket 1">
-                        <h4>Jacket</h4>
-                        <p>Perfect for layering.</p>
-                    </div>
-                    <!-- Add more products as needed -->
-                </div>
-            </div>
-            <div id="questions" class="category-section">
-                <h2>Questions</h2>
-                <div class="questions">
-                    <h4>Our Policies</h4>
-                    <ul>
-                        <li><strong>Fast Delivery to all Moroccan cities</strong></li>
-                        <li><strong>Cash on delivery</strong></li>
-                        <li><strong>The buyer can be compensated in case of an error whether in delivery or in the product</strong></li>
-                    </ul>
-                    <h4>سياساتنا</h4>
-                    <ul>
-                        <li><strong>التوصيل السريع لجميع المدن المغربية</strong></li>
-                        <li><strong>الدفع عند الإستلام</strong></li>
-                        <li><strong>يحق للمشتري الحصول على تعويض في حالة وجود خطأ سواء في التسليم أو في المنتج</strong></li>
-                    </ul>
-                </div>
-            </div>
+            <a id="order-btn" href="#" target="_blank" style="display:block; background:white; color:black; text-align:center; padding:18px; font-weight:900; text-decoration:none; text-transform:uppercase; letter-spacing:2px">Order via WhatsApp</a>
         </div>
     </div>
-    <footer>
-        &copy; 2023 Spottshop. All rights reserved.
-    </footer>
+
     <script>
-        function showCategory(categoryId) {
-            // Hide all sections
-            const sections = document.querySelectorAll('.category-section');
-            sections.forEach(section => section.classList.remove('active'));
-            // Show the selected section
-            document.getElementById(categoryId).classList.add('active');
+        let cart = [];
+
+        function showCategory(id) {
+            document.querySelectorAll('.category-section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleCart() {
+            const sidebar = document.getElementById('cart-sidebar');
+            sidebar.style.right = sidebar.style.right === '0px' ? '-100%' : '0px';
+        }
+
+        function addToCart(name, price) {
+            cart.push({ name, price });
+            updateCartUI();
+            toggleCart();
+        }
+
+        function updateCartUI() {
+            const list = document.getElementById('cart-items');
+            const totalEl = document.getElementById('cart-total');
+            const count = document.getElementById('cart-count');
+            const footer = document.getElementById('cart-footer');
+            const btn = document.getElementById('order-btn');
+            
+            count.innerText = cart.length;
+            
+            if(cart.length === 0) {
+                list.innerHTML = "Your bag is empty.";
+                footer.style.display = 'none';
+            } else {
+                list.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <span>${item.name}</span>
+                        <span>${item.price} DH</span>
+                    </div>
+                `).join('');
+                
+                let total = cart.reduce((acc, item) => acc + item.price, 0);
+                totalEl.innerText = total + " DH";
+                footer.style.display = 'block';
+                
+                let message = `Hello Spottshop! I'd like to order: ${cart.map(i => i.name).join(', ')}. Total: ${total} DH.`;
+                btn.href = `https://wa.me/212775029974?text=${encodeURIComponent(message)}`;
+            }
         }
     </script>
 </body>
