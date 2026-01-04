@@ -3,370 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPOTTSHOP | Premium Streetwear Morocco</title>
+    <title>SPOTTSHOP | Official</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #050505;
-            --card-bg: #111111;
-            --accent: #ffffff;
-            --text-dim: #666;
-            --coming-soon: #ff3e3e;
-        }
+        :root { --bg: #000; --text: #fff; --dim: #555; --hype: #ff0000; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text); overflow-x: hidden; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            margin: 0;
-            background-color: var(--bg);
-            color: var(--accent);
-            overflow-x: hidden;
-        }
+        /* NAV */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 30px 5%; position: fixed; width: 100%; top: 0; z-index: 1000; background: rgba(0,0,0,0.9); backdrop-filter: blur(10px); }
+        .ham { cursor: pointer; display: flex; flex-direction: column; gap: 7px; z-index: 1001; width: 25px; }
+        .ham span { width: 100%; height: 1px; background: white; transition: 0.4s; }
+        .logo { font-weight: 900; font-size: 1.4rem; letter-spacing: -1.5px; text-transform: uppercase; cursor: pointer; }
+        .cart-btn { font-size: 10px; font-weight: 900; text-transform: uppercase; cursor: pointer; letter-spacing: 2px; }
 
-        /* Navigation */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 40px;
-            background: rgba(5, 5, 5, 0.9);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid #1a1a1a;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .logo {
-            font-weight: 900;
-            font-size: 1.8em;
-            letter-spacing: -2px;
-            text-transform: uppercase;
-            cursor: pointer;
-        }
-
-        .nav-links a {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.75em;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-left: 30px;
-            transition: 0.3s;
-        }
-
-        /* Layout */
-        .container {
-            display: flex;
-            max-width: 1600px;
-            margin: 0 auto;
-        }
-
-        .sidebar {
-            width: 250px;
-            padding: 60px 40px;
-            border-right: 1px solid #1a1a1a;
-            height: calc(100vh - 80px);
-            position: sticky;
-            top: 80px;
-        }
-
-        .sidebar h3 {
-            font-size: 0.65em;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--text-dim);
-            margin-bottom: 30px;
-        }
-
-        .sidebar ul { list-style: none; padding: 0; }
-        .sidebar li { margin-bottom: 20px; }
+        /* SIDEBAR WITH CLOSE X */
+        #sidebar { position: fixed; left: -100%; top: 0; width: 320px; height: 100vh; background: #080808; padding: 40px; transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); z-index: 2000; border-right: 1px solid #111; }
+        #sidebar.active { left: 0; }
         
-        .sidebar a {
-            color: var(--accent);
-            text-decoration: none;
-            font-size: 0.9em;
-            transition: 0.3s;
-        }
+        .sidebar-header { display: flex; justify-content: flex-end; margin-bottom: 40px; }
+        .close-sidebar { font-size: 2rem; cursor: pointer; color: white; line-height: 1; }
 
-        .sidebar a:hover { padding-left: 8px; color: var(--text-dim); }
+        .menu-link { font-size: 1.1rem; font-weight: 900; text-transform: uppercase; cursor: pointer; display: block; margin-bottom: 30px; }
+        .sub { max-height: 0; overflow: hidden; transition: 0.4s ease; padding-left: 15px; }
+        .sub.active { max-height: 200px; margin-top: -10px; margin-bottom: 20px; }
+        .sub a { display: block; color: var(--dim); text-decoration: none; font-size: 0.8rem; margin-bottom: 12px; text-transform: uppercase; }
 
-        .main-content { flex: 1; padding: 60px; }
+        /* CONTENT */
+        .container { padding: 140px 5% 60px; max-width: 1400px; margin: 0 auto; }
+        h2 { font-weight: 900; font-size: 2.5rem; text-transform: uppercase; margin-bottom: 40px; letter-spacing: -2px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 40px; }
+        .card { position: relative; }
+        .img-box { aspect-ratio: 3/4; overflow: hidden; background: #111; position: relative; }
+        .card img { width: 100%; height: 100%; object-fit: cover; transition: 1s; }
+        .card:hover img { transform: scale(1.05); }
+        .name { font-weight: 700; text-transform: uppercase; font-size: 0.9rem; margin-top: 15px; }
+        .price { font-size: 0.8rem; color: var(--dim); margin-top: 5px; }
+        .add-btn { width: 100%; background: #fff; color: #000; border: none; padding: 15px; margin-top: 15px; font-weight: 900; font-size: 10px; text-transform: uppercase; cursor: pointer; }
 
-        h2 { font-size: 2.5em; font-weight: 900; text-transform: uppercase; letter-spacing: -1px; margin-bottom: 40px; }
+        /* SPECIAL EFFECTS */
+        .blur-preview { filter: blur(25px) grayscale(100%); opacity: 0.3; pointer-events: none; }
+        .badge { position: absolute; top: 15px; left: 15px; background: white; color: black; font-weight: 900; font-size: 9px; padding: 4px 10px; text-transform: uppercase; z-index: 10; }
 
-        /* Product Grid */
-        .product-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 50px 30px;
-        }
+        /* CART & OVERLAY */
+        #cart { position: fixed; right: -100%; top: 0; width: 380px; height: 100%; background: #0a0a0a; z-index: 3000; padding: 40px; transition: 0.5s; border-left: 1px solid #111; }
+        #cart.active { right: 0; }
+        .overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); display: none; z-index: 1500; }
 
-        .product-card { position: relative; transition: 0.4s ease; }
-
-        .img-wrapper {
-            background: #111;
-            aspect-ratio: 3/4;
-            overflow: hidden;
-            margin-bottom: 20px;
-        }
-
-        .product-card img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            transition: transform 0.8s cubic-bezier(0.2, 1, 0.3, 1);
-        }
-
-        .product-card:hover img { transform: scale(1.05); }
-
-        .badge {
-            position: absolute;
-            top: 15px;
-            left: 15px;
-            background: white;
-            color: black;
-            padding: 5px 12px;
-            font-size: 10px;
-            font-weight: 900;
-            text-transform: uppercase;
-            z-index: 10;
-        }
-
-        .product-info h4 { margin: 0; font-size: 1.1em; text-transform: uppercase; }
-        .product-info p { color: var(--text-dim); font-size: 0.85em; margin: 5px 0 15px 0; }
-
-        .price { font-weight: 700; font-size: 1.1em; letter-spacing: 1px; }
-
-        .add-to-cart {
-            margin-top: 15px;
-            width: 100%;
-            background: white;
-            color: black;
-            border: none;
-            padding: 12px;
-            font-weight: 900;
-            text-transform: uppercase;
-            font-size: 10px;
-            cursor: pointer;
-            letter-spacing: 1px;
-        }
-
-        /* Coming Soon Styles */
-        .coming-soon-img { filter: blur(20px) brightness(0.5); pointer-events: none; }
-
-        /* Sidebar Cart */
-        #cart-sidebar {
-            position: fixed;
-            right: -100%;
-            top: 0;
-            width: 350px;
-            height: 100%;
-            background: #0a0a0a;
-            z-index: 2000;
-            transition: 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-            border-left: 1px solid #222;
-            padding: 40px;
-            box-shadow: -20px 0 40px rgba(0,0,0,0.8);
-        }
-
-        .cart-item { display: flex; justify-content: space-between; margin-bottom: 20px; border-bottom: 1px solid #1a1a1a; padding-bottom: 10px; }
-
-        /* Policy Section */
-        .policy-card {
-            background: var(--card-bg);
-            padding: 50px;
-            border: 1px solid #1a1a1a;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 60px;
-        }
-
-        .category-section { display: none; }
-        .category-section.active { display: block; animation: fadeInUp 0.6s ease forwards; }
-
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @media (max-width: 900px) {
-            .container { flex-direction: column; }
-            .sidebar { width: 100%; height: auto; position: static; border-right: none; padding: 20px; }
-            #cart-sidebar { width: 80%; }
-        }
+        @media (max-width: 768px) { #sidebar { width: 100%; } #cart { width: 100%; } }
     </style>
 </head>
 <body>
 
-    <nav>
-        <div class="logo" onclick="showCategory('baggy-jeans')">SPOTTSHOP</div>
-        <div class="nav-links">
-            <a href="javascript:void(0)" onclick="toggleCart()">Cart (<span id="cart-count">0</span>)</a>
-        </div>
-    </nav>
+<div class="overlay" id="overlay" onclick="closeAll()"></div>
 
-    <div class="container">
-        <aside class="sidebar">
-            <h3>Collections</h3>
-            <ul>
-                <li><a href="#" onclick="showCategory('baggy-jeans')">Baggy Jeans</a></li>
-                <li><a href="#" onclick="showCategory('hoodies-jackets')">Hoodies & Jackets</a></li>
-                <li><a href="#" onclick="showCategory('questions')">Policy / الأسئلة</a></li>
-            </ul>
-        </aside>
+<nav>
+    <div class="ham" id="ham-icon" onclick="toggleSidebar()"><span></span><span></span><span></span></div>
+    <div class="logo" onclick="go('in-stock')">SPOTTSHOP</div>
+    <div class="cart-btn" onclick="toggleCart()">Bag [<span id="qty">0</span>]</div>
+</nav>
 
-        <main class="main-content">
-            
-            <section id="baggy-jeans" class="category-section active">
-                <h2>Baggy Denim</h2>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="badge">In Stock</div>
-                        <div class="img-wrapper"><img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg"></div>
-                        <div class="product-info">
-                            <h4>Graphite Wide Leg</h4>
-                            <span class="price">229 DH</span>
-                            <button class="add-to-cart" onclick="addToCart('Graphite Wide Leg', 229)">Add to Cart</button>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="badge">New Drop</div>
-                        <div class="img-wrapper"><img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg"></div>
-                        <div class="product-info">
-                            <h4>Acid Grey Cargo</h4>
-                            <span class="price">229 DH</span>
-                            <button class="add-to-cart" onclick="addToCart('Acid Grey Cargo', 229)">Add to Cart</button>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="img-wrapper"><img src="https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg"></div>
-                        <div class="product-info">
-                            <h4>Essential Stone</h4>
-                            <span class="price">229 DH</span>
-                            <button class="add-to-cart" onclick="addToCart('Essential Stone', 229)">Add to Cart</button>
-                        </div>
-                    </div>
-
-                    <div class="product-card">
-                        <div class="badge">Limited</div>
-                        <div class="img-wrapper"><img src="https://i.postimg.cc/Qd0DCWtv/IMG-20260104-154454-515.jpg"></div>
-                        <div class="product-info">
-                            <h4>Pitch Black Denim</h4>
-                            <span class="price">229 DH</span>
-                            <button class="add-to-cart" onclick="addToCart('Pitch Black Denim', 229)">Add to Cart</button>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="hoodies-jackets" class="category-section">
-                <h2>Outerwear</h2>
-                <div class="product-grid">
-                    <div class="product-card">
-                        <div class="badge" style="background:var(--coming-soon); color:white">Coming Soon</div>
-                        <div class="img-wrapper"><img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" class="coming-soon-img"></div>
-                        <div class="product-info">
-                            <h4>Boxy Tech Hoodie</h4>
-                            <p>Premium Fleece</p>
-                        </div>
-                    </div>
-                    <div class="product-card">
-                        <div class="badge" style="background:var(--coming-soon); color:white">Coming Soon</div>
-                        <div class="img-wrapper"><img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" class="coming-soon-img"></div>
-                        <div class="product-info">
-                            <h4>Padded Work Jacket</h4>
-                            <p>Industrial series</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="questions" class="category-section">
-                <h2>Our Policies</h2>
-                <div class="policy-card">
-                    <div style="font-size:0.9em; color:#888">
-                        <h4 style="color:white; text-transform:uppercase">Shipping</h4>
-                        <p>• Fast Delivery to all Moroccan cities</p>
-                        <p>• Cash on delivery</p>
-                        <p>• Buyer compensation for errors</p>
-                    </div>
-                    <div style="text-align: right; direction: rtl; font-size:0.9em; color:#888">
-                        <h4 style="color:white; text-transform:uppercase">سياسة المتجر</h4>
-                        <p>• التوصيل السريع لجميع المدن المغربية</p>
-                        <p>• الدفع عند الإستلام</p>
-                        <p>• تعويض المشتري في حالة وجود خطأ</p>
-                    </div>
-                </div>
-            </section>
-
-        </main>
+<div id="sidebar">
+    <div class="sidebar-header">
+        <span class="close-sidebar" onclick="toggleSidebar()">&times;</span>
     </div>
+    
+    <span class="menu-link" onclick="toggleSub('jeans-sub')">Baggy Jeans</span>
+    <div class="sub" id="jeans-sub">
+        <a href="#" onclick="go('in-stock')">In Stock</a>
+        <a href="#" onclick="go('new-drop')">New Drop</a>
+    </div>
+    
+    <span class="menu-link" onclick="go('jackets')">Jackets</span>
+    <span class="menu-link" onclick="go('hoodies')">Hoodies</span>
+    <span class="menu-link" onclick="go('info')">Policy</span>
+</div>
 
-    <div id="cart-sidebar">
-        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:40px">
-            <h2 style="margin:0; font-size:1.2em">YOUR BAG</h2>
-            <span onclick="toggleCart()" style="cursor:pointer; font-size:2em">&times;</span>
-        </div>
-        <div id="cart-items"></div>
-        <div id="cart-footer" style="display:none; border-top:1px solid #222; margin-top:30px; padding-top:20px">
-            <div style="display:flex; justify-content:space-between; margin-bottom:20px; font-weight:900">
-                <span>TOTAL</span>
-                <span id="cart-total">0 DH</span>
+<main class="container">
+    <section id="in-stock" class="page">
+        <h2>In Stock</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="img-box"><img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg"></div>
+                <div class="name">Graphite Wide Leg</div>
+                <div class="price">229 DH</div>
+                <button class="add-btn" onclick="add('Graphite Wide Leg', 229)">Add to Bag</button>
             </div>
-            <a id="order-btn" href="#" target="_blank" style="display:block; background:white; color:black; text-align:center; padding:18px; font-weight:900; text-decoration:none; text-transform:uppercase; letter-spacing:2px">Order via WhatsApp</a>
+            <div class="card">
+                <div class="img-box"><img src="https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg"></div>
+                <div class="name">Essential Stone Wash</div>
+                <div class="price">229 DH</div>
+                <button class="add-btn" onclick="add('Essential Stone Wash', 229)">Add to Bag</button>
+            </div>
         </div>
+    </section>
+
+    <section id="new-drop" class="page" style="display:none;">
+        <h2>New Drop</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="badge">New</div>
+                <div class="img-box"><img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg"></div>
+                <div class="name">Acid Grey Cargo</div>
+                <div class="price">229 DH</div>
+                <button class="add-btn" onclick="add('Acid Grey Cargo', 229)">Add to Bag</button>
+            </div>
+            <div class="card">
+                <div class="badge">New</div>
+                <div class="img-box"><img src="https://i.postimg.cc/Qd0DCWtv/IMG-20260104-154454-515.jpg"></div>
+                <div class="name">Pitch Black Denim</div>
+                <div class="price">229 DH</div>
+                <button class="add-btn" onclick="add('Pitch Black Denim', 229)">Add to Bag</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="jackets" class="page" style="display:none;">
+        <h2>Jackets</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="badge" style="background:red; color:white;">Coming Soon</div>
+                <div class="img-box"><img src="https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" class="blur-preview"></div>
+                <div class="name" style="color:var(--dim)">Tech Bomber</div>
+                <div class="price">TBD</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="hoodies" class="page" style="display:none;">
+        <h2>Hoodies</h2>
+        <div class="grid">
+            <div class="card">
+                <div class="badge" style="background:red; color:white;">Coming Soon</div>
+                <div class="img-box"><img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" class="blur-preview"></div>
+                <div class="name" style="color:var(--dim)">Boxy Hoodie</div>
+                <div class="price">TBD</div>
+            </div>
+        </div>
+    </section>
+
+    <section id="info" class="page" style="display:none;">
+        <h2>Policy</h2>
+        <p style="color:var(--dim); line-height:1.8;">Cash on Delivery Morocco.<br>Fast Shipping.<br>No returns unless defect is present.</p>
+    </section>
+</main>
+
+<div id="cart">
+    <div class="sidebar-header">
+        <span class="close-sidebar" onclick="toggleCart()">&times;</span>
     </div>
+    <h3 style="letter-spacing:2px; margin-bottom:40px">BAG</h3>
+    <div id="cart-items">Empty.</div>
+    <div id="cart-foot" style="display:none; margin-top:40px; border-top:1px solid #111; padding-top:20px">
+        <div style="display:flex; justify-content:space-between; font-weight:900; margin-bottom:20px"><span>TOTAL</span><span id="total-val">0 DH</span></div>
+        <a id="wa-link" href="#" target="_blank" style="display:block; background:white; color:black; text-align:center; padding:18px; font-weight:900; text-decoration:none; text-transform:uppercase">WhatsApp Order</a>
+    </div>
+</div>
 
-    <script>
-        let cart = [];
-
-        function showCategory(id) {
-            document.querySelectorAll('.category-section').forEach(s => s.classList.remove('active'));
-            document.getElementById(id).classList.add('active');
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+<script>
+    let cart = [];
+    function toggleSidebar() {
+        const s = document.getElementById('sidebar');
+        s.classList.toggle('active');
+        document.getElementById('overlay').style.display = s.classList.contains('active') ? 'block' : 'none';
+    }
+    function toggleSub(id) { document.getElementById(id).classList.toggle('active'); }
+    function go(id) {
+        document.querySelectorAll('.page').forEach(p => p.style.display = 'none');
+        document.getElementById(id).style.display = 'block';
+        closeAll();
+    }
+    function toggleCart() {
+        document.getElementById('cart').classList.toggle('active');
+        document.getElementById('overlay').style.display = document.getElementById('cart').classList.contains('active') ? 'block' : 'none';
+    }
+    function closeAll() {
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('cart').classList.remove('active');
+        document.getElementById('overlay').style.display = 'none';
+    }
+    function add(n, p) { cart.push({n, p}); updateCart(); toggleCart(); }
+    function updateCart() {
+        document.getElementById('qty').innerText = cart.length;
+        const list = document.getElementById('cart-items');
+        const foot = document.getElementById('cart-foot');
+        const totalVal = document.getElementById('total-val');
+        const wa = document.getElementById('wa-link');
+        if(cart.length > 0) {
+            list.innerHTML = cart.map(i => `<div style="display:flex; justify-content:space-between; margin-bottom:15px; font-size:0.9rem"><span>${i.n}</span><span>${i.p} DH</span></div>`).join('');
+            let sum = cart.reduce((a, b) => a + b.p, 0);
+            totalVal.innerText = sum + " DH";
+            foot.style.display = 'block';
+            let msg = `Hello Spottshop! I want to order:\n${cart.map(i => "• " + i.n).join('\n')}\nTotal: ${sum} DH`;
+            wa.href = `https://wa.me/212775029974?text=${encodeURIComponent(msg)}`;
         }
-
-        function toggleCart() {
-            const sidebar = document.getElementById('cart-sidebar');
-            sidebar.style.right = sidebar.style.right === '0px' ? '-100%' : '0px';
-        }
-
-        function addToCart(name, price) {
-            cart.push({ name, price });
-            updateCartUI();
-            toggleCart();
-        }
-
-        function updateCartUI() {
-            const list = document.getElementById('cart-items');
-            const totalEl = document.getElementById('cart-total');
-            const count = document.getElementById('cart-count');
-            const footer = document.getElementById('cart-footer');
-            const btn = document.getElementById('order-btn');
-            
-            count.innerText = cart.length;
-            
-            if(cart.length === 0) {
-                list.innerHTML = "Your bag is empty.";
-                footer.style.display = 'none';
-            } else {
-                list.innerHTML = cart.map(item => `
-                    <div class="cart-item">
-                        <span>${item.name}</span>
-                        <span>${item.price} DH</span>
-                    </div>
-                `).join('');
-                
-                let total = cart.reduce((acc, item) => acc + item.price, 0);
-                totalEl.innerText = total + " DH";
-                footer.style.display = 'block';
-                
-                let message = `Hello Spottshop! I'd like to order: ${cart.map(i => i.name).join(', ')}. Total: ${total} DH.`;
-                btn.href = `https://wa.me/212775029974?text=${encodeURIComponent(message)}`;
-            }
-        }
-    </script>
+    }
+</script>
 </body>
-</html>
+    </html>
+    
