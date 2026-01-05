@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPOTTSHOP | Official Store</title>
+    <title>SPOTTSHOP | Streetwear</title>
     <style>
         :root {
             --bg: #050505;
@@ -15,329 +15,247 @@
         }
 
         * { box-sizing: border-box; transition: all 0.2s ease; }
-        body { 
-            margin: 0; font-family: 'Inter', system-ui, sans-serif; 
-            background: var(--bg); color: var(--accent); overflow-x: hidden;
-        }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--accent); overflow-x: hidden; }
 
-        /* Fixed Brand Background */
+        /* Background Photo */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://images.unsplash.com/photo-1552910309-d53b47444914?q=80&w=2000');
             background-size: cover; background-position: center; opacity: 0.15; z-index: -1;
         }
 
-        /* --- 1. HERO BANNER --- */
-        #hero-banner {
-            width: 100%; min-height: 70px; background: white;
-            display: flex; align-items: center; justify-content: center;
-            text-align: center; overflow: hidden; position: relative;
-        }
-        #hero-text {
-            color: black; font-weight: 900; letter-spacing: 3px; 
-            text-transform: uppercase; font-size: 12px; z-index: 2; padding: 0 20px;
-        }
+        #hero-banner { width: 100%; min-height: 70px; background: white; display: flex; align-items: center; justify-content: center; text-align: center; }
+        #hero-text { color: black; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; font-size: 11px; padding: 0 20px; }
 
-        /* --- 2. NAVIGATION --- */
         nav {
             padding: 20px 5%; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border); position: sticky; top: 0; 
             background: rgba(5,5,5,0.9); z-index: 1000; backdrop-filter: blur(12px);
         }
         .logo { font-size: 1.6rem; font-weight: 900; letter-spacing: 6px; cursor: pointer; }
-        .nav-tools { display: flex; gap: 25px; align-items: center; }
-        .cart-icon { cursor: pointer; font-size: 1.2rem; position: relative; }
-        #cart-count { 
-            position: absolute; top: -8px; right: -10px; background: var(--red); 
-            font-size: 10px; padding: 2px 6px; border-radius: 10px; font-weight: bold;
-        }
 
-        /* --- 3. PRODUCT ARCHITECTURE --- */
         .container { padding: 50px 5%; max-width: 1400px; margin: auto; }
-        .section-header { 
-            margin-bottom: 40px; border-bottom: 1px solid var(--border);
-            display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 10px;
-        }
+        .section-header { margin-bottom: 40px; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; align-items: flex-end; padding-bottom: 10px; }
         .section-header h1 { margin: 0; font-size: 1.5rem; letter-spacing: 4px; }
 
-        .grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); 
-            gap: 40px; 
-        }
-
-        .product-card { 
-            background: var(--card); border: 1px solid var(--border); 
-            padding: 0; position: relative; overflow: hidden;
-        }
-        .img-container { width: 100%; height: 450px; overflow: hidden; position: relative; }
-        .product-image { width: 100%; height: 100%; object-fit: cover; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; position: relative; min-height: 200px; }
         
-        .product-info { padding: 20px; }
-        .product-info h3 { margin: 0 0 10px 0; font-size: 1.1rem; letter-spacing: 1px; }
+        /* --- COMING SOON OVERLAY --- */
+        .grid:empty::after {
+            content: "COLLECTION COMING SOON";
+            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-weight: 900; letter-spacing: 5px; color: #333; font-size: 14px; width: 100%; text-align: center;
+        }
 
-        /* Pricing Logic */
+        .product-card { background: var(--card); border: 1px solid var(--border); position: relative; }
+        .img-container { width: 100%; height: 450px; overflow: hidden; }
+        .product-image { width: 100%; height: 100%; object-fit: cover; }
+        .product-info { padding: 20px; }
         .price-box { display: flex; align-items: center; gap: 12px; margin-bottom: 15px; }
         .current-price { color: var(--green); font-size: 1.4rem; font-weight: bold; }
         .old-price { color: #555; text-decoration: line-through; font-size: 0.9rem; }
-        .discount-tag { 
-            position: absolute; top: 15px; left: 15px; background: var(--red); 
-            color: white; padding: 6px 12px; font-weight: 900; font-size: 12px; 
-        }
+        .discount-tag { position: absolute; top: 15px; left: 15px; background: var(--red); color: white; padding: 6px 12px; font-weight: 900; font-size: 12px; z-index: 10; }
 
-        /* --- 4. ADMIN & UI --- */
-        .admin-controls { 
-            display: none; padding: 15px; background: #111; border-top: 1px dashed #333; 
-        }
+        .admin-controls { display: none; padding: 15px; background: #111; border-top: 1px dashed #333; }
         .admin-mode .admin-controls { display: block; }
         
-        .btn { 
-            width: 100%; padding: 15px; border: none; font-weight: 900; 
-            text-transform: uppercase; cursor: pointer; font-size: 12px;
-        }
+        .btn { width: 100%; padding: 15px; border: none; font-weight: 900; text-transform: uppercase; cursor: pointer; font-size: 12px; }
         .btn-black { background: white; color: black; }
-        .btn-black:hover { background: var(--green); }
         
-        .panel { 
-            position: fixed; top: 0; right: -100%; width: 380px; height: 100vh; 
-            background: #0a0a0a; z-index: 2000; padding: 40px; transition: 0.5s;
-            border-left: 1px solid var(--border); overflow-y: auto;
-        }
+        .panel { position: fixed; top: 0; right: -100%; width: 380px; height: 100vh; background: #0a0a0a; z-index: 2000; padding: 40px; transition: 0.5s; border-left: 1px solid var(--border); overflow-y: auto; }
         .panel.active { right: 0; }
-
-        input, select { 
-            width: 100%; padding: 12px; background: #151515; border: 1px solid #333; 
-            color: white; margin-bottom: 15px; font-family: inherit;
-        }
+        input, select { width: 100%; padding: 12px; background: #151515; border: 1px solid #333; color: white; margin-bottom: 15px; }
         .hidden { display: none !important; }
-
-        @media (max-width: 768px) {
-            .panel { width: 100%; }
-            .grid { grid-template-columns: 1fr; }
-        }
     </style>
 </head>
 <body>
 
-<div id="hero-banner" onclick="adminBanner()">
-    <div id="hero-text">⚡ SPOTTSHOP: STREETWEAR CULTURE | FREE SHIPPING ON 500DH+ ⚡</div>
-</div>
+<div id="hero-banner" onclick="adminBanner()"><div id="hero-text">⚡ SPOTTSHOP: NEW SEASON DROPPING SOON ⚡</div></div>
 
 <nav>
-    <div class="logo" onclick="renderAll()">SPOTTSHOP</div>
-    <div class="nav-tools">
-        <div class="admin-mode-only hidden" onclick="togglePanel('adminPanel')" style="color:var(--green); cursor:pointer; font-weight:bold; font-size:12px;">+ ADD PRODUCT</div>
-        <div class="cart-icon" onclick="togglePanel('cartPanel')">🛒<span id="cart-count">0</span></div>
-        <div style="cursor:pointer" onclick="togglePanel('menuPanel')">☰</div>
-        <div onclick="login()" style="font-size: 9px; color: #222; cursor: pointer;">ADMIN</div>
+    <div class="logo" onclick="filterBy('all')">SPOTTSHOP</div>
+    <div style="display:flex; gap:25px; align-items:center;">
+        <div class="admin-mode-only hidden" onclick="togglePanel('adminPanel')" style="color:var(--green); cursor:pointer; font-weight:bold; font-size:12px;">+ ADD ITEM</div>
+        <div onclick="togglePanel('cartPanel')" style="cursor:pointer">🛒 <span id="cart-count">0</span></div>
+        <div onclick="togglePanel('menuPanel')" style="cursor:pointer">☰</div>
+        <div onclick="login()" style="font-size: 9px; color: #111; cursor: pointer;">ADMIN</div>
     </div>
 </nav>
 
 <div class="panel" id="adminPanel">
-    <h2 style="color:var(--green)">NEW DROP</h2>
-    <input type="text" id="p-name" placeholder="Article Name">
-    <input type="text" id="p-img" placeholder="Image URL (PostImg Link)">
-    <input type="number" id="p-price" placeholder="Base Price (DH)">
+    <h2>DASHBOARD</h2>
+    <input type="text" id="p-name" placeholder="Name">
+    <input type="text" id="p-img" placeholder="Image URL">
+    <input type="number" id="p-price" placeholder="Price (DH)">
     <select id="p-cat">
         <option value="jeans">Baggy Jeans</option>
+        <option value="hoodies">Hoodies</option>
+        <option value="jackets">Jackets</option>
         <option value="acc">Accessories</option>
     </select>
-    <button class="btn btn-black" onclick="submitProduct()">PUBLISH TO SHOP</button>
-    <button class="btn" style="color:gray; background:transparent" onclick="togglePanel('adminPanel')">CLOSE</button>
-</div>
-
-<div class="panel" id="cartPanel">
-    <h2>YOUR CART</h2>
-    <div id="cart-list"></div>
-    <div id="total-display" style="font-size: 1.5rem; margin-top: 30px; border-top: 1px solid #222; padding-top: 20px;">0 DH</div>
-    <button class="btn btn-black" style="margin-top:20px" onclick="checkoutWA()">ORDER WHATSAPP</button>
-    <button class="btn" style="color:gray; background:transparent" onclick="togglePanel('cartPanel')">CONTINUE SHOPPING</button>
+    <button class="btn btn-black" onclick="submitProduct()">PUBLISH</button>
 </div>
 
 <div class="panel" id="menuPanel">
-    <h2 onclick="filterBy('jeans')">BAGGY JEANS</h2>
-    <h2 onclick="filterBy('acc')">ACCESSORIES</h2>
-    <h2 onclick="filterBy('all')">VIEW ALL</h2>
-    <button class="btn" style="color:gray; background:transparent; margin-top:50px" onclick="togglePanel('menuPanel')">CLOSE</button>
+    <h2 onclick="filterBy('all')">ALL</h2>
+    <h2 onclick="filterBy('jeans')">JEANS</h2>
+    <h2 onclick="filterBy('hoodies')">HOODIES</h2>
+    <h2 onclick="filterBy('jackets')">JACKETS</h2>
+    <h2 onclick="filterBy('acc')">ACC</h2>
+    <button class="btn" style="color:gray; background:transparent" onclick="togglePanel('menuPanel')">CLOSE</button>
 </div>
 
-<main class="container">
-    <div id="jeans-section">
-        <div class="section-header"><h1>BAGGY JEANS</h1></div>
-        <div class="grid" id="jeans-grid"></div>
-    </div>
+<div class="panel" id="cartPanel">
+    <h2>CART</h2>
+    <div id="cart-list"></div>
+    <div id="total-display" style="font-size: 1.5rem; margin-top: 20px;">0 DH</div>
+    <button class="btn btn-black" onclick="checkoutWA()">ORDER</button>
+</div>
 
-    <div id="acc-section" style="margin-top: 80px;">
+<div class="container">
+    <section id="jeans-sec" class="shop-sec">
+        <div class="section-header"><h1>JEANS</h1></div>
+        <div class="grid" id="jeans-grid"></div>
+    </section>
+
+    <section id="hoodies-sec" class="shop-sec" style="margin-top:80px">
+        <div class="section-header"><h1>HOODIES</h1></div>
+        <div class="grid" id="hoodies-grid"></div>
+    </section>
+
+    <section id="jackets-sec" class="shop-sec" style="margin-top:80px">
+        <div class="section-header"><h1>JACKETS</h1></div>
+        <div class="grid" id="jackets-grid"></div>
+    </section>
+
+    <section id="acc-sec" class="shop-sec" style="margin-top:80px">
         <div class="section-header"><h1>ACCESSORIES</h1></div>
         <div class="grid" id="acc-grid">
             <div class="product-card">
-                <div class="img-container">
-                    <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg" class="product-image">
-                </div>
+                <div class="img-container"><img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg" class="product-image"></div>
                 <div class="product-info">
-                    <h3>STAINLESS WALLET CHAIN</h3>
-                    <div class="price-box"><span class="current-price">50 - 100 DH</span></div>
-                    <select id="size-chain">
-                        <option value="1 Piece (50DH)">1 Piece - 50 DH</option>
-                        <option value="2 Pieces (80DH)">2 Pieces - 80 DH</option>
-                        <option value="3 Pieces (100DH)">3 Pieces - 100 DH</option>
-                    </select>
-                    <button class="btn btn-black" onclick="addBundleToCart()">ADD TO CART</button>
+                    <h3>STAINLESS CHAIN</h3>
+                    <div class="price-box"><span class="current-price">50-100 DH</span></div>
+                    <select id="size-chain"><option value="1 (50DH)">1pc (50DH)</option><option value="2 (80DH)">2pc (80DH)</option><option value="3 (100DH)">3pc (100DH)</option></select>
+                    <button class="btn btn-black" onclick="addChain()">ADD TO CART</button>
                 </div>
             </div>
         </div>
-    </div>
-</main>
+    </section>
+</div>
 
 <script>
-    let products = JSON.parse(localStorage.getItem('spott_products')) || [
-        { id: 1, cat: 'jeans', name: 'Raw Black Baggy', price: 250, disc: 0, img: 'https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg' },
-        { id: 2, cat: 'jeans', name: 'Vintage Blue Loose', price: 280, disc: 15, img: 'https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg' }
+    let products = JSON.parse(localStorage.getItem('spott_data')) || [
+        { id: 1, cat: 'jeans', name: 'Black Baggy', price: 250, disc: 0, img: 'https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg' }
     ];
     let cart = [];
-    const WHATSAPP = "212775029974";
 
-    // --- RENDER SYSTEM ---
-    function renderShop() {
-        document.getElementById('jeans-grid').innerHTML = '';
+    function render() {
+        // Clear grids
+        ['jeans-grid', 'hoodies-grid', 'jackets-grid', 'acc-grid'].forEach(g => {
+            const el = document.getElementById(g);
+            if(el) el.innerHTML = (g === 'acc-grid') ? el.innerHTML : '';
+        });
+
         products.forEach(p => {
-            const finalPrice = Math.round(p.price * (1 - (p.disc / 100)));
+            const final = Math.round(p.price * (1 - p.disc/100));
             const card = document.createElement('div');
             card.className = 'product-card';
             card.innerHTML = `
-                ${p.disc > 0 ? `<div class="discount-tag">-${p.disc}% OFF</div>` : ''}
-                <div class="img-container">
-                    <img src="${p.img}" class="product-image">
-                </div>
+                ${p.disc > 0 ? `<div class="discount-tag">-${p.disc}%</div>` : ''}
+                <div class="img-container"><img src="${p.img}" class="product-image"></div>
                 <div class="product-info">
                     <h3>${p.name.toUpperCase()}</h3>
                     <div class="price-box">
                         ${p.disc > 0 ? `<span class="old-price">${p.price} DH</span>` : ''}
-                        <span class="current-price">${finalPrice} DH</span>
+                        <span class="current-price">${final} DH</span>
                     </div>
                     <select id="size-${p.id}"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
                     <button class="btn btn-black" onclick="addToCart(${p.id})">ADD TO CART</button>
                 </div>
                 <div class="admin-controls">
-                    <label style="font-size:10px; color:#aaa">DISCOUNT %</label>
-                    <input type="number" value="${p.disc}" onchange="updateDiscount(${p.id}, this.value)">
-                    <button class="btn" style="background:var(--red); color:white; padding:5px" onclick="deleteProduct(${p.id})">DELETE ARTICLE</button>
+                    <input type="number" placeholder="Discount %" value="${p.disc}" onchange="updateDisc(${p.id}, this.value)">
+                    <button class="btn" style="background:var(--red); color:white; padding:5px" onclick="del(${p.id})">DELETE</button>
                 </div>
             `;
             document.getElementById(`${p.cat}-grid`).appendChild(card);
         });
-        localStorage.setItem('spott_products', JSON.stringify(products));
+        localStorage.setItem('spott_data', JSON.stringify(products));
     }
 
-    // --- ADMIN ACTIONS ---
     function login() {
-        const pass = prompt("ADMIN KEY:");
-        if(pass === "SPOTTSHOP27_45") {
+        if(prompt("CODE:") === "SPOTTSHOP27_45") {
             document.body.classList.add('admin-mode');
-            document.querySelectorAll('.admin-mode-only').forEach(el => el.classList.remove('hidden'));
-            alert("ADMIN ACTIVE: Set discounts directly on cards or add new items via dashboard.");
+            document.querySelectorAll('.admin-mode-only').forEach(e => e.classList.remove('hidden'));
         }
     }
 
     function submitProduct() {
-        const name = document.getElementById('p-name').value;
-        const img = document.getElementById('p-img').value;
-        const price = document.getElementById('p-price').value;
-        const cat = document.getElementById('p-cat').value;
-
-        if(!name || !img || !price) return alert("Fill all fields");
-
-        products.push({ id: Date.now(), cat, name, price: parseInt(price), disc: 0, img });
-        renderShop();
-        togglePanel('adminPanel');
-        // Clear inputs
-        document.getElementById('p-name').value = '';
-        document.getElementById('p-img').value = '';
-        document.getElementById('p-price').value = '';
-    }
-
-    function updateDiscount(id, val) {
-        const idx = products.findIndex(p => p.id === id);
-        products[idx].disc = parseInt(val) || 0;
-        renderShop();
-    }
-
-    function deleteProduct(id) {
-        if(confirm("Delete this item?")) {
-            products = products.filter(p => p.id !== id);
-            renderShop();
+        const n = document.getElementById('p-name').value;
+        const i = document.getElementById('p-img').value;
+        const p = document.getElementById('p-price').value;
+        const c = document.getElementById('p-cat').value;
+        if(n && i && p) {
+            products.push({ id: Date.now(), cat: c, name: n, price: parseInt(p), disc: 0, img: i });
+            render();
+            togglePanel('adminPanel');
         }
     }
 
-    function adminBanner() {
-        if(!document.body.classList.contains('admin-mode')) return;
-        const t = prompt("Update Promo Text:");
-        if(t) document.getElementById('hero-text').innerText = t;
+    function updateDisc(id, v) {
+        const i = products.findIndex(p => p.id === id);
+        products[i].disc = parseInt(v) || 0;
+        render();
     }
 
-    // --- CART LOGIC ---
+    function del(id) {
+        products = products.filter(p => p.id !== id);
+        render();
+    }
+
     function addToCart(id) {
-        const p = products.find(i => i.id === id);
-        const size = document.getElementById(`size-${id}`).value;
-        const finalPrice = Math.round(p.price * (1 - (p.disc / 100)));
-        cart.push({ name: p.name, size, price: finalPrice });
-        updateCartUI();
+        const p = products.find(x => x.id === id);
+        const s = document.getElementById(`size-${id}`).value;
+        const f = Math.round(p.price * (1 - p.disc/100));
+        cart.push({ name: p.name, size: s, price: f });
+        updateCart();
     }
 
-    function addBundleToCart() {
-        const val = document.getElementById('size-chain').value;
-        let p = val.includes("100") ? 100 : (val.includes("80") ? 80 : 50);
-        cart.push({ name: "Stainless Chain Bundle", size: val, price: p });
-        updateCartUI();
+    function addChain() {
+        const v = document.getElementById('size-chain').value;
+        let p = v.includes("100") ? 100 : (v.includes("80") ? 80 : 50);
+        cart.push({ name: "Chain Bundle", size: v, price: p });
+        updateCart();
     }
 
-    function updateCartUI() {
-        const list = document.getElementById('cart-list');
-        list.innerHTML = '';
-        let total = 0;
+    function updateCart() {
+        const l = document.getElementById('cart-list');
+        l.innerHTML = '';
+        let t = 0;
         cart.forEach((item, i) => {
-            total += item.price;
-            list.innerHTML += `
-                <div style="padding:15px 0; border-bottom:1px solid #222; display:flex; justify-content:space-between">
-                    <div><strong>${item.name}</strong><br><small>${item.size}</small></div>
-                    <div>${item.price} DH <span style="color:red; cursor:pointer; margin-left:10px" onclick="removeFromCart(${i})">✕</span></div>
-                </div>`;
+            t += item.price;
+            l.innerHTML += `<div style="padding:10px 0; border-bottom:1px solid #222">${item.name} (${item.size}) - ${item.price}DH <span style="float:right; color:red; cursor:pointer" onclick="cart.splice(${i},1); updateCart()">✕</span></div>`;
         });
         document.getElementById('cart-count').innerText = cart.length;
-        document.getElementById('total-display').innerText = `${total} DH`;
-    }
-
-    function removeFromCart(i) {
-        cart.splice(i, 1);
-        updateCartUI();
+        document.getElementById('total-display').innerText = t + " DH";
     }
 
     function checkoutWA() {
-        if(cart.length === 0) return alert("Cart empty");
-        let items = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
-        let total = document.getElementById('total-display').innerText;
-        let msg = `*SPOTTSHOP NEW ORDER*\n\n*ITEMS:*\n${items}\n\n*TOTAL: ${total}*`;
-        window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(msg)}`);
+        let msg = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
+        window.open(`https://wa.me/212775029974?text=${encodeURIComponent("*ORDER*\n" + msg + "\n\nTotal: " + document.getElementById('total-display').innerText)}`);
     }
 
-    // --- HELPERS ---
-    function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
-    
-    function filterBy(type) {
-        document.getElementById('jeans-section').classList.add('hidden');
-        document.getElementById('acc-section').classList.add('hidden');
-        if(type === 'all' || type === 'jeans') document.getElementById('jeans-section').classList.remove('hidden');
-        if(type === 'all' || type === 'acc') document.getElementById('acc-section').classList.remove('hidden');
+    function filterBy(c) {
+        document.querySelectorAll('.shop-sec').forEach(s => s.classList.add('hidden'));
+        if(c === 'all') document.querySelectorAll('.shop-sec').forEach(s => s.classList.remove('hidden'));
+        else document.getElementById(c + '-sec').classList.remove('hidden');
         togglePanel('menuPanel');
     }
 
-    function renderAll() {
-        document.getElementById('jeans-section').classList.remove('hidden');
-        document.getElementById('acc-section').classList.remove('hidden');
-    }
+    function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
+    function adminBanner() { if(document.body.classList.contains('admin-mode')) document.getElementById('hero-text').innerText = prompt("Text:"); }
 
-    // Startup
-    renderShop();
+    render();
 </script>
 </body>
 </html>
