@@ -3,13 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPOTTSHOP | Streetwear Edition</title>
+    <title>SPOTTSHOP | Official Store</title>
     <style>
         :root {
             --bg: #0a0a0a;
-            --card: rgba(17, 17, 17, 0.85); /* Slightly transparent for the background effect */
+            --card: rgba(15, 15, 15, 0.85);
             --accent: #fff;
-            --border: #333;
+            --border: #222;
             --green: #00ff88;
             --red: #ff4444;
         }
@@ -22,101 +22,89 @@
             overflow-x: hidden;
         }
 
-        /* --- BACKGROUND PHOTO EFFECT --- */
+        /* Fixed Background Image */
         body::before {
             content: "";
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            /* CHANGE THIS URL TO YOUR PREFERRED MODEL PHOTO */
+            top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://images.unsplash.com/photo-1552910309-d53b47444914?q=80&w=2000&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
-            opacity: 0.3; /* Adjust this to make the photo more or less visible */
+            opacity: 0.25;
             z-index: -1;
         }
 
-        /* --- HERO BANNER (Photo & Text) --- */
+        /* 1. Hero Banner */
         #hero-banner {
-            width: 100%;
-            min-height: 60px;
+            width: 100%; min-height: 60px;
             background-color: var(--accent);
-            background-size: cover;
-            background-position: center;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            position: relative;
+            background-size: cover; background-position: center;
+            display: flex; align-items: center; justify-content: center;
+            position: relative; transition: 0.3s;
         }
         #hero-text {
-            color: var(--bg);
-            font-size: 11px;
-            font-weight: 900;
-            letter-spacing: 2px;
-            text-transform: uppercase;
-            padding: 10px 5%;
+            color: var(--bg); font-size: 11px; font-weight: 900;
+            letter-spacing: 2px; text-transform: uppercase; padding: 15px;
         }
-        .admin-mode #hero-banner { cursor: pointer; border: 2px dashed var(--green); }
+        .admin-mode #hero-banner { cursor: pointer; outline: 2px dashed var(--green); outline-offset: -4px; }
 
-        /* --- Navigation --- */
+        /* 2. Navigation */
         nav {
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border); position: sticky; top: 0; 
-            background: rgba(10,10,10,0.8); z-index: 1000; backdrop-filter: blur(15px);
+            background: rgba(10,10,10,0.85); z-index: 1000; backdrop-filter: blur(15px);
         }
-        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; cursor: pointer; }
-        .admin-btn { font-size: 10px; color: #444; cursor: pointer; border: 1px solid #222; padding: 4px 8px; }
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 5px; cursor: pointer; }
+        .admin-btn { font-size: 9px; color: #333; cursor: pointer; border: 1px solid #1a1a1a; padding: 4px 8px; }
 
-        /* --- Sections & Filtering --- */
-        .shop-section { display: block; animation: fadeIn 0.8s ease; }
+        /* 3. Product Layout */
+        .shop-section { display: block; animation: fadeInUp 0.6s ease forwards; }
         .hidden { display: none !important; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
 
         .container { padding: 40px 5%; min-height: 80vh; }
-        .section-title { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 30px; border-left: 3px solid white; padding-left: 15px; display: flex; justify-content: space-between; align-items: center; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .section-title { font-size: 1.3rem; letter-spacing: 3px; margin-bottom: 30px; border-left: 4px solid white; padding-left: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
 
-        /* --- Product Cards (Glass Look) --- */
+        /* 4. Product Cards */
         .product-card { 
-            background: var(--card); 
-            border: 1px solid var(--border); 
-            padding: 15px; 
-            position: relative;
-            backdrop-filter: blur(5px);
+            background: var(--card); border: 1px solid var(--border); 
+            padding: 18px; position: relative; backdrop-filter: blur(10px);
+            transition: transform 0.3s ease;
         }
-        .product-image { width: 100%; height: 400px; object-fit: cover; margin-bottom: 15px; border: 1px solid #222; }
+        .product-card:hover { transform: translateY(-5px); border-color: #444; }
+        .product-image { width: 100%; height: 420px; object-fit: cover; margin-bottom: 15px; }
         
         .price-container { margin: 10px 0; font-weight: bold; }
-        .old-price { text-decoration: line-through; color: #777; font-size: 0.9rem; margin-right: 8px; }
+        .old-price { text-decoration: line-through; color: #666; font-size: 0.9rem; margin-right: 10px; }
         .current-price { color: var(--green); font-size: 1.2rem; }
-        .discount-badge { background: var(--red); color: white; padding: 4px 8px; font-size: 0.7rem; position: absolute; top: 20px; right: 20px; font-weight: 900; z-index: 5; }
+        .discount-badge { background: var(--red); color: white; padding: 5px 10px; font-size: 0.75rem; position: absolute; top: 25px; right: 25px; font-weight: 900; z-index: 5; }
 
-        .btn { width: 100%; padding: 12px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; transition: 0.3s; }
+        .btn { width: 100%; padding: 14px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 8px; transition: 0.3s; }
         .btn-add { background: white; color: black; }
-        .btn-add:hover { background: var(--green); }
+        .btn-add:hover { background: var(--green); letter-spacing: 1px; }
         .btn-delete { background: var(--red); color: white; font-size: 10px; margin-bottom: 10px; display: none; }
         
         .admin-mode .btn-delete { display: block; }
         .admin-only { display: none; }
         .admin-mode .admin-only { display: block !important; }
 
-        /* --- Panels & Modals --- */
-        .panel { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background: rgba(14, 14, 14, 0.98); padding: 60px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); overflow-y: auto; backdrop-filter: blur(20px); }
+        /* 5. UI Panels */
+        .panel { position: fixed; top: 0; right: -100%; width: 340px; height: 100vh; background: rgba(10, 10, 10, 0.98); padding: 60px 25px; transition: 0.4s cubic-bezier(0.19, 1, 0.22, 1); z-index: 1500; border-left: 1px solid var(--border); overflow-y: auto; backdrop-filter: blur(20px); box-sizing: border-box;}
         .panel.active { right: 0; }
-        .cart-item { padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .cart-item { padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+
+        /* 6. Modals */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
-        .modal-content { background: #111; padding: 30px; border: 1px solid var(--border); width: 90%; max-width: 400px; }
-        input, select { width: 100%; background: #222; border: 1px solid #333; padding: 12px; margin-bottom: 15px; color: white; box-sizing: border-box; }
+        .modal-content { background: #111; padding: 40px; border: 1px solid var(--border); width: 90%; max-width: 400px; text-align: center; }
+        input, select { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 14px; margin-bottom: 15px; color: white; box-sizing: border-box; font-family: inherit; }
     </style>
 </head>
 <body>
 
 <div id="hero-banner" onclick="openBannerEditor()">
-    <div id="hero-text">⚡ NEW DROPS AVAILABLE NOW ⚡</div>
+    <div id="hero-text">⚡ SPOTTSHOP: STREETWEAR ESSENTIALS ⚡</div>
 </div>
 
 <nav>
@@ -130,37 +118,38 @@
 </nav>
 
 <div class="panel" id="adminPanel">
-    <div onclick="togglePanel('adminPanel')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
-    <h2 style="color:var(--green)">ADMIN</h2>
-    <input type="text" id="new-cat-name" placeholder="New Category Name">
-    <button class="btn btn-add" onclick="createNewCategory()">ADD CATEGORY</button>
+    <div onclick="togglePanel('adminPanel')" style="cursor:pointer; margin-bottom:30px; font-size: 12px;">✕ CLOSE</div>
+    <h2 style="color:var(--green); letter-spacing: 2px;">DASHBOARD</h2>
+    <p style="font-size: 10px; color:#555; margin-top: 40px;">NEW CATEGORY</p>
+    <input type="text" id="new-cat-name" placeholder="Name (e.g. Hoodies)">
+    <button class="btn btn-add" onclick="createNewCategory()">CREATE SECTION</button>
 </div>
 
 <div class="panel" id="navMenu">
-    <div onclick="togglePanel('navMenu')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
+    <div onclick="togglePanel('navMenu')" style="cursor:pointer; margin-bottom:40px;">✕ CLOSE</div>
     <div id="nav-links">
-        <a href="javascript:void(0)" onclick="filterCategory('all')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">HOME</a>
-        <a href="javascript:void(0)" onclick="filterCategory('accessories')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">ACCESSORIES</a>
-        <a href="javascript:void(0)" onclick="filterCategory('jeans')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">JEANS</a>
+        <a href="javascript:void(0)" onclick="filterCategory('all')" style="display:block; color:white; text-decoration:none; margin-bottom:30px; font-weight:bold; font-size: 1.2rem;">SHOP ALL</a>
+        <a href="javascript:void(0)" onclick="filterCategory('accessories')" style="display:block; color:white; text-decoration:none; margin-bottom:30px; font-weight:bold; font-size: 1.2rem;">ACCESSORIES</a>
+        <a href="javascript:void(0)" onclick="filterCategory('jeans')" style="display:block; color:white; text-decoration:none; margin-bottom:30px; font-weight:bold; font-size: 1.2rem;">BAGGY JEANS</a>
     </div>
 </div>
 
 <div id="sections-container">
     <div class="container shop-section" id="accessories-sec">
-        <div class="section-title">ACCESSORIES <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('acc-grid')">+ ADD</button></div>
+        <div class="section-title">ACCESSORIES <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('acc-grid')">+ ADD ITEM</button></div>
         <div class="grid" id="acc-grid">
             <div class="product-card">
-                <button class="btn-delete btn" onclick="this.parentElement.remove()">DELETE</button>
+                <button class="btn-delete btn" onclick="this.parentElement.remove()">DELETE ARTICLE</button>
                 <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:15px;">
-                    <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg" style="width:100%; height:200px; object-fit:cover;">
-                    <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg" style="width:100%; height:200px; object-fit:cover;">
+                    <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg" style="width:100%; height:210px; object-fit:cover;">
+                    <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg" style="width:100%; height:210px; object-fit:cover;">
                 </div>
                 <h3>Wallet Chain</h3>
                 <div class="price-container"><span class="current-price">1: 50 | 2: 80 | 3: 100 DH</span></div>
                 <select id="size-chain">
-                    <option value="1 (50 DH)">1 Piece</option>
-                    <option value="2 (80 DH)">2 Pieces</option>
-                    <option value="3 (100 DH)">3 Pieces</option>
+                    <option value="1 (50 DH)">1 Piece - 50 DH</option>
+                    <option value="2 (80 DH)">2 Pieces - 80 DH</option>
+                    <option value="3 (100 DH)">3 Pieces - 100 DH</option>
                 </select>
                 <button class="btn btn-add" onclick="addChainToCart()">ADD TO CART</button>
             </div>
@@ -168,52 +157,54 @@
     </div>
 
     <div class="container shop-section" id="jeans-sec">
-        <div class="section-title">JEANS <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('jeans-grid')">+ ADD</button></div>
+        <div class="section-title">BAGGY JEANS <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('jeans-grid')">+ ADD ITEM</button></div>
         <div class="grid" id="jeans-grid"></div>
     </div>
 </div>
 
 <div class="panel" id="cartPanel">
     <div onclick="togglePanel('cartPanel')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
-    <h2>CART</h2>
+    <h2 style="letter-spacing: 2px;">YOUR CART</h2>
     <div id="cart-items-container"></div>
-    <div id="cart-total" style="margin: 20px 0; font-weight: bold; font-size: 1.2rem;">Total: 0 DH</div>
-    <button class="btn btn-add" onclick="document.getElementById('checkout-section').style.display='block'">CHECKOUT</button>
+    <div id="cart-total" style="margin: 30px 0; font-weight: 900; font-size: 1.4rem; border-top: 1px solid #222; padding-top: 20px;">Total: 0 DH</div>
+    <button class="btn btn-add" onclick="document.getElementById('checkout-section').style.display='block'">CHECKOUT NOW</button>
     <div id="checkout-section" style="display:none; margin-top:20px;">
-        <input type="text" id="cust-name" placeholder="Full Name"><input type="tel" id="cust-phone" placeholder="Phone"><input type="text" id="cust-city" placeholder="City">
-        <button class="btn" style="background:var(--green); color:black;" onclick="sendToWhatsApp()">ORDER WHATSAPP</button>
+        <input type="text" id="cust-name" placeholder="Full Name">
+        <input type="tel" id="cust-phone" placeholder="WhatsApp Number">
+        <input type="text" id="cust-city" placeholder="City">
+        <button class="btn" style="background:var(--green); color:black;" onclick="sendToWhatsApp()">SEND ORDER</button>
     </div>
 </div>
 
 <div class="modal" id="loginModal">
     <div class="modal-content">
-        <h2>ADMIN LOGIN</h2>
+        <h2>ADMIN ACCESS</h2>
         <input type="password" id="adminSecret" placeholder="Secret Code">
-        <button class="btn btn-add" onclick="checkLogin()">ENTER</button>
-        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('loginModal')">BACK</button>
+        <button class="btn btn-add" onclick="checkLogin()">LOGIN</button>
+        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('loginModal')">CANCEL</button>
     </div>
 </div>
 
 <div class="modal" id="bannerModal">
     <div class="modal-content">
-        <h2>BANNER SETTINGS</h2>
+        <h2>EDIT BANNER</h2>
         <input type="text" id="b-img" placeholder="Background Photo URL">
-        <input type="text" id="b-text" placeholder="Text">
-        <input type="text" id="b-color" placeholder="Text Color">
-        <button class="btn btn-add" onclick="saveBanner()">SAVE</button>
-        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('bannerModal')">BACK</button>
+        <input type="text" id="b-text" placeholder="Banner Text">
+        <input type="text" id="b-color" placeholder="Text Color (e.g. white, black)">
+        <button class="btn btn-add" onclick="saveBanner()">UPDATE</button>
+        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('bannerModal')">CANCEL</button>
     </div>
 </div>
 
 <div class="modal" id="productModal">
     <div class="modal-content">
-        <h2>ADD PRODUCT</h2>
-        <input type="text" id="p-name" placeholder="Name">
+        <h2>ADD NEW ARTICLE</h2>
+        <input type="text" id="p-name" placeholder="Article Name">
         <input type="text" id="p-img" placeholder="Image URL">
-        <input type="number" id="p-price" placeholder="Price">
-        <input type="number" id="p-disc" placeholder="Discount %">
+        <input type="number" id="p-price" placeholder="Base Price (DH)">
+        <input type="number" id="p-disc" placeholder="Discount % (0 if none)">
         <button class="btn btn-add" onclick="saveNewProduct()">PUBLISH</button>
-        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('productModal')">BACK</button>
+        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('productModal')">CANCEL</button>
     </div>
 </div>
 
@@ -223,17 +214,21 @@
     const myWhatsApp = "212775029974";
     const secretCode = "SPOTTSHOP27_45";
 
+    // Initial Database
     const initialJeans = [
-        { name: "Black Baggy Jeans", price: 229, disc: 0, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" }
+        { name: "Black Ultra Baggy", price: 229, disc: 0, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
+        { name: "Vintage Grey Baggy", price: 249, disc: 15, img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" }
     ];
+
     window.onload = () => { initialJeans.forEach(j => createProductHTML('jeans-grid', j)); };
 
+    // --- Admin Logic ---
     function checkLogin() {
         if(document.getElementById('adminSecret').value === secretCode) {
             document.body.classList.add('admin-mode');
             closeModal('loginModal');
-            alert("Admin Active.");
-        } else { alert("Wrong Code."); }
+            alert("ADMIN ACCESS GRANTED.\n- Click Top Banner to Edit.\n- Use Dashboard to add Categories.");
+        } else { alert("Incorrect Credentials."); }
     }
 
     function openBannerEditor() {
@@ -251,15 +246,6 @@
         closeModal('bannerModal');
     }
 
-    function filterCategory(cat) {
-        const sections = document.querySelectorAll('.shop-section');
-        sections.forEach(s => s.classList.add('hidden'));
-        if(cat === 'all') sections.forEach(s => s.classList.remove('hidden'));
-        else document.getElementById(cat + '-sec').classList.remove('hidden');
-        if(document.getElementById('navMenu').classList.contains('active')) togglePanel('navMenu');
-        window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-
     function createNewCategory() {
         const name = document.getElementById('new-cat-name').value;
         if(!name) return;
@@ -267,19 +253,21 @@
         const section = document.createElement('div');
         section.className = 'container shop-section';
         section.id = id + '-sec';
-        section.innerHTML = `<div class="section-title">${name.toUpperCase()} <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('${id}-grid')">+ ADD</button></div><div class="grid" id="${id}-grid"></div>`;
+        section.innerHTML = `<div class="section-title">${name.toUpperCase()} <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('${id}-grid')">+ ADD ITEM</button></div><div class="grid" id="${id}-grid"></div>`;
         document.getElementById('sections-container').appendChild(section);
+        
         const link = document.createElement('a');
         link.href = "javascript:void(0)";
-        link.className = "nav-link-item";
-        link.style = "display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;";
+        link.style = "display:block; color:white; text-decoration:none; margin-bottom:30px; font-weight:bold; font-size: 1.2rem;";
         link.innerText = name.toUpperCase();
         link.onclick = () => filterCategory(id);
         document.getElementById('nav-links').appendChild(link);
         togglePanel('adminPanel');
     }
 
+    // --- Product Logic ---
     function openProductForm(gridId) { currentGrid = gridId; document.getElementById('productModal').classList.add('active'); }
+
     function saveNewProduct() {
         const data = {
             name: document.getElementById('p-name').value,
@@ -295,15 +283,16 @@
         const grid = document.getElementById(gridId);
         const cardId = Date.now() + Math.random();
         const discPrice = Math.round(product.price * (1 - product.disc/100));
+        
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
             ${product.disc > 0 ? `<div class="discount-badge">-${product.disc}%</div>` : ''}
-            <button class="btn-delete btn" onclick="this.parentElement.remove()">DELETE</button>
+            <button class="btn-delete btn" onclick="this.parentElement.remove()">DELETE ARTICLE</button>
             <img src="${product.img}" class="product-image">
-            <h3>${product.name}</h3>
+            <h3 style="letter-spacing:1px">${product.name}</h3>
             <div class="price-container">
-                ${product.disc > 0 ? `<span class="old-price">${product.price}DH</span>` : ''}
+                ${product.disc > 0 ? `<span class="old-price">${product.price} DH</span>` : ''}
                 <span class="current-price">${product.disc > 0 ? discPrice : product.price} DH</span>
             </div>
             <select id="size-${cardId}"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
@@ -312,6 +301,7 @@
         grid.appendChild(card);
     }
 
+    // --- Cart & Checkout ---
     function addToCart(name, price, sizeId) {
         const size = document.getElementById(sizeId).value;
         cart.push({ name, price, size });
@@ -332,7 +322,12 @@
         let total = cart.reduce((sum, i) => sum + i.price, 0);
         container.innerHTML = "";
         cart.forEach((item, index) => {
-            container.innerHTML += `<div class="cart-item"><strong>${item.name}</strong> (${item.size}) <span style="color:red; cursor:pointer; float:right" onclick="cart.splice(${index},1); updateCart();">✕</span><br>${item.price} DH</div>`;
+            container.innerHTML += `<div class="cart-item">
+                <strong>${item.name}</strong><br>
+                <small>Size: ${item.size}</small>
+                <span style="color:var(--red); cursor:pointer; float:right" onclick="cart.splice(${index},1); updateCart();">REMOVE</span>
+                <div style="margin-top:5px; color:var(--green)">${item.price} DH</div>
+            </div>`;
         });
         document.getElementById('cart-count').innerText = cart.length;
         document.getElementById('cart-total').innerText = `Total: ${total} DH`;
@@ -342,11 +337,21 @@
         const n = document.getElementById('cust-name').value;
         const p = document.getElementById('cust-phone').value;
         const c = document.getElementById('cust-city').value;
-        if(!n || !p || !c || cart.length === 0) return alert("Fill details");
+        if(!n || !p || !c || cart.length === 0) return alert("Please fill shipping details.");
         let items = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
         let total = document.getElementById('cart-total').innerText;
-        let msg = `*ORDER SPOTTSHOP*\n*Name:* ${n}\n*Phone:* ${p}\n*City:* ${c}\n\n*Items:*\n${items}\n\n*${total}*`;
+        let msg = `*SPOTTSHOP ORDER*\n*Customer:* ${n}\n*Phone:* ${p}\n*City:* ${c}\n\n*Items:*\n${items}\n\n*${total}*`;
         window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`);
+    }
+
+    // --- Helpers ---
+    function filterCategory(cat) {
+        const sections = document.querySelectorAll('.shop-section');
+        sections.forEach(s => s.classList.add('hidden'));
+        if(cat === 'all') sections.forEach(s => s.classList.remove('hidden'));
+        else document.getElementById(cat + '-sec').classList.remove('hidden');
+        if(document.getElementById('navMenu').classList.contains('active')) togglePanel('navMenu');
+        window.scrollTo({top: 0, behavior: 'smooth'});
     }
 
     function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
@@ -354,5 +359,4 @@
     function openLogin() { document.getElementById('loginModal').classList.add('active'); }
 </script>
 </body>
-            </html>
-    
+</html>
