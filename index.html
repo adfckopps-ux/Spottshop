@@ -6,244 +6,183 @@
     <title>SPOTTSHOP | Streetwear</title>
     <style>
         :root {
-            --bg-dark: #0a0a0a;
-            --card-bg: #111111;
-            --accent: #ffffff;
-            --text-gray: #888888;
+            --bg: #0a0a0a;
+            --card: #111;
+            --accent: #fff;
             --border: #222;
             --green: #00ff88;
-            --admin-red: #ff4444;
+            --red: #ff4444;
         }
 
-        body {
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg-dark);
-            color: var(--accent);
-            scroll-behavior: smooth;
-        }
-
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--accent); scroll-behavior: smooth; }
+        
         /* --- Navigation --- */
         nav {
-            padding: 15px 5%;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: rgba(10, 10, 10, 0.95);
-            z-index: 1000;
-            backdrop-filter: blur(10px);
+            padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,10,0.9); z-index: 1000; backdrop-filter: blur(10px);
         }
-
-        .admin-trigger {
-            font-size: 10px;
-            color: var(--text-gray);
-            cursor: pointer;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: 1px solid var(--border);
-            padding: 5px 10px;
-        }
-
-        .admin-trigger:hover { color: white; border-color: white; }
-
-        /* --- Admin Modal --- */
-        .modal-overlay {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.9); z-index: 3000;
-            display: none; justify-content: center; align-items: center;
-        }
-        .modal-overlay.active { display: flex; }
-        .login-box {
-            background: #111; padding: 40px; border: 1px solid var(--border);
-            width: 100%; max-width: 350px; text-align: center;
-        }
-        .login-box h2 { margin-bottom: 20px; letter-spacing: 2px; font-size: 1.2rem; }
-        
-        .remember-me {
-            display: flex; align-items: center; gap: 10px; font-size: 0.8rem;
-            color: var(--text-gray); margin-bottom: 20px; cursor: pointer;
-        }
-        .step-2 { display: none; }
-
-        /* --- Previous Elements Continued --- */
-        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; cursor: pointer; }
+        .admin-btn { font-size: 10px; color: #444; cursor: pointer; border: 1px solid #222; padding: 4px 8px; }
+        .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; }
         .nav-right { display: flex; gap: 20px; align-items: center; }
-        .cart-icon { cursor: pointer; position: relative; font-size: 1.2rem; }
-        #cart-count { position: absolute; top: -10px; right: -10px; background: white; color: black; font-size: 0.7rem; padding: 2px 6px; border-radius: 50%; font-weight: bold; }
-        
-        .side-panel {
-            position: fixed; top: 0; right: -100%; width: 320px; height: 100vh;
-            background: #0e0e0e; padding: 60px 20px; transition: 0.4s;
-            z-index: 2000; border-left: 1px solid var(--border); overflow-y: auto;
-        }
-        .side-panel.active { right: 0; }
-        
-        input {
-            width: 100%; background: #222; border: 1px solid var(--border);
-            padding: 12px; margin-bottom: 15px; color: white; box-sizing: border-box; outline: none;
-        }
 
+        /* --- Sections --- */
         .container { padding: 40px 5%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px; }
-        .product-card { background: var(--card-bg); padding: 15px; border: 1px solid var(--border); position: relative; }
-        .product-image { width: 100%; height: 400px; object-fit: cover; }
-        
-        .btn-action { width: 100%; padding: 15px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 10px; }
-        .btn-add { background: white; color: black; }
-        .btn-validate { background: var(--green); color: black; }
-        .btn-admin { background: var(--admin-red); color: white; margin-top: 10px; }
+        .section-title { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 30px; border-left: 3px solid white; padding-left: 15px; display: flex; justify-content: space-between; align-items: center; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
+        /* --- Product Cards --- */
+        .product-card { background: var(--card); border: 1px solid var(--border); padding: 15px; position: relative; transition: 0.3s; }
+        .product-image { width: 100%; height: 400px; object-fit: cover; margin-bottom: 15px; }
+        .price { font-weight: bold; font-size: 1.1rem; margin: 10px 0; }
+        
+        .btn { width: 100%; padding: 12px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; }
+        .btn-add { background: white; color: black; }
+        .btn-delete { background: var(--red); color: white; display: none; margin-top: 10px; }
+        .admin-mode .btn-delete { display: block; }
+        .admin-only { display: none; }
+        .admin-mode .admin-only { display: block; }
+        .admin-mode .coming-soon { display: none; }
+
+        /* --- Forms & Modals --- */
+        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; }
+        .modal.active { display: flex; }
+        .modal-content { background: #111; padding: 30px; border: 1px solid var(--border); width: 90%; max-width: 400px; }
+        input, select { width: 100%; background: #222; border: 1px solid #333; padding: 12px; margin-bottom: 15px; color: white; box-sizing: border-box; }
+
+        /* --- Side Panels --- */
+        .panel { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background: #0e0e0e; padding: 60px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); }
+        .panel.active { right: 0; }
     </style>
 </head>
 <body>
 
 <nav>
-    <div class="admin-trigger" onclick="toggleModal('adminModal')">Admin Login</div>
-    <div class="logo" onclick="window.scrollTo(0,0)">SPOTTSHOP</div>
+    <div class="admin-btn" onclick="openLogin()">ADMIN</div>
+    <div class="logo">SPOTTSHOP</div>
     <div class="nav-right">
-        <div class="cart-icon" onclick="toggleCart()">🛒 <span id="cart-count">0</span></div>
-        <div class="hamburger" onclick="toggleNav()">☰</div>
+        <div style="cursor:pointer" onclick="togglePanel('cartPanel')">🛒 <span id="cart-count">0</span></div>
+        <div style="cursor:pointer" onclick="togglePanel('navMenu')">☰</div>
     </div>
 </nav>
 
-<div class="modal-overlay" id="adminModal">
-    <div class="login-box">
-        <div id="loginStep1">
-            <h2>ADMIN ACCESS</h2>
-            <input type="email" id="adminEmail" placeholder="Email Address">
-            <input type="password" id="adminPass" placeholder="Password">
-            <label class="remember-me">
-                <input type="checkbox" style="width: auto; margin: 0;"> Don't forget me
-            </label>
-            <button class="btn-action btn-add" onclick="goToStep2()">SEND CODE</button>
-            <button class="btn-action" style="background:transparent; color: #555;" onclick="toggleModal('adminModal')">CANCEL</button>
-        </div>
-
-        <div id="loginStep2" class="step-2">
-            <h2>VERIFICATION</h2>
-            <p style="font-size: 0.8rem; color: var(--text-gray); margin-bottom: 20px;">
-                A 6-digit code was sent to your email.
-            </p>
-            <input type="text" id="vCode" placeholder="000000" maxlength="6" style="text-align: center; letter-spacing: 5px; font-size: 1.5rem;">
-            <button class="btn-action btn-validate" onclick="finishLogin()">VERIFY & LOGIN</button>
-        </div>
-    </div>
-</div>
-
-<div class="side-panel" id="navMenu">
-    <div style="cursor:pointer; margin-bottom: 40px;" onclick="toggleNav()">✕ CLOSE</div>
-    <a href="#top" style="display:block; color:white; text-decoration:none; margin-bottom:20px; font-weight:bold;">HOME</a>
-    <a href="#jeans" style="display:block; color:white; text-decoration:none; margin-bottom:20px; font-weight:bold;">BAGGY JEANS</a>
-    <a href="#accessories" style="display:block; color:white; text-decoration:none; margin-bottom:20px; font-weight:bold;">ACCESSORIES</a>
-</div>
-
-<div class="side-panel" id="cartPanel">
-    <div style="cursor:pointer; margin-bottom: 40px;" onclick="toggleCart()">✕ CLOSE</div>
-    <h2 style="letter-spacing: 2px;">YOUR CART</h2>
-    <div id="cart-items-container"></div>
-    <div id="cart-total" style="margin: 20px 0; font-weight: bold; font-size: 1.2rem;">Total: 0 DH</div>
-    <button class="btn-action btn-add" id="order-init-btn" onclick="showForm()">PROCEED TO ORDER</button>
-    
-    <div class="checkout-form" id="checkoutForm" style="display:none;">
-        <input type="text" id="cust-name" placeholder="Full Name">
-        <input type="tel" id="cust-phone" placeholder="Phone Number">
-        <input type="text" id="cust-city" placeholder="City">
-        <button class="btn-action btn-validate" onclick="validateAndSend()">VALIDATE VIA WHATSAPP</button>
-    </div>
+<div class="panel" id="navMenu">
+    <div onclick="togglePanel('navMenu')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
+    <a href="#jeans" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:20px;">BAGGY JEANS</a>
+    <a href="#jackets" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:20px;">JACKETS</a>
+    <a href="#hoodies" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:20px;">HOODIES</a>
+    <a href="#accessories" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:20px;">ACCESSORIES</a>
 </div>
 
 <div class="container" id="jeans">
-    <h2 style="margin-bottom: 40px;">BAGGY JEANS</h2>
-    <div class="grid">
-        <div class="product-card">
-            <img src="https://i.postimg.cc/xjkmYFMB/IMG-20260104-202444-277.jpg" class="product-image">
-            <h3>Black Distressed Baggy</h3>
-            <p>229 DH</p>
-            <select id="size-d1"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-            <button class="btn-action btn-add" onclick="addToCart('Black Distressed (V1)', 229, 'size-d1')">ADD TO CART</button>
+    <div class="section-title">
+        BAGGY JEANS
+        <button class="admin-only btn" style="width:auto; padding:5px 15px;" onclick="openProductForm('jeans-grid')">+ Add Jean</button>
+    </div>
+    <div class="grid" id="jeans-grid">
         </div>
-        <div class="product-card">
-            <img src="https://i.postimg.cc/L8G7CWt0/IMG-20260104-154454-515.jpg" class="product-image">
-            <h3>Black Distressed Baggy</h3>
-            <p>229 DH</p>
-            <select id="size-d2"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-            <button class="btn-action btn-add" onclick="addToCart('Black Distressed (V2)', 229, 'size-d2')">ADD TO CART</button>
-        </div>
-        <div class="product-card">
-            <img src="https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" class="product-image">
-            <h3>Black Baggy Jeans</h3>
-            <p>229 DH</p>
-            <select id="size-b1"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-            <button class="btn-action btn-add" onclick="addToCart('Black Baggy', 229, 'size-b1')">ADD TO CART</button>
-        </div>
+</div>
+
+<div class="container" id="jackets">
+    <div class="section-title">
+        JACKETS 
+        <span class="coming-soon" style="font-size: 10px; color:#444">COMING SOON</span>
+        <button class="admin-only btn" style="width:auto; padding:5px 15px;" onclick="openProductForm('jackets-grid')">+ Add Jacket</button>
+    </div>
+    <div class="grid" id="jackets-grid"></div>
+</div>
+
+<div class="container" id="hoodies">
+    <div class="section-title">
+        HOODIES 
+        <span class="coming-soon" style="font-size: 10px; color:#444">COMING SOON</span>
+        <button class="admin-only btn" style="width:auto; padding:5px 15px;" onclick="openProductForm('hoodies-grid')">+ Add Hoodie</button>
+    </div>
+    <div class="grid" id="hoodies-grid"></div>
+</div>
+
+<div class="modal" id="loginModal">
+    <div class="modal-content">
+        <h2>ADMIN LOGIN</h2>
+        <input type="password" id="adminSecret" placeholder="Enter Secret Code">
+        <button class="btn btn-add" onclick="checkLogin()">LOGIN</button>
+        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('loginModal')">CANCEL</button>
+    </div>
+</div>
+
+<div class="modal" id="productModal">
+    <div class="modal-content">
+        <h2 id="modal-title">ADD PRODUCT</h2>
+        <input type="text" id="p-name" placeholder="Product Name">
+        <input type="text" id="p-img" placeholder="Image Link (URL)">
+        <input type="text" id="p-price" placeholder="Price (e.g. 229dh)">
+        <button class="btn btn-add" onclick="addNewProduct()">SAVE PRODUCT</button>
+        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('productModal')">CANCEL</button>
     </div>
 </div>
 
 <script>
-    let cart = [];
-    const myWhatsApp = "212775029974";
+    let currentGridTarget = '';
+    const secretCode = "SPOTTSHOP27_45";
 
-    function toggleNav() { document.getElementById('navMenu').classList.toggle('active'); }
-    function toggleCart() { document.getElementById('cartPanel').classList.toggle('active'); }
-    function toggleModal(id) { document.getElementById(id).classList.toggle('active'); }
+    // Data for initial load
+    const initialJeans = [
+        { name: "Black Baggy Jeans", price: "229dh", img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
+        { name: "Grey Baggy Jeans", price: "229dh", img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" },
+        { name: "Light Blue Baggy", price: "229dh", img: "https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" },
+        { name: "Black Distressed Baggy", price: "229dh", img: "https://i.postimg.cc/xjkmYFMB/IMG-20260104-202444-277.jpg" },
+        { name: "Black Distressed V2", price: "229dh", img: "https://i.postimg.cc/L8G7CWt0/IMG-20260104-154454-515.jpg" }
+    ];
 
-    // Admin Logic
-    function goToStep2() {
-        const email = document.getElementById('adminEmail').value;
-        if(!email.includes('@')) return alert("Enter a valid admin email");
+    window.onload = () => {
+        initialJeans.forEach(j => renderProduct('jeans-grid', j.name, j.price, j.img));
+    };
+
+    function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+
+    function openLogin() { document.getElementById('loginModal').classList.add('active'); }
+
+    function checkLogin() {
+        const input = document.getElementById('adminSecret').value;
+        if(input === secretCode) {
+            document.body.classList.add('admin-mode');
+            closeModal('loginModal');
+            alert("Admin Mode Active. You can now add/delete products.");
+        } else {
+            alert("Incorrect Secret Code.");
+        }
+    }
+
+    function openProductForm(gridId) {
+        currentGridTarget = gridId;
+        document.getElementById('productModal').classList.add('active');
+    }
+
+    function addNewProduct() {
+        const name = document.getElementById('p-name').value;
+        const img = document.getElementById('p-img').value;
+        const price = document.getElementById('p-price').value;
+        if(!name || !img || !price) return alert("Fill all fields");
         
-        // In a real app, this is where the backend sends the email
-        document.getElementById('loginStep1').style.display = 'none';
-        document.getElementById('loginStep2').style.display = 'block';
-        console.log("Simulated 2FA Code Sent to: " + email);
+        renderProduct(currentGridTarget, name, price, img);
+        closeModal('productModal');
     }
 
-    function finishLogin() {
-        const code = document.getElementById('vCode').value;
-        if(code.length < 6) return alert("Enter the 6-digit code");
-        alert("Access Granted. Welcome back, Admin.");
-        toggleModal('adminModal');
-    }
-
-    // Shopping Logic
-    function addToCart(name, price, sizeId) {
-        const size = document.getElementById(sizeId).value;
-        cart.push({ name, price, size });
-        updateCartUI();
-        toggleCart();
-    }
-
-    function updateCartUI() {
-        const container = document.getElementById('cart-items-container');
-        let total = 0;
-        container.innerHTML = "";
-        cart.forEach(item => {
-            total += item.price;
-            container.innerHTML += `<div style="margin-bottom:10px; font-size:0.8rem; border-bottom:1px solid #222; padding-bottom:5px;">${item.name} (${item.size}) - ${item.price}DH</div>`;
-        });
-        document.getElementById('cart-count').innerText = cart.length;
-        document.getElementById('cart-total').innerText = `Total: ${total} DH`;
-    }
-
-    function showForm() {
-        document.getElementById('checkoutForm').style.display = 'block';
-        document.getElementById('order-init-btn').style.display = 'none';
-    }
-
-    function validateAndSend() {
-        const name = document.getElementById('cust-name').value;
-        const phone = document.getElementById('cust-phone').value;
-        const city = document.getElementById('cust-city').value;
-        if(!name || !phone || !city) return alert("Fill all details");
-        
-        let itemsList = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
-        let total = cart.reduce((sum, i) => sum + i.price, 0);
-        let message = `*NEW ORDER - SPOTTSHOP*\n\n*NAME:* ${name}\n*PHONE:* ${phone}\n*CITY:* ${city}\n\n*ITEMS:*\n${itemsList}\n\n*TOTAL:* ${total} DH`;
-        window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(message)}`, '_blank');
+    function renderProduct(gridId, name, price, img) {
+        const grid = document.getElementById(gridId);
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+            <img src="${img}" class="product-image">
+            <h3>${name}</h3>
+            <div class="price">${price}</div>
+            <select><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+            <button class="btn btn-add">ADD TO CART</button>
+            <button class="btn btn-delete" onclick="this.parentElement.remove()">DELETE ARTICLE</button>
+        `;
+        grid.appendChild(card);
     }
 </script>
+
 </body>
 </html>
