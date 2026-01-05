@@ -3,65 +3,81 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPOTTSHOP | Official</title>
+    <title>SPOTTSHOP | Official Store</title>
     <style>
         :root {
             --bg: #0a0a0a;
-            --card: rgba(18, 18, 18, 0.95);
+            --card: rgba(18, 18, 18, 0.98);
             --accent: #fff;
             --green: #00ff88;
             --red: #ff4444;
             --border: #222;
         }
 
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--accent); }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--accent); overflow-x: hidden; }
 
-        /* Background Photo */
+        /* Premium Background */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background-image: url('https://images.unsplash.com/photo-1552910309-d53b47444914?q=80&w=2000');
-            background-size: cover; background-position: center; opacity: 0.2; z-index: -1;
+            background-size: cover; background-position: center; opacity: 0.15; z-index: -1;
         }
 
         /* Hero Banner */
-        #hero-banner { background: white; padding: 15px; text-align: center; cursor: pointer; position: relative; }
-        #hero-text { color: black; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; font-size: 11px; }
+        #hero-banner { background: white; padding: 12px; text-align: center; cursor: pointer; position: relative; z-index: 1001; }
+        #hero-text { color: black; font-weight: 900; letter-spacing: 3px; text-transform: uppercase; font-size: 10px; }
 
         /* Navigation */
         nav {
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border); position: sticky; top: 0; 
-            background: rgba(10,10,10,0.9); z-index: 1000; backdrop-filter: blur(10px);
+            background: rgba(10,10,10,0.95); z-index: 1000; backdrop-filter: blur(15px);
         }
-        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 5px; cursor: pointer; }
+        .logo { font-size: 1.6rem; font-weight: 900; letter-spacing: 6px; cursor: pointer; transition: 0.3s; }
+        .logo:hover { color: var(--green); }
 
-        /* Shop Sections */
-        .container { padding: 40px 5%; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-        .product-card { background: var(--card); border: 1px solid var(--border); padding: 20px; position: relative; }
-        .product-image { width: 100%; height: 400px; object-fit: cover; margin-bottom: 15px; }
+        /* Grid & Sections */
+        .container { padding: 60px 5% 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 40px; min-height: 100px; position: relative; }
+        
+        /* Coming Soon Logic */
+        .grid:empty::after {
+            content: "COLLECTION COMING SOON";
+            display: block; width: 100%; text-align: center; padding: 50px 0;
+            color: #333; font-weight: 900; letter-spacing: 5px; font-size: 12px;
+            grid-column: 1 / -1;
+        }
+
+        .product-card { background: var(--card); border: 1px solid var(--border); padding: 0; position: relative; overflow: hidden; }
+        .product-image { width: 100%; height: 480px; object-fit: cover; transition: 0.5s; }
+        .product-card:hover .product-image { transform: scale(1.05); }
+        .card-body { padding: 20px; }
         
         /* Pricing & Badges */
-        .price-row { margin: 10px 0; display: flex; align-items: center; gap: 10px; }
-        .old-price { text-decoration: line-through; color: #666; font-size: 0.9rem; }
-        .current-price { color: var(--green); font-size: 1.3rem; font-weight: bold; }
-        .discount-badge { background: var(--red); color: white; padding: 5px 10px; font-size: 0.7rem; position: absolute; top: 25px; right: 25px; font-weight: bold; }
+        .price-row { margin: 10px 0; display: flex; align-items: center; gap: 12px; }
+        .old-price { text-decoration: line-through; color: #555; font-size: 0.9rem; }
+        .current-price { color: var(--green); font-size: 1.4rem; font-weight: bold; }
+        .discount-badge { background: var(--red); color: white; padding: 6px 12px; font-size: 11px; position: absolute; top: 15px; left: 15px; font-weight: 900; z-index: 10; }
 
-        /* Admin Controls */
-        .admin-only { display: none; margin-top: 15px; border-top: 1px dashed #444; padding-top: 10px; }
+        /* Admin UI */
+        .admin-only { display: none; background: #111; padding: 15px; border-top: 1px dashed #333; }
         .admin-mode .admin-only { display: block; }
-        .admin-btn { font-size: 10px; background: #222; color: #666; border: none; padding: 5px; cursor: pointer; }
+        .admin-label { font-size: 10px; color: #666; text-transform: uppercase; margin-bottom: 5px; display: block; }
 
         /* Buttons & Inputs */
-        .btn { width: 100%; padding: 14px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; margin-top: 10px; }
-        .btn-add { background: white; color: black; }
+        .btn { width: 100%; padding: 16px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; letter-spacing: 2px; transition: 0.3s; }
+        .btn-add { background: white; color: black; font-size: 12px; }
         .btn-add:hover { background: var(--green); }
-        input, select { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 12px; color: white; margin-bottom: 10px; box-sizing: border-box;}
+        input, select { width: 100%; background: #151515; border: 1px solid #222; padding: 12px; color: white; margin-bottom: 10px; font-family: inherit; }
 
-        /* Cart/Panel UI */
-        .panel { position: fixed; top: 0; right: -100%; width: 340px; height: 100vh; background: #0e0e0e; padding: 40px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); box-sizing: border-box; }
+        /* Panels */
+        .panel { position: fixed; top: 0; right: -100%; width: 380px; height: 100vh; background: #0a0a0a; padding: 40px 30px; transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1); z-index: 2000; border-left: 1px solid var(--border); box-sizing: border-box; overflow-y: auto; }
         .panel.active { right: 0; }
         .hidden { display: none !important; }
+        .close-btn { cursor: pointer; font-size: 12px; letter-spacing: 2px; color: #555; margin-bottom: 30px; display: inline-block; }
+        .close-btn:hover { color: white; }
+
+        @media (max-width: 600px) { .panel { width: 100%; } }
     </style>
 </head>
 <body>
@@ -71,66 +87,80 @@
 </div>
 
 <nav>
-    <div onclick="openLogin()" style="font-size: 10px; color: #333; cursor: pointer;">ADMIN</div>
+    <div onclick="openLogin()" style="font-size: 10px; color: #222; cursor: pointer; font-weight: 900;">ADMIN</div>
     <div class="logo" onclick="showCat('all')">SPOTTSHOP</div>
-    <div style="display:flex; gap:20px;">
-        <div class="admin-mode admin-only" onclick="togglePanel('adminPanel')" style="color:var(--green); cursor:pointer">DASHBOARD</div>
-        <div onclick="togglePanel('cartPanel')" style="cursor:pointer">🛒 <span id="cart-count">0</span></div>
-        <div onclick="togglePanel('navPanel')" style="cursor:pointer">☰</div>
+    <div style="display:flex; gap:25px; align-items: center;">
+        <div id="dash-link" class="admin-only" onclick="togglePanel('adminPanel')" style="color:var(--green); cursor:pointer; font-size: 12px; font-weight: bold;">+ ADD ITEM</div>
+        <div onclick="togglePanel('cartPanel')" style="cursor:pointer; font-size: 18px;">🛒 <span id="cart-count" style="font-size: 12px; background: var(--red); color: white; padding: 2px 6px; border-radius: 10px;">0</span></div>
+        <div onclick="togglePanel('navPanel')" style="cursor:pointer; font-size: 20px;">☰</div>
     </div>
 </nav>
 
 <div class="panel" id="adminPanel">
-    <div onclick="togglePanel('adminPanel')" style="margin-bottom:20px; cursor:pointer">✕ CLOSE</div>
-    <h2>ADMIN TOOLS</h2>
-    <p>ADD NEW PRODUCT</p>
-    <input type="text" id="p-name" placeholder="Product Name">
-    <input type="text" id="p-img" placeholder="Image URL">
-    <input type="number" id="p-price" placeholder="Price (DH)">
+    <span class="close-btn" onclick="togglePanel('adminPanel')">✕ CLOSE</span>
+    <h2 style="letter-spacing: 3px;">NEW DROP</h2>
+    <input type="text" id="p-name" placeholder="Article Name">
+    <input type="text" id="p-img" placeholder="Image URL (PostImg Link)">
+    <input type="number" id="p-price" placeholder="Base Price (DH)">
     <select id="p-cat">
         <option value="jeans-grid">Baggy Jeans</option>
+        <option value="hoodies-grid">Hoodies</option>
+        <option value="jackets-grid">Jackets</option>
         <option value="acc-grid">Accessories</option>
     </select>
-    <button class="btn btn-add" onclick="addNewProduct()">PUBLISH</button>
+    <button class="btn btn-add" onclick="addNewProduct()">PUBLISH TO SHOP</button>
 </div>
 
 <div class="panel" id="navPanel">
-    <div onclick="togglePanel('navPanel')" style="margin-bottom:20px; cursor:pointer">✕ CLOSE</div>
-    <h2 onclick="showCat('all')">ALL PRODUCTS</h2>
-    <h2 onclick="showCat('jeans')">BAGGY JEANS</h2>
-    <h2 onclick="showCat('acc')">ACCESSORIES</h2>
+    <span class="close-btn" onclick="togglePanel('navPanel')">✕ CLOSE</span>
+    <h2 onclick="showCat('all')" style="cursor:pointer">VIEW ALL</h2>
+    <h2 onclick="showCat('jeans')" style="cursor:pointer">BAGGY JEANS</h2>
+    <h2 onclick="showCat('hoodies')" style="cursor:pointer">HOODIES</h2>
+    <h2 onclick="showCat('jackets')" style="cursor:pointer">JACKETS</h2>
+    <h2 onclick="showCat('acc')" style="cursor:pointer">ACCESSORIES</h2>
 </div>
 
 <div class="panel" id="cartPanel">
-    <div onclick="togglePanel('cartPanel')" style="margin-bottom:20px; cursor:pointer">✕ CLOSE</div>
-    <h2>YOUR CART</h2>
+    <span class="close-btn" onclick="togglePanel('cartPanel')">✕ CLOSE</span>
+    <h2 style="letter-spacing: 3px;">YOUR BAG</h2>
     <div id="cart-items"></div>
-    <div id="cart-total" style="font-size: 1.5rem; margin-top: 20px;">Total: 0 DH</div>
-    <button class="btn btn-add" onclick="checkout()">ORDER VIA WHATSAPP</button>
+    <div id="cart-total" style="font-size: 1.8rem; margin-top: 30px; font-weight: 900; border-top: 1px solid #222; padding-top: 20px;">0 DH</div>
+    <button class="btn btn-add" style="margin-top: 20px;" onclick="checkout()">ORDER VIA WHATSAPP</button>
 </div>
 
-<div id="jeans-section" class="container">
-    <h1 style="letter-spacing:5px">BAGGY JEANS</h1>
+<div id="jeans-section" class="container shop-sec">
+    <h1 style="letter-spacing:8px; font-size: 1.2rem; color: #444;">BAGGY JEANS</h1>
     <div class="grid" id="jeans-grid"></div>
 </div>
 
-<div id="acc-section" class="container">
-    <h1 style="letter-spacing:5px">ACCESSORIES</h1>
+<div id="hoodies-section" class="container shop-sec">
+    <h1 style="letter-spacing:8px; font-size: 1.2rem; color: #444;">HOODIES</h1>
+    <div class="grid" id="hoodies-grid"></div>
+</div>
+
+<div id="jackets-section" class="container shop-sec">
+    <h1 style="letter-spacing:8px; font-size: 1.2rem; color: #444;">JACKETS</h1>
+    <div class="grid" id="jackets-grid"></div>
+</div>
+
+<div id="acc-section" class="container shop-sec">
+    <h1 style="letter-spacing:8px; font-size: 1.2rem; color: #444;">ACCESSORIES</h1>
     <div class="grid" id="acc-grid">
         <div class="product-card">
-            <button class="admin-mode admin-only btn" style="background:var(--red); color:white" onclick="this.parentElement.remove()">DELETE</button>
-            <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:15px;">
-                <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg" style="width:100%; height:200px; object-fit:cover;">
-                <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg" style="width:100%; height:200px; object-fit:cover;">
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:2px;">
+                <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg" style="width:100%; height:240px; object-fit:cover;">
+                <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg" style="width:100%; height:240px; object-fit:cover;">
             </div>
-            <h3>WALLET CHAIN</h3>
-            <div class="price-row"><span class="current-price">1: 50 | 2: 80 | 3: 100 DH</span></div>
-            <select id="size-chain">
-                <option value="1 Piece (50 DH)">1 Piece - 50 DH</option>
-                <option value="2 Pieces (80 DH)">2 Pieces - 80 DH</option>
-                <option value="3 Pieces (100 DH)">3 Pieces - 100 DH</option>
-            </select>
-            <button class="btn btn-add" onclick="addChainToCart()">ADD TO CART</button>
+            <div class="card-body">
+                <h3>STAINLESS WALLET CHAIN</h3>
+                <div class="price-row"><span class="current-price">50 - 100 DH</span></div>
+                <select id="size-chain">
+                    <option value="1 Piece (50 DH)">1 Piece - 50 DH</option>
+                    <option value="2 Pieces (80 DH)">2 Pieces - 80 DH</option>
+                    <option value="3 Pieces (100 DH)">3 Pieces - 100 DH</option>
+                </select>
+                <button class="btn btn-add" onclick="addChainToCart()">ADD TO CART</button>
+            </div>
         </div>
     </div>
 </div>
@@ -139,59 +169,61 @@
     let cart = [];
     const myWhatsApp = "212775029974";
 
-    // Initial Database
-    const initialProducts = [
-        { cat: 'jeans-grid', name: "Black Ultra Baggy", price: 250, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
-        { cat: 'jeans-grid', name: "Vintage Grey Jeans", price: 230, img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" }
+    // Data persistence
+    let products = JSON.parse(localStorage.getItem('spott_db')) || [
+        { cat: 'jeans-grid', name: "Black Ultra Baggy", price: 250, disc: 0, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
+        { cat: 'jeans-grid', name: "Vintage Grey Jeans", price: 230, disc: 15, img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" }
     ];
 
-    window.onload = () => { initialProducts.forEach(p => createCard(p.cat, p.name, p.price, p.img)); };
+    window.onload = () => { renderShop(); };
 
-    function createCard(gridId, name, price, img) {
-        const grid = document.getElementById(gridId);
-        const id = Date.now() + Math.random();
-        const card = document.createElement('div');
-        card.className = 'product-card';
-        card.setAttribute('data-base-price', price);
+    function renderShop() {
+        // Clear all grids except accessories (to keep static chain)
+        document.getElementById('jeans-grid').innerHTML = "";
+        document.getElementById('hoodies-grid').innerHTML = "";
+        document.getElementById('jackets-grid').innerHTML = "";
         
-        card.innerHTML = `
-            <div class="badge-area"></div>
-            <img src="${img}" class="product-image">
-            <h3>${name.toUpperCase()}</h3>
-            <div class="price-row">
-                <span class="old-area"></span>
-                <span class="current-price display-price">${price} DH</span>
-            </div>
-            <select id="size-${id}"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
-            <button class="btn btn-add" onclick="addToCart('${name}', '${id}')">ADD TO CART</button>
+        products.forEach((p, index) => {
+            const grid = document.getElementById(p.cat);
+            if(!grid) return;
+
+            const finalPrice = Math.round(p.price * (1 - (p.disc || 0) / 100));
+            const card = document.createElement('div');
+            card.className = 'product-card';
             
-            <div class="admin-only">
-                <label style="font-size:10px; color:#666">SET DISCOUNT %</label>
-                <input type="number" placeholder="0" oninput="applyDiscount(this, ${price})" style="padding:5px; margin-bottom:5px;">
-                <button class="btn" style="background:var(--red); color:white; font-size:10px; padding:5px" onclick="this.parentElement.parentElement.remove()">DELETE PRODUCT</button>
-            </div>
-        `;
-        grid.appendChild(card);
+            card.innerHTML = `
+                ${p.disc > 0 ? `<div class="discount-badge">-${p.disc}%</div>` : ''}
+                <img src="${p.img}" class="product-image">
+                <div class="card-body">
+                    <h3>${p.name.toUpperCase()}</h3>
+                    <div class="price-row">
+                        ${p.disc > 0 ? `<span class="old-price">${p.price} DH</span>` : ''}
+                        <span class="current-price">${finalPrice} DH</span>
+                    </div>
+                    <select id="size-${index}"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+                    <button class="btn btn-add" onclick="addToCart(${index})">ADD TO CART</button>
+                    
+                    <div class="admin-only">
+                        <span class="admin-label">Set Discount %</span>
+                        <input type="number" value="${p.disc || 0}" onchange="updateDiscount(${index}, this.value)">
+                        <button class="btn" style="background:var(--red); color:white; font-size:10px; padding:8px; margin-top:5px;" onclick="deleteProduct(${index})">DELETE ARTICLE</button>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+        localStorage.setItem('spott_db', JSON.stringify(products));
     }
 
-    function applyDiscount(input, basePrice) {
-        const card = input.parentElement.parentElement;
-        const discount = parseInt(input.value) || 0;
-        const displayPrice = card.querySelector('.display-price');
-        const oldArea = card.querySelector('.old-area');
-        const badgeArea = card.querySelector('.badge-area');
+    function updateDiscount(index, val) {
+        products[index].disc = parseInt(val) || 0;
+        renderShop();
+    }
 
-        if (discount > 0) {
-            const finalPrice = Math.round(basePrice * (1 - discount / 100));
-            displayPrice.innerText = `${finalPrice} DH`;
-            oldArea.innerHTML = `<span class="old-price">${basePrice} DH</span>`;
-            badgeArea.innerHTML = `<div class="discount-badge">-${discount}%</div>`;
-            displayPrice.setAttribute('data-current', finalPrice);
-        } else {
-            displayPrice.innerText = `${basePrice} DH`;
-            oldArea.innerHTML = '';
-            badgeArea.innerHTML = '';
-            displayPrice.removeAttribute('data-current');
+    function deleteProduct(index) {
+        if(confirm("Delete this product permanently?")) {
+            products.splice(index, 1);
+            renderShop();
         }
     }
 
@@ -201,16 +233,21 @@
         const p = document.getElementById('p-price').value;
         const c = document.getElementById('p-cat').value;
         if(n && i && p) {
-            createCard(c, n, p, i);
+            products.push({ cat: c, name: n, price: parseInt(p), disc: 0, img: i });
+            renderShop();
             togglePanel('adminPanel');
+            // Clear fields
+            document.getElementById('p-name').value = "";
+            document.getElementById('p-img').value = "";
+            document.getElementById('p-price').value = "";
         }
     }
 
-    function addToCart(name, id) {
-        const card = document.getElementById(`size-${id}`).parentElement;
-        const price = card.querySelector('.display-price').getAttribute('data-current') || card.getAttribute('data-base-price');
-        const size = document.getElementById(`size-${id}`).value;
-        cart.push({ name, price: parseInt(price), size });
+    function addToCart(index) {
+        const p = products[index];
+        const finalPrice = Math.round(p.price * (1 - (p.disc || 0) / 100));
+        const size = document.getElementById(`size-${index}`).value;
+        cart.push({ name: p.name, price: finalPrice, size });
         updateCart();
     }
 
@@ -227,36 +264,35 @@
         let total = 0;
         cart.forEach((item, index) => {
             total += item.price;
-            container.innerHTML += `<div style="padding:10px 0; border-bottom:1px solid #222">
-                ${item.name} (${item.size}) - ${item.price} DH 
-                <span style="color:red; float:right; cursor:pointer" onclick="cart.splice(${index},1); updateCart()">✕</span>
+            container.innerHTML += `<div style="padding:15px 0; border-bottom:1px solid #222; display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-size:13px;"><strong>${item.name}</strong><br><small style="color:#666">${item.size}</small></div>
+                <div style="font-weight:bold;">${item.price} DH <span style="color:var(--red); cursor:pointer; margin-left:10px;" onclick="cart.splice(${index},1); updateCart()">✕</span></div>
             </div>`;
         });
         document.getElementById('cart-count').innerText = cart.length;
-        document.getElementById('cart-total').innerText = `Total: ${total} DH`;
+        document.getElementById('cart-total').innerText = `${total} DH`;
     }
 
     function checkout() {
-        if(cart.length === 0) return alert("Cart empty");
+        if(cart.length === 0) return alert("Your bag is empty");
         let items = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
         let total = document.getElementById('cart-total').innerText;
-        let msg = `*NEW ORDER FROM SPOTTSHOP*\n\n*Items:*\n${items}\n\n*${total}*`;
+        let msg = `*NEW ORDER FROM SPOTTSHOP*\n\n*Items:*\n${items}\n\n*Total: ${total}*`;
         window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`);
     }
 
     function openLogin() {
-        let code = prompt("Admin Code:");
-        if(code === "SPOTTSHOP27_45") {
+        if(prompt("Admin Code:") === "SPOTTSHOP27_45") {
             document.body.classList.add('admin-mode');
-            alert("Admin mode active. You can now edit discounts and delete items directly on the cards.");
+            document.getElementById('dash-link').style.display = "block";
+            alert("ADMIN ACTIVE: Set discounts directly on product cards.");
         }
     }
 
     function showCat(type) {
-        document.getElementById('jeans-section').classList.add('hidden');
-        document.getElementById('acc-section').classList.add('hidden');
-        if(type === 'all' || type === 'jeans') document.getElementById('jeans-section').classList.remove('hidden');
-        if(type === 'all' || type === 'acc') document.getElementById('acc-section').classList.remove('hidden');
+        document.querySelectorAll('.shop-sec').forEach(s => s.classList.add('hidden'));
+        if(type === 'all') document.querySelectorAll('.shop-sec').forEach(s => s.classList.remove('hidden'));
+        else document.getElementById(type + '-section').classList.remove('hidden');
         togglePanel('navPanel');
     }
 
@@ -269,4 +305,5 @@
     function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
 </script>
 </body>
-</html>
+                    </html>
+                    
