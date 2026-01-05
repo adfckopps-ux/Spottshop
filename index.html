@@ -33,33 +33,32 @@
         /* --- Product Cards --- */
         .product-card { background: var(--card); border: 1px solid var(--border); padding: 15px; position: relative; }
         .product-image { width: 100%; height: 400px; object-fit: cover; margin-bottom: 15px; }
+        
+        /* Wallet Chain Images */
+        .chain-images { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 15px; }
+        .chain-images img { width: 100%; height: 200px; object-fit: cover; border: 1px solid var(--border); }
+
         .price-tag { font-weight: bold; font-size: 1.1rem; margin: 10px 0; color: var(--green); }
         
         .btn { width: 100%; padding: 12px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; transition: 0.3s; }
         .btn-add { background: white; color: black; }
         .btn-delete { background: var(--red); color: white; display: none; margin-top: 10px; }
         
-        /* Admin Classes */
         .admin-mode .btn-delete { display: block; }
         .admin-only { display: none; }
         .admin-mode .admin-only { display: block; }
         .admin-mode .coming-soon { display: none; }
 
-        /* --- Side Panels --- */
+        /* --- Panels --- */
         .panel { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background: #0e0e0e; padding: 60px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); overflow-y: auto; }
         .panel.active { right: 0; }
         .cart-item { padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
 
-        /* --- Forms & Modals --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-content { background: #111; padding: 30px; border: 1px solid var(--border); width: 90%; max-width: 400px; }
         input, select { width: 100%; background: #222; border: 1px solid #333; padding: 12px; margin-bottom: 15px; color: white; box-sizing: border-box; }
         .checkout-form { display: none; margin-top: 20px; }
-
-        /* Accessories Specific */
-        .image-stack { display: flex; gap: 5px; margin-bottom: 15px; }
-        .image-stack img { width: 50%; height: 180px; object-fit: cover; border: 1px solid var(--border); }
     </style>
 </head>
 <body>
@@ -75,6 +74,7 @@
 
 <div class="panel" id="navMenu">
     <div onclick="togglePanel('navMenu')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
+    <a href="#" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">HOME</a>
     <a href="#jeans" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">BAGGY JEANS</a>
     <a href="#accessories" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">ACCESSORIES</a>
     <a href="#jackets" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">JACKETS</a>
@@ -95,29 +95,29 @@
     </div>
 </div>
 
-<div class="container" id="jeans">
-    <div class="section-title">BAGGY JEANS <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('jeans-grid')">+ ADD</button></div>
-    <div class="grid" id="jeans-grid"></div>
-</div>
-
 <div class="container" id="accessories">
     <div class="section-title">ACCESSORIES <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('acc-grid')">+ ADD</button></div>
     <div class="grid" id="acc-grid">
         <div class="product-card">
-            <div class="image-stack">
+            <div class="chain-images">
                 <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg">
                 <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg">
             </div>
             <h3>Wallet Chain</h3>
-            <div class="price-tag">Bundle Pricing</div>
+            <div class="price-tag">1 for 50 | 2 for 80 | 3 for 100 DH</div>
             <select id="size-chain">
-                <option value="1 (50 DH)">1 Chain - 50 DH</option>
-                <option value="2 (80 DH)">2 Chains - 80 DH</option>
-                <option value="3 (100 DH)">3 Chains - 100 DH</option>
+                <option value="1 (50 DH)">1 Piece - 50 DH</option>
+                <option value="2 (80 DH)">2 Pieces - 80 DH</option>
+                <option value="3 (100 DH)">3 Pieces - 100 DH</option>
             </select>
             <button class="btn btn-add" onclick="addChainToCart()">ADD TO CART</button>
         </div>
     </div>
+</div>
+
+<div class="container" id="jeans">
+    <div class="section-title">BAGGY JEANS <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('jeans-grid')">+ ADD</button></div>
+    <div class="grid" id="jeans-grid"></div>
 </div>
 
 <div class="container" id="jackets">
@@ -132,9 +132,9 @@
 
 <div class="modal" id="loginModal">
     <div class="modal-content">
-        <h2>ADMIN CODE</h2>
-        <input type="password" id="adminSecret" placeholder="••••••••">
-        <button class="btn btn-add" onclick="checkLogin()">VERIFY</button>
+        <h2>ADMIN ACCESS</h2>
+        <input type="password" id="adminSecret" placeholder="Secret Code">
+        <button class="btn btn-add" onclick="checkLogin()">LOGIN</button>
         <button class="btn" style="background:transparent; color:#555" onclick="closeModal('loginModal')">CANCEL</button>
     </div>
 </div>
@@ -143,8 +143,8 @@
     <div class="modal-content">
         <h2>ADD ARTICLE</h2>
         <input type="text" id="p-name" placeholder="Name">
-        <input type="text" id="p-img" placeholder="Image Link">
-        <input type="number" id="p-price" placeholder="Price (DH)">
+        <input type="text" id="p-img" placeholder="Image URL">
+        <input type="number" id="p-price" placeholder="Price (Numbers)">
         <button class="btn btn-add" onclick="saveNewProduct()">SAVE</button>
         <button class="btn" style="background:transparent; color:#555" onclick="closeModal('productModal')">CANCEL</button>
     </div>
@@ -178,10 +178,7 @@
         } else { alert("Wrong Code"); }
     }
 
-    function openProductForm(gridId) {
-        currentGrid = gridId;
-        document.getElementById('productModal').classList.add('active');
-    }
+    function openProductForm(gridId) { currentGrid = gridId; document.getElementById('productModal').classList.add('active'); }
 
     function saveNewProduct() {
         const name = document.getElementById('p-name').value;
@@ -196,14 +193,7 @@
         const id = Date.now() + Math.random();
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.innerHTML = `
-            <img src="${img}" class="product-image">
-            <h3>${name}</h3>
-            <div class="price-tag">${price} DH</div>
-            <select id="size-${id}"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-            <button class="btn btn-add" onclick="addToCart('${name}', ${price}, 'size-${id}')">ADD TO CART</button>
-            <button class="btn btn-delete" onclick="this.parentElement.remove()">DELETE</button>
-        `;
+        card.innerHTML = `<img src="${img}" class="product-image"><h3>${name}</h3><div class="price-tag">${price} DH</div><select id="size-${id}"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select><button class="btn btn-add" onclick="addToCart('${name}', ${price}, 'size-${id}')">ADD TO CART</button><button class="btn btn-delete" onclick="this.parentElement.remove()">DELETE</button>`;
         grid.appendChild(card);
     }
 
@@ -241,7 +231,7 @@
         const n = document.getElementById('cust-name').value;
         const p = document.getElementById('cust-phone').value;
         const c = document.getElementById('cust-city').value;
-        if(!n || !p || !c) return alert("Fill info");
+        if(!n || !p || !c) return alert("Fill shipping info");
         let items = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
         let total = cart.reduce((sum, i) => sum + i.price, 0);
         let msg = `*NEW ORDER*\n*Name:* ${n}\n*Phone:* ${p}\n*City:* ${c}\n\n*Items:*\n${items}\n\n*Total:* ${total} DH`;
