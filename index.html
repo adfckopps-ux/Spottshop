@@ -7,248 +7,266 @@
     <style>
         :root {
             --bg: #0a0a0a;
-            --card: rgba(15, 15, 15, 0.9);
+            --card: rgba(18, 18, 18, 0.95);
             --accent: #fff;
-            --border: #222;
             --green: #00ff88;
             --red: #ff4444;
+            --border: #222;
         }
 
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--accent); overflow-x: hidden; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--accent); }
 
-        /* Fixed Model Background */
+        /* Background Photo */
         body::before {
             content: ""; position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background-image: url('https://images.unsplash.com/photo-1552910309-d53b47444914?q=80&w=2000&auto=format&fit=crop');
+            background-image: url('https://images.unsplash.com/photo-1552910309-d53b47444914?q=80&w=2000');
             background-size: cover; background-position: center; opacity: 0.2; z-index: -1;
         }
 
         /* Hero Banner */
-        #hero-banner {
-            width: 100%; min-height: 60px; background-color: var(--accent);
-            background-size: cover; background-position: center;
-            display: flex; align-items: center; justify-content: center; position: relative;
-        }
-        #hero-text { color: var(--bg); font-size: 11px; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; padding: 15px; }
-        .admin-mode #hero-banner { cursor: pointer; outline: 2px dashed var(--green); }
+        #hero-banner { background: white; padding: 15px; text-align: center; cursor: pointer; position: relative; }
+        #hero-text { color: black; font-weight: 900; letter-spacing: 2px; text-transform: uppercase; font-size: 11px; }
 
-        /* Nav */
+        /* Navigation */
         nav {
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border); position: sticky; top: 0; 
-            background: rgba(10,10,10,0.85); z-index: 1000; backdrop-filter: blur(15px);
+            background: rgba(10,10,10,0.9); z-index: 1000; backdrop-filter: blur(10px);
         }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: 5px; cursor: pointer; }
-        .admin-btn { font-size: 9px; color: #444; cursor: pointer; border: 1px solid #222; padding: 4px 8px; }
 
-        /* Shop Grid */
-        .container { padding: 40px 5%; min-height: 80vh; }
-        .section-title { font-size: 1.3rem; letter-spacing: 3px; margin-bottom: 30px; border-left: 4px solid white; padding-left: 15px; display: flex; justify-content: space-between; align-items: center; }
+        /* Shop Sections */
+        .container { padding: 40px 5%; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
-
-        /* Cards & Pricing */
-        .product-card { background: var(--card); border: 1px solid var(--border); padding: 18px; position: relative; backdrop-filter: blur(10px); }
-        .product-image { width: 100%; height: 420px; object-fit: cover; margin-bottom: 15px; }
-        .old-price { text-decoration: line-through; color: #666; font-size: 0.9rem; margin-right: 10px; }
-        .current-price { color: var(--green); font-size: 1.2rem; font-weight: bold; }
-        .discount-badge { background: var(--red); color: white; padding: 5px 10px; font-size: 0.75rem; position: absolute; top: 25px; right: 25px; font-weight: 900; z-index: 5; }
-
-        .btn { width: 100%; padding: 14px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 8px; }
-        .btn-add { background: white; color: black; }
-        .btn-delete { background: var(--red); color: white; font-size: 10px; margin-bottom: 10px; display: none; }
+        .product-card { background: var(--card); border: 1px solid var(--border); padding: 20px; position: relative; }
+        .product-image { width: 100%; height: 400px; object-fit: cover; margin-bottom: 15px; }
         
-        .admin-mode .btn-delete { display: block; }
-        .admin-only { display: none; }
-        .admin-mode .admin-only { display: block !important; }
+        /* Pricing & Badges */
+        .price-row { margin: 10px 0; display: flex; align-items: center; gap: 10px; }
+        .old-price { text-decoration: line-through; color: #666; font-size: 0.9rem; }
+        .current-price { color: var(--green); font-size: 1.3rem; font-weight: bold; }
+        .discount-badge { background: var(--red); color: white; padding: 5px 10px; font-size: 0.7rem; position: absolute; top: 25px; right: 25px; font-weight: bold; }
 
-        /* Panels */
-        .panel { position: fixed; top: 0; right: -100%; width: 340px; height: 100vh; background: rgba(10, 10, 10, 0.98); padding: 60px 25px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); overflow-y: auto; box-sizing: border-box;}
+        /* Admin Controls */
+        .admin-only { display: none; margin-top: 15px; border-top: 1px dashed #444; padding-top: 10px; }
+        .admin-mode .admin-only { display: block; }
+        .admin-btn { font-size: 10px; background: #222; color: #666; border: none; padding: 5px; cursor: pointer; }
+
+        /* Buttons & Inputs */
+        .btn { width: 100%; padding: 14px; border: none; font-weight: 900; cursor: pointer; text-transform: uppercase; transition: 0.3s; margin-top: 10px; }
+        .btn-add { background: white; color: black; }
+        .btn-add:hover { background: var(--green); }
+        input, select { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 12px; color: white; margin-bottom: 10px; box-sizing: border-box;}
+
+        /* Cart/Panel UI */
+        .panel { position: fixed; top: 0; right: -100%; width: 340px; height: 100vh; background: #0e0e0e; padding: 40px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); box-sizing: border-box; }
         .panel.active { right: 0; }
-        .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); z-index: 2000; display: none; justify-content: center; align-items: center; }
-        .modal.active { display: flex; }
-        .modal-content { background: #111; padding: 40px; border: 1px solid var(--border); width: 90%; max-width: 400px; }
-        input, select { width: 100%; background: #1a1a1a; border: 1px solid #333; padding: 14px; margin-bottom: 15px; color: white; box-sizing: border-box; }
         .hidden { display: none !important; }
     </style>
 </head>
 <body>
 
-<div id="hero-banner" onclick="openBannerEditor()">
-    <div id="hero-text">⚡ SPOTTSHOP: PREMIER STREETWEAR ⚡</div>
+<div id="hero-banner" onclick="editBanner()">
+    <div id="hero-text">⚡ FREE WORLDWIDE SHIPPING ON ORDERS OVER 500 DH ⚡</div>
 </div>
 
 <nav>
-    <div class="admin-btn" onclick="openLogin()">ADMIN</div>
-    <div class="logo" onclick="filterCategory('all')">SPOTTSHOP</div>
-    <div style="display: flex; gap: 20px;">
-        <div class="admin-only" style="cursor:pointer; color:var(--green); font-size:11px;" onclick="togglePanel('adminPanel')">DASHBOARD</div>
-        <div style="cursor:pointer" onclick="togglePanel('cartPanel')">🛒 <span id="cart-count">0</span></div>
-        <div style="cursor:pointer" onclick="togglePanel('navMenu')">☰</div>
+    <div onclick="openLogin()" style="font-size: 10px; color: #333; cursor: pointer;">ADMIN</div>
+    <div class="logo" onclick="showCat('all')">SPOTTSHOP</div>
+    <div style="display:flex; gap:20px;">
+        <div class="admin-mode admin-only" onclick="togglePanel('adminPanel')" style="color:var(--green); cursor:pointer">DASHBOARD</div>
+        <div onclick="togglePanel('cartPanel')" style="cursor:pointer">🛒 <span id="cart-count">0</span></div>
+        <div onclick="togglePanel('navPanel')" style="cursor:pointer">☰</div>
     </div>
 </nav>
 
-<div id="sections-container">
-    <div class="container shop-section" id="accessories-sec">
-        <div class="section-title">ACCESSORIES <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('acc-grid')">+ ADD</button></div>
-        <div class="grid" id="acc-grid">
-            <div class="product-card">
-                <button class="btn-delete btn" onclick="this.parentElement.remove()">DELETE</button>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:15px;">
-                    <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg" style="width:100%; height:210px; object-fit:cover;">
-                    <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg" style="width:100%; height:210px; object-fit:cover;">
-                </div>
-                <h3>Wallet Chain</h3>
-                <div class="price-container"><span class="current-price">1: 50 | 2: 80 | 3: 100 DH</span></div>
-                <select id="size-chain"><option value="1 (50 DH)">1 Piece</option><option value="2 (80 DH)">2 Pieces</option><option value="3 (100 DH)">3 Pieces</option></select>
-                <button class="btn btn-add" onclick="addChainToCart()">ADD TO CART</button>
-            </div>
-        </div>
-    </div>
-
-    <div class="container shop-section" id="jeans-sec">
-        <div class="section-title">BAGGY JEANS <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('jeans-grid')">+ ADD</button></div>
-        <div class="grid" id="jeans-grid"></div>
-    </div>
-</div>
-
 <div class="panel" id="adminPanel">
-    <div onclick="togglePanel('adminPanel')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
-    <h2 style="color:var(--green)">ADMIN</h2>
-    <input type="text" id="new-cat-name" placeholder="Category Name">
-    <button class="btn btn-add" onclick="createNewCategory()">CREATE</button>
+    <div onclick="togglePanel('adminPanel')" style="margin-bottom:20px; cursor:pointer">✕ CLOSE</div>
+    <h2>ADMIN TOOLS</h2>
+    <p>ADD NEW PRODUCT</p>
+    <input type="text" id="p-name" placeholder="Product Name">
+    <input type="text" id="p-img" placeholder="Image URL">
+    <input type="number" id="p-price" placeholder="Price (DH)">
+    <select id="p-cat">
+        <option value="jeans-grid">Baggy Jeans</option>
+        <option value="acc-grid">Accessories</option>
+    </select>
+    <button class="btn btn-add" onclick="addNewProduct()">PUBLISH</button>
 </div>
 
-<div class="panel" id="navMenu">
-    <div onclick="togglePanel('navMenu')" style="cursor:pointer; margin-bottom:40px;">✕ CLOSE</div>
-    <div id="nav-links">
-        <a href="javascript:void(0)" onclick="filterCategory('all')" style="display:block; color:white; text-decoration:none; margin-bottom:20px; font-weight:bold;">SHOP ALL</a>
-        <a href="javascript:void(0)" onclick="filterCategory('accessories')" style="display:block; color:white; text-decoration:none; margin-bottom:20px; font-weight:bold;">ACCESSORIES</a>
-        <a href="javascript:void(0)" onclick="filterCategory('jeans')" style="display:block; color:white; text-decoration:none; margin-bottom:20px; font-weight:bold;">JEANS</a>
-    </div>
+<div class="panel" id="navPanel">
+    <div onclick="togglePanel('navPanel')" style="margin-bottom:20px; cursor:pointer">✕ CLOSE</div>
+    <h2 onclick="showCat('all')">ALL PRODUCTS</h2>
+    <h2 onclick="showCat('jeans')">BAGGY JEANS</h2>
+    <h2 onclick="showCat('acc')">ACCESSORIES</h2>
 </div>
 
 <div class="panel" id="cartPanel">
-    <div onclick="togglePanel('cartPanel')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
-    <h2>CART</h2>
-    <div id="cart-items-container"></div>
-    <div id="cart-total" style="margin: 20px 0; font-weight: bold; font-size: 1.2rem;">Total: 0 DH</div>
-    <button class="btn btn-add" onclick="document.getElementById('checkout-section').style.display='block'">ORDER</button>
-    <div id="checkout-section" style="display:none; margin-top:20px;">
-        <input type="text" id="cust-name" placeholder="Name"><input type="tel" id="cust-phone" placeholder="Phone"><input type="text" id="cust-city" placeholder="City">
-        <button class="btn" style="background:var(--green); color:black;" onclick="sendToWhatsApp()">CONFIRM</button>
-    </div>
+    <div onclick="togglePanel('cartPanel')" style="margin-bottom:20px; cursor:pointer">✕ CLOSE</div>
+    <h2>YOUR CART</h2>
+    <div id="cart-items"></div>
+    <div id="cart-total" style="font-size: 1.5rem; margin-top: 20px;">Total: 0 DH</div>
+    <button class="btn btn-add" onclick="checkout()">ORDER VIA WHATSAPP</button>
 </div>
 
-<div class="modal" id="loginModal"><div class="modal-content"><h2>ADMIN LOGIN</h2><input type="password" id="adminSecret" placeholder="Code"><button class="btn btn-add" onclick="checkLogin()">LOGIN</button></div></div>
+<div id="jeans-section" class="container">
+    <h1 style="letter-spacing:5px">BAGGY JEANS</h1>
+    <div class="grid" id="jeans-grid"></div>
+</div>
 
-<div class="modal" id="productModal">
-    <div class="modal-content">
-        <h2>NEW ITEM</h2>
-        <input type="text" id="p-name" placeholder="Name">
-        <input type="text" id="p-img" placeholder="Image URL">
-        <input type="number" id="p-price" placeholder="Price (DH)">
-        <input type="number" id="p-disc" placeholder="Discount % (e.g. 20)">
-        <button class="btn btn-add" onclick="saveNewProduct()">SAVE</button>
+<div id="acc-section" class="container">
+    <h1 style="letter-spacing:5px">ACCESSORIES</h1>
+    <div class="grid" id="acc-grid">
+        <div class="product-card">
+            <button class="admin-mode admin-only btn" style="background:var(--red); color:white" onclick="this.parentElement.remove()">DELETE</button>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:15px;">
+                <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg" style="width:100%; height:200px; object-fit:cover;">
+                <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg" style="width:100%; height:200px; object-fit:cover;">
+            </div>
+            <h3>WALLET CHAIN</h3>
+            <div class="price-row"><span class="current-price">1: 50 | 2: 80 | 3: 100 DH</span></div>
+            <select id="size-chain">
+                <option value="1 Piece (50 DH)">1 Piece - 50 DH</option>
+                <option value="2 Pieces (80 DH)">2 Pieces - 80 DH</option>
+                <option value="3 Pieces (100 DH)">3 Pieces - 100 DH</option>
+            </select>
+            <button class="btn btn-add" onclick="addChainToCart()">ADD TO CART</button>
+        </div>
     </div>
 </div>
 
 <script>
     let cart = [];
-    let currentGrid = '';
     const myWhatsApp = "212775029974";
-    const secretCode = "SPOTTSHOP27_45";
 
-    // --- PRE-LOADED JEANS ---
-    const initialJeans = [
-        { name: "Raw Denim Baggy", price: 250, disc: 20, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
-        { name: "Vintage Wash", price: 230, disc: 0, img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" },
-        { name: "Cargo Streetwear", price: 280, disc: 10, img: "https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" },
-        { name: "Black Skater Cut", price: 240, disc: 0, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" }
+    // Initial Database
+    const initialProducts = [
+        { cat: 'jeans-grid', name: "Black Ultra Baggy", price: 250, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
+        { cat: 'jeans-grid', name: "Vintage Grey Jeans", price: 230, img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" }
     ];
 
-    window.onload = () => { initialJeans.forEach(j => createProductHTML('jeans-grid', j)); };
+    window.onload = () => { initialProducts.forEach(p => createCard(p.cat, p.name, p.price, p.img)); };
 
-    function checkLogin() {
-        if(document.getElementById('adminSecret').value === secretCode) {
-            document.body.classList.add('admin-mode');
-            closeModal('loginModal');
-            alert("Admin Active. Discount fields now work.");
-        }
-    }
-
-    function saveNewProduct() {
-        const data = {
-            name: document.getElementById('p-name').value,
-            img: document.getElementById('p-img').value,
-            price: parseInt(document.getElementById('p-price').value),
-            disc: parseInt(document.getElementById('p-disc').value) || 0
-        };
-        createProductHTML(currentGrid, data);
-        closeModal('productModal');
-    }
-
-    function createProductHTML(gridId, product) {
+    function createCard(gridId, name, price, img) {
         const grid = document.getElementById(gridId);
-        const cardId = Date.now() + Math.random();
-        
-        // --- THE FIX: MATH FOR DISCOUNT ---
-        const hasDiscount = product.disc > 0;
-        const finalPrice = hasDiscount ? Math.round(product.price * (1 - (product.disc / 100))) : product.price;
-
+        const id = Date.now() + Math.random();
         const card = document.createElement('div');
         card.className = 'product-card';
+        card.setAttribute('data-base-price', price);
+        
         card.innerHTML = `
-            ${hasDiscount ? `<div class="discount-badge">-${product.disc}%</div>` : ''}
-            <button class="btn-delete btn" onclick="this.parentElement.remove()">DELETE</button>
-            <img src="${product.img}" class="product-image">
-            <h3>${product.name}</h3>
-            <div class="price-container">
-                ${hasDiscount ? `<span class="old-price">${product.price} DH</span>` : ''}
-                <span class="current-price">${finalPrice} DH</span>
+            <div class="badge-area"></div>
+            <img src="${img}" class="product-image">
+            <h3>${name.toUpperCase()}</h3>
+            <div class="price-row">
+                <span class="old-area"></span>
+                <span class="current-price display-price">${price} DH</span>
             </div>
-            <select id="size-${cardId}"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
-            <button class="btn btn-add" onclick="addToCart('${product.name}', ${finalPrice}, 'size-${cardId}')">ADD TO CART</button>
+            <select id="size-${id}"><option>S</option><option>M</option><option>L</option><option>XL</option></select>
+            <button class="btn btn-add" onclick="addToCart('${name}', '${id}')">ADD TO CART</button>
+            
+            <div class="admin-only">
+                <label style="font-size:10px; color:#666">SET DISCOUNT %</label>
+                <input type="number" placeholder="0" oninput="applyDiscount(this, ${price})" style="padding:5px; margin-bottom:5px;">
+                <button class="btn" style="background:var(--red); color:white; font-size:10px; padding:5px" onclick="this.parentElement.parentElement.remove()">DELETE PRODUCT</button>
+            </div>
         `;
         grid.appendChild(card);
     }
 
-    // Standard functions
-    function addToCart(name, price, sizeId) {
-        const size = document.getElementById(sizeId).value;
-        cart.push({ name, price, size });
-        updateCart();
-        togglePanel('cartPanel');
+    function applyDiscount(input, basePrice) {
+        const card = input.parentElement.parentElement;
+        const discount = parseInt(input.value) || 0;
+        const displayPrice = card.querySelector('.display-price');
+        const oldArea = card.querySelector('.old-area');
+        const badgeArea = card.querySelector('.badge-area');
+
+        if (discount > 0) {
+            const finalPrice = Math.round(basePrice * (1 - discount / 100));
+            displayPrice.innerText = `${finalPrice} DH`;
+            oldArea.innerHTML = `<span class="old-price">${basePrice} DH</span>`;
+            badgeArea.innerHTML = `<div class="discount-badge">-${discount}%</div>`;
+            displayPrice.setAttribute('data-current', finalPrice);
+        } else {
+            displayPrice.innerText = `${basePrice} DH`;
+            oldArea.innerHTML = '';
+            badgeArea.innerHTML = '';
+            displayPrice.removeAttribute('data-current');
+        }
     }
+
+    function addNewProduct() {
+        const n = document.getElementById('p-name').value;
+        const i = document.getElementById('p-img').value;
+        const p = document.getElementById('p-price').value;
+        const c = document.getElementById('p-cat').value;
+        if(n && i && p) {
+            createCard(c, n, p, i);
+            togglePanel('adminPanel');
+        }
+    }
+
+    function addToCart(name, id) {
+        const card = document.getElementById(`size-${id}`).parentElement;
+        const price = card.querySelector('.display-price').getAttribute('data-current') || card.getAttribute('data-base-price');
+        const size = document.getElementById(`size-${id}`).value;
+        cart.push({ name, price: parseInt(price), size });
+        updateCart();
+    }
+
+    function addChainToCart() {
+        const val = document.getElementById('size-chain').value;
+        let p = val.includes("100") ? 100 : (val.includes("80") ? 80 : 50);
+        cart.push({ name: "Wallet Chain", price: p, size: val });
+        updateCart();
+    }
+
     function updateCart() {
-        const container = document.getElementById('cart-items-container');
-        let total = cart.reduce((sum, i) => sum + i.price, 0);
+        const container = document.getElementById('cart-items');
         container.innerHTML = "";
+        let total = 0;
         cart.forEach((item, index) => {
-            container.innerHTML += `<div class="cart-item"><strong>${item.name}</strong> (${item.size}) - ${item.price}DH <span style="color:red; cursor:pointer; float:right" onclick="cart.splice(${index},1); updateCart();">✕</span></div>`;
+            total += item.price;
+            container.innerHTML += `<div style="padding:10px 0; border-bottom:1px solid #222">
+                ${item.name} (${item.size}) - ${item.price} DH 
+                <span style="color:red; float:right; cursor:pointer" onclick="cart.splice(${index},1); updateCart()">✕</span>
+            </div>`;
         });
         document.getElementById('cart-count').innerText = cart.length;
         document.getElementById('cart-total').innerText = `Total: ${total} DH`;
     }
-    function sendToWhatsApp() {
-        const n = document.getElementById('cust-name').value;
-        const p = document.getElementById('cust-phone').value;
-        const c = document.getElementById('cust-city').value;
+
+    function checkout() {
+        if(cart.length === 0) return alert("Cart empty");
         let items = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
-        let total = cart.reduce((sum, i) => sum + i.price, 0);
-        let msg = `*NEW ORDER*\n*Name:* ${n}\n*Phone:* ${p}\n*City:* ${c}\n\n*Items:*\n${items}\n\n*Total:* ${total} DH`;
+        let total = document.getElementById('cart-total').innerText;
+        let msg = `*NEW ORDER FROM SPOTTSHOP*\n\n*Items:*\n${items}\n\n*${total}*`;
         window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`);
     }
 
-    function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-    function openLogin() { document.getElementById('loginModal').classList.add('active'); }
-    function openProductForm(gridId) { currentGrid = gridId; document.getElementById('productModal').classList.add('active'); }
-    function filterCategory(cat) {
-        const sections = document.querySelectorAll('.shop-section');
-        sections.forEach(s => s.classList.add('hidden'));
-        if(cat === 'all') sections.forEach(s => s.classList.remove('hidden'));
-        else document.getElementById(cat + '-sec').classList.remove('hidden');
+    function openLogin() {
+        let code = prompt("Admin Code:");
+        if(code === "SPOTTSHOP27_45") {
+            document.body.classList.add('admin-mode');
+            alert("Admin mode active. You can now edit discounts and delete items directly on the cards.");
+        }
     }
+
+    function showCat(type) {
+        document.getElementById('jeans-section').classList.add('hidden');
+        document.getElementById('acc-section').classList.add('hidden');
+        if(type === 'all' || type === 'jeans') document.getElementById('jeans-section').classList.remove('hidden');
+        if(type === 'all' || type === 'acc') document.getElementById('acc-section').classList.remove('hidden');
+        togglePanel('navPanel');
+    }
+
+    function editBanner() {
+        if(!document.body.classList.contains('admin-mode')) return;
+        let newT = prompt("New Promo Text:");
+        if(newT) document.getElementById('hero-text').innerText = newT;
+    }
+
+    function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
 </script>
 </body>
 </html>
