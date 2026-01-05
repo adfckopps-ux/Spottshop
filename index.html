@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPOTTSHOP | Admin & Cart Sync</title>
+    <title>SPOTTSHOP | Dark Aesthetic</title>
     <style>
         :root {
             --bg: #0a0a0a;
@@ -14,14 +14,14 @@
             --red: #ff4444;
         }
 
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--accent); scroll-behavior: smooth; }
+        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--accent); scroll-behavior: smooth; overflow-x: hidden; }
         
         /* --- Navigation --- */
         nav {
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
             border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,10,0.95); z-index: 1000; backdrop-filter: blur(10px);
         }
-        .admin-btn { font-size: 10px; color: #444; cursor: pointer; border: 1px solid #222; padding: 4px 8px; }
+        .admin-btn { font-size: 10px; color: #333; cursor: pointer; border: 1px solid #1a1a1a; padding: 4px 8px; }
         .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; }
         .nav-right { display: flex; gap: 20px; align-items: center; }
 
@@ -37,7 +37,6 @@
         
         .btn { width: 100%; padding: 12px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; transition: 0.3s; }
         .btn-add { background: white; color: black; }
-        .btn-add:hover { background: #ccc; }
         .btn-delete { background: var(--red); color: white; display: none; margin-top: 10px; }
         
         /* Admin Classes */
@@ -49,7 +48,7 @@
         /* --- Side Panels --- */
         .panel { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background: #0e0e0e; padding: 60px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); overflow-y: auto; }
         .panel.active { right: 0; }
-        .cart-item { padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
+        .cart-item { padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
 
         /* --- Forms & Modals --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; }
@@ -57,6 +56,10 @@
         .modal-content { background: #111; padding: 30px; border: 1px solid var(--border); width: 90%; max-width: 400px; }
         input, select { width: 100%; background: #222; border: 1px solid #333; padding: 12px; margin-bottom: 15px; color: white; box-sizing: border-box; }
         .checkout-form { display: none; margin-top: 20px; }
+
+        /* Accessories Specific */
+        .image-stack { display: flex; gap: 5px; margin-bottom: 15px; }
+        .image-stack img { width: 50%; height: 180px; object-fit: cover; border: 1px solid var(--border); }
     </style>
 </head>
 <body>
@@ -72,31 +75,49 @@
 
 <div class="panel" id="navMenu">
     <div onclick="togglePanel('navMenu')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
-    <a href="#jeans" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">HOME</a>
     <a href="#jeans" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">BAGGY JEANS</a>
+    <a href="#accessories" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">ACCESSORIES</a>
     <a href="#jackets" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">JACKETS</a>
     <a href="#hoodies" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">HOODIES</a>
 </div>
 
 <div class="panel" id="cartPanel">
     <div onclick="togglePanel('cartPanel')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
-    <h2 style="letter-spacing: 2px;">YOUR CART</h2>
+    <h2 style="letter-spacing: 2px;">CART</h2>
     <div id="cart-items-container"></div>
     <div id="cart-total" style="margin: 20px 0; font-weight: bold; font-size: 1.2rem;">Total: 0 DH</div>
-    
     <button class="btn btn-add" id="order-init-btn" onclick="showCheckout()">ORDER NOW</button>
-
     <div class="checkout-form" id="checkout-section">
         <input type="text" id="cust-name" placeholder="Full Name">
         <input type="tel" id="cust-phone" placeholder="Phone Number">
         <input type="text" id="cust-city" placeholder="City">
-        <button class="btn" style="background:var(--green); color:black;" onclick="sendToWhatsApp()">VALIDATE ORDER</button>
+        <button class="btn" style="background:var(--green); color:black;" onclick="sendToWhatsApp()">VALIDATE VIA WHATSAPP</button>
     </div>
 </div>
 
 <div class="container" id="jeans">
     <div class="section-title">BAGGY JEANS <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('jeans-grid')">+ ADD</button></div>
     <div class="grid" id="jeans-grid"></div>
+</div>
+
+<div class="container" id="accessories">
+    <div class="section-title">ACCESSORIES <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('acc-grid')">+ ADD</button></div>
+    <div class="grid" id="acc-grid">
+        <div class="product-card">
+            <div class="image-stack">
+                <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg">
+                <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg">
+            </div>
+            <h3>Wallet Chain</h3>
+            <div class="price-tag">Bundle Pricing</div>
+            <select id="size-chain">
+                <option value="1 (50 DH)">1 Chain - 50 DH</option>
+                <option value="2 (80 DH)">2 Chains - 80 DH</option>
+                <option value="3 (100 DH)">3 Chains - 100 DH</option>
+            </select>
+            <button class="btn btn-add" onclick="addChainToCart()">ADD TO CART</button>
+        </div>
+    </div>
 </div>
 
 <div class="container" id="jackets">
@@ -111,20 +132,20 @@
 
 <div class="modal" id="loginModal">
     <div class="modal-content">
-        <h2>ADMIN ACCESS</h2>
-        <input type="password" id="adminSecret" placeholder="Secret Code">
-        <button class="btn btn-add" onclick="checkLogin()">LOGIN</button>
+        <h2>ADMIN CODE</h2>
+        <input type="password" id="adminSecret" placeholder="••••••••">
+        <button class="btn btn-add" onclick="checkLogin()">VERIFY</button>
         <button class="btn" style="background:transparent; color:#555" onclick="closeModal('loginModal')">CANCEL</button>
     </div>
 </div>
 
 <div class="modal" id="productModal">
     <div class="modal-content">
-        <h2>ADD NEW ARTICLE</h2>
-        <input type="text" id="p-name" placeholder="Product Name">
-        <input type="text" id="p-img" placeholder="Image URL">
-        <input type="number" id="p-price" placeholder="Price (Numbers only)">
-        <button class="btn btn-add" onclick="saveNewProduct()">ADD TO SHOP</button>
+        <h2>ADD ARTICLE</h2>
+        <input type="text" id="p-name" placeholder="Name">
+        <input type="text" id="p-img" placeholder="Image Link">
+        <input type="number" id="p-price" placeholder="Price (DH)">
+        <button class="btn btn-add" onclick="saveNewProduct()">SAVE</button>
         <button class="btn" style="background:transparent; color:#555" onclick="closeModal('productModal')">CANCEL</button>
     </div>
 </div>
@@ -135,7 +156,6 @@
     const myWhatsApp = "212775029974";
     const secretCode = "SPOTTSHOP27_45";
 
-    // Initial Baggy Jeans Data
     const initialJeans = [
         { name: "Black Baggy Jeans", price: 229, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
         { name: "Grey Baggy Jeans", price: 229, img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" },
@@ -154,7 +174,7 @@
         if(document.getElementById('adminSecret').value === secretCode) {
             document.body.classList.add('admin-mode');
             closeModal('loginModal');
-            alert("Admin Mode Verified.");
+            alert("Admin Active.");
         } else { alert("Wrong Code"); }
     }
 
@@ -167,14 +187,13 @@
         const name = document.getElementById('p-name').value;
         const img = document.getElementById('p-img').value;
         const price = document.getElementById('p-price').value;
-        if(!name || !img || !price) return alert("Fill all fields");
         createProductHTML(currentGrid, name, price, img);
         closeModal('productModal');
     }
 
     function createProductHTML(gridId, name, price, img) {
         const grid = document.getElementById(gridId);
-        const id = Date.now(); // Unique ID for size selector
+        const id = Date.now() + Math.random();
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
@@ -190,7 +209,15 @@
 
     function addToCart(name, price, sizeId) {
         const size = document.getElementById(sizeId).value;
-        cart.push({ name, price, size });
+        cart.push({ name, price: parseInt(price), size });
+        updateCart();
+        togglePanel('cartPanel');
+    }
+
+    function addChainToCart() {
+        const sel = document.getElementById('size-chain').value;
+        let p = sel.includes("100") ? 100 : (sel.includes("80") ? 80 : 50);
+        cart.push({ name: "Wallet Chain Bundle", price: p, size: sel });
         updateCart();
         togglePanel('cartPanel');
     }
@@ -200,40 +227,26 @@
         let total = 0;
         container.innerHTML = "";
         cart.forEach((item, index) => {
-            total += parseInt(item.price);
-            container.innerHTML += `
-                <div class="cart-item">
-                    <strong>${item.name}</strong> (${item.size}) - ${item.price} DH
-                    <span style="color:red; cursor:pointer; float:right;" onclick="removeItem(${index})">✕</span>
-                </div>`;
+            total += item.price;
+            container.innerHTML += `<div class="cart-item"><strong>${item.name}</strong> (${item.size}) - ${item.price}DH <span style="color:red; cursor:pointer; float:right" onclick="removeItem(${index})">✕</span></div>`;
         });
         document.getElementById('cart-count').innerText = cart.length;
         document.getElementById('cart-total').innerText = `Total: ${total} DH`;
     }
 
-    function removeItem(index) {
-        cart.splice(index, 1);
-        updateCart();
-    }
-
-    function showCheckout() {
-        if(cart.length === 0) return alert("Cart is empty");
-        document.getElementById('checkout-section').style.display = 'block';
-        document.getElementById('order-init-btn').style.display = 'none';
-    }
+    function removeItem(idx) { cart.splice(idx, 1); updateCart(); }
+    function showCheckout() { if(cart.length > 0) document.getElementById('checkout-section').style.display = 'block'; }
 
     function sendToWhatsApp() {
-        const name = document.getElementById('cust-name').value;
-        const phone = document.getElementById('cust-phone').value;
-        const city = document.getElementById('cust-city').value;
-        if(!name || !phone || !city) return alert("Please fill shipping details");
-
+        const n = document.getElementById('cust-name').value;
+        const p = document.getElementById('cust-phone').value;
+        const c = document.getElementById('cust-city').value;
+        if(!n || !p || !c) return alert("Fill info");
         let items = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
         let total = cart.reduce((sum, i) => sum + i.price, 0);
-        let msg = `*NEW ORDER*\n*Customer:* ${name}\n*Phone:* ${phone}\n*City:* ${city}\n\n*Items:*\n${items}\n\n*Total:* ${total} DH`;
-        window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
+        let msg = `*NEW ORDER*\n*Name:* ${n}\n*Phone:* ${p}\n*City:* ${c}\n\n*Items:*\n${items}\n\n*Total:* ${total} DH`;
+        window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`);
     }
 </script>
-
 </body>
 </html>
