@@ -3,60 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPOTTSHOP | Filtered View</title>
+    <title>SPOTTSHOP | Streetwear Edition</title>
     <style>
         :root {
             --bg: #0a0a0a;
-            --card: #111;
+            --card: rgba(17, 17, 17, 0.85); /* Slightly transparent for the background effect */
             --accent: #fff;
-            --border: #222;
+            --border: #333;
             --green: #00ff88;
             --red: #ff4444;
         }
 
-        body { margin: 0; font-family: 'Inter', sans-serif; background: var(--bg); color: var(--accent); overflow-x: hidden; }
-        
+        body { 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--accent); 
+            overflow-x: hidden;
+        }
+
+        /* --- BACKGROUND PHOTO EFFECT --- */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* CHANGE THIS URL TO YOUR PREFERRED MODEL PHOTO */
+            background-image: url('https://images.unsplash.com/photo-1552910309-d53b47444914?q=80&w=2000&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            opacity: 0.3; /* Adjust this to make the photo more or less visible */
+            z-index: -1;
+        }
+
+        /* --- HERO BANNER (Photo & Text) --- */
+        #hero-banner {
+            width: 100%;
+            min-height: 60px;
+            background-color: var(--accent);
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+        }
+        #hero-text {
+            color: var(--bg);
+            font-size: 11px;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            padding: 10px 5%;
+        }
+        .admin-mode #hero-banner { cursor: pointer; border: 2px dashed var(--green); }
+
         /* --- Navigation --- */
         nav {
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,10,0.95); z-index: 1000; backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; 
+            background: rgba(10,10,10,0.8); z-index: 1000; backdrop-filter: blur(15px);
         }
-        .admin-btn { font-size: 10px; color: #333; cursor: pointer; border: 1px solid #1a1a1a; padding: 4px 8px; }
         .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; cursor: pointer; }
+        .admin-btn { font-size: 10px; color: #444; cursor: pointer; border: 1px solid #222; padding: 4px 8px; }
 
-        /* --- Filtering System --- */
-        .shop-section { display: block; } /* Default visible */
+        /* --- Sections & Filtering --- */
+        .shop-section { display: block; animation: fadeIn 0.8s ease; }
         .hidden { display: none !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* --- Sections --- */
         .container { padding: 40px 5%; min-height: 80vh; }
         .section-title { font-size: 1.5rem; letter-spacing: 2px; margin-bottom: 30px; border-left: 3px solid white; padding-left: 15px; display: flex; justify-content: space-between; align-items: center; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
-        /* --- Product Cards --- */
-        .product-card { background: var(--card); border: 1px solid var(--border); padding: 15px; position: relative; animation: fadeIn 0.4s ease; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        /* --- Product Cards (Glass Look) --- */
+        .product-card { 
+            background: var(--card); 
+            border: 1px solid var(--border); 
+            padding: 15px; 
+            position: relative;
+            backdrop-filter: blur(5px);
+        }
+        .product-image { width: 100%; height: 400px; object-fit: cover; margin-bottom: 15px; border: 1px solid #222; }
         
-        .product-image { width: 100%; height: 400px; object-fit: cover; margin-bottom: 15px; }
-        .chain-images { display: grid; grid-template-columns: 1fr 1fr; gap: 5px; margin-bottom: 15px; }
-        .chain-images img { width: 100%; height: 200px; object-fit: cover; border: 1px solid var(--border); }
+        .price-container { margin: 10px 0; font-weight: bold; }
+        .old-price { text-decoration: line-through; color: #777; font-size: 0.9rem; margin-right: 8px; }
+        .current-price { color: var(--green); font-size: 1.2rem; }
+        .discount-badge { background: var(--red); color: white; padding: 4px 8px; font-size: 0.7rem; position: absolute; top: 20px; right: 20px; font-weight: 900; z-index: 5; }
 
-        .price-tag { font-weight: bold; font-size: 1.1rem; margin: 10px 0; color: var(--green); }
-        .btn { width: 100%; padding: 12px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; }
+        .btn { width: 100%; padding: 12px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; transition: 0.3s; }
         .btn-add { background: white; color: black; }
-        .btn-delete { background: var(--red); color: white; display: none; margin-top: 10px; }
+        .btn-add:hover { background: var(--green); }
+        .btn-delete { background: var(--red); color: white; font-size: 10px; margin-bottom: 10px; display: none; }
         
         .admin-mode .btn-delete { display: block; }
         .admin-only { display: none; }
-        .admin-mode .admin-only { display: block; }
-        .admin-mode .coming-soon { display: none; }
+        .admin-mode .admin-only { display: block !important; }
 
-        /* --- Panels --- */
-        .panel { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background: #0e0e0e; padding: 60px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); overflow-y: auto; }
+        /* --- Panels & Modals --- */
+        .panel { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background: rgba(14, 14, 14, 0.98); padding: 60px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); overflow-y: auto; backdrop-filter: blur(20px); }
         .panel.active { right: 0; }
         .cart-item { padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 0.85rem; }
-
-        /* --- Modals --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-content { background: #111; padding: 30px; border: 1px solid var(--border); width: 90%; max-width: 400px; }
@@ -65,22 +115,62 @@
 </head>
 <body>
 
+<div id="hero-banner" onclick="openBannerEditor()">
+    <div id="hero-text">⚡ NEW DROPS AVAILABLE NOW ⚡</div>
+</div>
+
 <nav>
     <div class="admin-btn" onclick="openLogin()">ADMIN</div>
     <div class="logo" onclick="filterCategory('all')">SPOTTSHOP</div>
-    <div style="display: flex; gap: 20px;">
+    <div style="display: flex; gap: 20px; align-items: center;">
+        <div class="admin-only" style="cursor:pointer; color:var(--green); font-size:11px; font-weight:bold" onclick="togglePanel('adminPanel')">DASHBOARD</div>
         <div style="cursor:pointer" onclick="togglePanel('cartPanel')">🛒 <span id="cart-count">0</span></div>
         <div style="cursor:pointer" onclick="togglePanel('navMenu')">☰</div>
     </div>
 </nav>
 
+<div class="panel" id="adminPanel">
+    <div onclick="togglePanel('adminPanel')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
+    <h2 style="color:var(--green)">ADMIN</h2>
+    <input type="text" id="new-cat-name" placeholder="New Category Name">
+    <button class="btn btn-add" onclick="createNewCategory()">ADD CATEGORY</button>
+</div>
+
 <div class="panel" id="navMenu">
     <div onclick="togglePanel('navMenu')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
-    <a href="javascript:void(0)" onclick="filterCategory('all')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">HOME (ALL)</a>
-    <a href="javascript:void(0)" onclick="filterCategory('jeans')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">BAGGY JEANS</a>
-    <a href="javascript:void(0)" onclick="filterCategory('accessories')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">ACCESSORIES</a>
-    <a href="javascript:void(0)" onclick="filterCategory('jackets')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">JACKETS</a>
-    <a href="javascript:void(0)" onclick="filterCategory('hoodies')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">HOODIES</a>
+    <div id="nav-links">
+        <a href="javascript:void(0)" onclick="filterCategory('all')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">HOME</a>
+        <a href="javascript:void(0)" onclick="filterCategory('accessories')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">ACCESSORIES</a>
+        <a href="javascript:void(0)" onclick="filterCategory('jeans')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">JEANS</a>
+    </div>
+</div>
+
+<div id="sections-container">
+    <div class="container shop-section" id="accessories-sec">
+        <div class="section-title">ACCESSORIES <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('acc-grid')">+ ADD</button></div>
+        <div class="grid" id="acc-grid">
+            <div class="product-card">
+                <button class="btn-delete btn" onclick="this.parentElement.remove()">DELETE</button>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px; margin-bottom:15px;">
+                    <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg" style="width:100%; height:200px; object-fit:cover;">
+                    <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg" style="width:100%; height:200px; object-fit:cover;">
+                </div>
+                <h3>Wallet Chain</h3>
+                <div class="price-container"><span class="current-price">1: 50 | 2: 80 | 3: 100 DH</span></div>
+                <select id="size-chain">
+                    <option value="1 (50 DH)">1 Piece</option>
+                    <option value="2 (80 DH)">2 Pieces</option>
+                    <option value="3 (100 DH)">3 Pieces</option>
+                </select>
+                <button class="btn btn-add" onclick="addChainToCart()">ADD TO CART</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="container shop-section" id="jeans-sec">
+        <div class="section-title">JEANS <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('jeans-grid')">+ ADD</button></div>
+        <div class="grid" id="jeans-grid"></div>
+    </div>
 </div>
 
 <div class="panel" id="cartPanel">
@@ -88,63 +178,42 @@
     <h2>CART</h2>
     <div id="cart-items-container"></div>
     <div id="cart-total" style="margin: 20px 0; font-weight: bold; font-size: 1.2rem;">Total: 0 DH</div>
-    <button class="btn btn-add" id="order-init-btn" onclick="document.getElementById('checkout-section').style.display='block'">ORDER NOW</button>
+    <button class="btn btn-add" onclick="document.getElementById('checkout-section').style.display='block'">CHECKOUT</button>
     <div id="checkout-section" style="display:none; margin-top:20px;">
-        <input type="text" id="cust-name" placeholder="Full Name">
-        <input type="tel" id="cust-phone" placeholder="Phone Number">
-        <input type="text" id="cust-city" placeholder="City">
-        <button class="btn" style="background:var(--green); color:black;" onclick="sendToWhatsApp()">VALIDATE</button>
+        <input type="text" id="cust-name" placeholder="Full Name"><input type="tel" id="cust-phone" placeholder="Phone"><input type="text" id="cust-city" placeholder="City">
+        <button class="btn" style="background:var(--green); color:black;" onclick="sendToWhatsApp()">ORDER WHATSAPP</button>
     </div>
-</div>
-
-<div class="container shop-section" id="jeans-sec">
-    <div class="section-title">BAGGY JEANS <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('jeans-grid')">+ ADD</button></div>
-    <div class="grid" id="jeans-grid"></div>
-</div>
-
-<div class="container shop-section" id="accessories-sec">
-    <div class="section-title">ACCESSORIES <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('acc-grid')">+ ADD</button></div>
-    <div class="grid" id="acc-grid">
-        <div class="product-card">
-            <div class="chain-images">
-                <img src="https://i.postimg.cc/L6bC0fH3/IMG-20260104-172609-793.jpg">
-                <img src="https://i.postimg.cc/mZV6CJJq/IMG-20260104-172611-502.jpg">
-            </div>
-            <h3>Wallet Chain</h3>
-            <div class="price-tag">1: 50 | 2: 80 | 3: 100 DH</div>
-            <select id="size-chain"><option value="1 (50 DH)">1 Piece</option><option value="2 (80 DH)">2 Pieces</option><option value="3 (100 DH)">3 Pieces</option></select>
-            <button class="btn btn-add" onclick="addChainToCart()">ADD TO CART</button>
-        </div>
-    </div>
-</div>
-
-<div class="container shop-section" id="jackets-sec">
-    <div class="section-title">JACKETS <span class="coming-soon" style="color:#444; font-size:10px;">COMING SOON</span> <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('jackets-grid')">+ ADD</button></div>
-    <div class="grid" id="jackets-grid"></div>
-</div>
-
-<div class="container shop-section" id="hoodies-sec">
-    <div class="section-title">HOODIES <span class="coming-soon" style="color:#444; font-size:10px;">COMING SOON</span> <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('hoodies-grid')">+ ADD</button></div>
-    <div class="grid" id="hoodies-grid"></div>
 </div>
 
 <div class="modal" id="loginModal">
     <div class="modal-content">
         <h2>ADMIN LOGIN</h2>
         <input type="password" id="adminSecret" placeholder="Secret Code">
-        <button class="btn btn-add" onclick="checkLogin()">LOGIN</button>
-        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('loginModal')">CANCEL</button>
+        <button class="btn btn-add" onclick="checkLogin()">ENTER</button>
+        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('loginModal')">BACK</button>
+    </div>
+</div>
+
+<div class="modal" id="bannerModal">
+    <div class="modal-content">
+        <h2>BANNER SETTINGS</h2>
+        <input type="text" id="b-img" placeholder="Background Photo URL">
+        <input type="text" id="b-text" placeholder="Text">
+        <input type="text" id="b-color" placeholder="Text Color">
+        <button class="btn btn-add" onclick="saveBanner()">SAVE</button>
+        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('bannerModal')">BACK</button>
     </div>
 </div>
 
 <div class="modal" id="productModal">
     <div class="modal-content">
-        <h2>ADD ARTICLE</h2>
+        <h2>ADD PRODUCT</h2>
         <input type="text" id="p-name" placeholder="Name">
         <input type="text" id="p-img" placeholder="Image URL">
-        <input type="number" id="p-price" placeholder="Price (DH)">
-        <button class="btn btn-add" onclick="saveNewProduct()">SAVE</button>
-        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('productModal')">CANCEL</button>
+        <input type="number" id="p-price" placeholder="Price">
+        <input type="number" id="p-disc" placeholder="Discount %">
+        <button class="btn btn-add" onclick="saveNewProduct()">PUBLISH</button>
+        <button class="btn" style="background:transparent; color:#555" onclick="closeModal('productModal')">BACK</button>
     </div>
 </div>
 
@@ -155,98 +224,135 @@
     const secretCode = "SPOTTSHOP27_45";
 
     const initialJeans = [
-        { name: "Black Baggy Jeans", price: 229, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
-        { name: "Grey Baggy Jeans", price: 229, img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" },
-        { name: "Light Blue Baggy", price: 229, img: "https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" },
-        { name: "Black Distressed Baggy", price: 229, img: "https://i.postimg.cc/xjkmYFMB/IMG-20260104-202444-277.jpg" },
-        { name: "Black Distressed V2", price: 229, img: "https://i.postimg.cc/L8G7CWt0/IMG-20260104-154454-515.jpg" }
+        { name: "Black Baggy Jeans", price: 229, disc: 0, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" }
     ];
-
-    window.onload = () => { initialJeans.forEach(j => createProductHTML('jeans-grid', j.name, j.price, j.img)); };
-
-    // FILTER LOGIC
-    function filterCategory(cat) {
-        const sections = document.querySelectorAll('.shop-section');
-        sections.forEach(s => s.classList.add('hidden'));
-
-        if(cat === 'all') {
-            sections.forEach(s => s.classList.remove('hidden'));
-        } else {
-            document.getElementById(cat + '-sec').classList.remove('hidden');
-        }
-        togglePanel('navMenu'); // Close menu after selection
-        window.scrollTo(0,0);
-    }
-
-    function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
-    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-    function openLogin() { document.getElementById('loginModal').classList.add('active'); }
+    window.onload = () => { initialJeans.forEach(j => createProductHTML('jeans-grid', j)); };
 
     function checkLogin() {
         if(document.getElementById('adminSecret').value === secretCode) {
             document.body.classList.add('admin-mode');
             closeModal('loginModal');
-        } else { alert("Wrong Code"); }
+            alert("Admin Active.");
+        } else { alert("Wrong Code."); }
+    }
+
+    function openBannerEditor() {
+        if(!document.body.classList.contains('admin-mode')) return;
+        document.getElementById('bannerModal').classList.add('active');
+    }
+
+    function saveBanner() {
+        const img = document.getElementById('b-img').value;
+        const txt = document.getElementById('b-text').value;
+        const clr = document.getElementById('b-color').value;
+        if(img) document.getElementById('hero-banner').style.backgroundImage = `url('${img}')`;
+        if(txt) document.getElementById('hero-text').innerText = txt;
+        if(clr) document.getElementById('hero-text').style.color = clr;
+        closeModal('bannerModal');
+    }
+
+    function filterCategory(cat) {
+        const sections = document.querySelectorAll('.shop-section');
+        sections.forEach(s => s.classList.add('hidden'));
+        if(cat === 'all') sections.forEach(s => s.classList.remove('hidden'));
+        else document.getElementById(cat + '-sec').classList.remove('hidden');
+        if(document.getElementById('navMenu').classList.contains('active')) togglePanel('navMenu');
+        window.scrollTo({top: 0, behavior: 'smooth'});
+    }
+
+    function createNewCategory() {
+        const name = document.getElementById('new-cat-name').value;
+        if(!name) return;
+        const id = name.toLowerCase().replace(/\s/g, '');
+        const section = document.createElement('div');
+        section.className = 'container shop-section';
+        section.id = id + '-sec';
+        section.innerHTML = `<div class="section-title">${name.toUpperCase()} <button class="admin-only btn" style="width:auto; font-size:11px;" onclick="openProductForm('${id}-grid')">+ ADD</button></div><div class="grid" id="${id}-grid"></div>`;
+        document.getElementById('sections-container').appendChild(section);
+        const link = document.createElement('a');
+        link.href = "javascript:void(0)";
+        link.className = "nav-link-item";
+        link.style = "display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;";
+        link.innerText = name.toUpperCase();
+        link.onclick = () => filterCategory(id);
+        document.getElementById('nav-links').appendChild(link);
+        togglePanel('adminPanel');
     }
 
     function openProductForm(gridId) { currentGrid = gridId; document.getElementById('productModal').classList.add('active'); }
-
     function saveNewProduct() {
-        const name = document.getElementById('p-name').value;
-        const img = document.getElementById('p-img').value;
-        const price = document.getElementById('p-price').value;
-        createProductHTML(currentGrid, name, price, img);
+        const data = {
+            name: document.getElementById('p-name').value,
+            img: document.getElementById('p-img').value,
+            price: parseInt(document.getElementById('p-price').value),
+            disc: parseInt(document.getElementById('p-disc').value) || 0
+        };
+        createProductHTML(currentGrid, data);
         closeModal('productModal');
     }
 
-    function createProductHTML(gridId, name, price, img) {
+    function createProductHTML(gridId, product) {
         const grid = document.getElementById(gridId);
-        const id = Date.now() + Math.random();
+        const cardId = Date.now() + Math.random();
+        const discPrice = Math.round(product.price * (1 - product.disc/100));
         const card = document.createElement('div');
         card.className = 'product-card';
-        card.innerHTML = `<img src="${img}" class="product-image"><h3>${name}</h3><div class="price-tag">${price} DH</div><select id="size-${id}"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select><button class="btn btn-add" onclick="addToCart('${name}', ${price}, 'size-${id}')">ADD TO CART</button><button class="btn btn-delete" onclick="this.parentElement.remove()">DELETE</button>`;
+        card.innerHTML = `
+            ${product.disc > 0 ? `<div class="discount-badge">-${product.disc}%</div>` : ''}
+            <button class="btn-delete btn" onclick="this.parentElement.remove()">DELETE</button>
+            <img src="${product.img}" class="product-image">
+            <h3>${product.name}</h3>
+            <div class="price-container">
+                ${product.disc > 0 ? `<span class="old-price">${product.price}DH</span>` : ''}
+                <span class="current-price">${product.disc > 0 ? discPrice : product.price} DH</span>
+            </div>
+            <select id="size-${cardId}"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+            <button class="btn btn-add" onclick="addToCart('${product.name}', ${product.disc > 0 ? discPrice : product.price}, 'size-${cardId}')">ADD TO CART</button>
+        `;
         grid.appendChild(card);
     }
 
     function addToCart(name, price, sizeId) {
         const size = document.getElementById(sizeId).value;
-        cart.push({ name, price: parseInt(price), size });
+        cart.push({ name, price, size });
         updateCart();
         togglePanel('cartPanel');
     }
 
     function addChainToCart() {
-        const sel = document.getElementById('size-chain').value;
-        let p = sel.includes("100") ? 100 : (sel.includes("80") ? 80 : 50);
-        cart.push({ name: "Wallet Chain", price: p, size: sel });
+        const val = document.getElementById('size-chain').value;
+        let p = val.includes("100") ? 100 : (val.includes("80") ? 80 : 50);
+        cart.push({ name: "Wallet Chain", price: p, size: val });
         updateCart();
         togglePanel('cartPanel');
     }
 
     function updateCart() {
         const container = document.getElementById('cart-items-container');
-        let total = 0;
+        let total = cart.reduce((sum, i) => sum + i.price, 0);
         container.innerHTML = "";
         cart.forEach((item, index) => {
-            total += item.price;
-            container.innerHTML += `<div class="cart-item"><strong>${item.name}</strong> (${item.size}) - ${item.price}DH <span style="color:red; cursor:pointer; float:right" onclick="removeItem(${index})">✕</span></div>`;
+            container.innerHTML += `<div class="cart-item"><strong>${item.name}</strong> (${item.size}) <span style="color:red; cursor:pointer; float:right" onclick="cart.splice(${index},1); updateCart();">✕</span><br>${item.price} DH</div>`;
         });
         document.getElementById('cart-count').innerText = cart.length;
         document.getElementById('cart-total').innerText = `Total: ${total} DH`;
     }
 
-    function removeItem(idx) { cart.splice(idx, 1); updateCart(); }
-
     function sendToWhatsApp() {
         const n = document.getElementById('cust-name').value;
         const p = document.getElementById('cust-phone').value;
         const c = document.getElementById('cust-city').value;
-        if(!n || !p || !c) return alert("Fill info");
+        if(!n || !p || !c || cart.length === 0) return alert("Fill details");
         let items = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
-        let total = cart.reduce((sum, i) => sum + i.price, 0);
-        let msg = `*NEW ORDER*\n*Name:* ${n}\n*Phone:* ${p}\n*City:* ${c}\n\n*Items:*\n${items}\n\n*Total:* ${total} DH`;
+        let total = document.getElementById('cart-total').innerText;
+        let msg = `*ORDER SPOTTSHOP*\n*Name:* ${n}\n*Phone:* ${p}\n*City:* ${c}\n\n*Items:*\n${items}\n\n*${total}*`;
         window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`);
     }
+
+    function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
+    function closeModal(id) { document.getElementById(id).classList.remove('active'); }
+    function openLogin() { document.getElementById('loginModal').classList.add('active'); }
 </script>
 </body>
-</html>
+            </html>
+    
