@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SPOTTSHOP | Streetwear</title>
+    <title>SPOTTSHOP | Admin & Cart Sync</title>
     <style>
         :root {
             --bg: #0a0a0a;
@@ -19,7 +19,7 @@
         /* --- Navigation --- */
         nav {
             padding: 15px 5%; display: flex; justify-content: space-between; align-items: center;
-            border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,10,0.9); z-index: 1000; backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border); position: sticky; top: 0; background: rgba(10,10,10,0.95); z-index: 1000; backdrop-filter: blur(10px);
         }
         .admin-btn { font-size: 10px; color: #444; cursor: pointer; border: 1px solid #222; padding: 4px 8px; }
         .logo { font-size: 1.4rem; font-weight: 900; letter-spacing: 4px; }
@@ -31,27 +31,32 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
 
         /* --- Product Cards --- */
-        .product-card { background: var(--card); border: 1px solid var(--border); padding: 15px; position: relative; transition: 0.3s; }
+        .product-card { background: var(--card); border: 1px solid var(--border); padding: 15px; position: relative; }
         .product-image { width: 100%; height: 400px; object-fit: cover; margin-bottom: 15px; }
-        .price { font-weight: bold; font-size: 1.1rem; margin: 10px 0; }
+        .price-tag { font-weight: bold; font-size: 1.1rem; margin: 10px 0; color: var(--green); }
         
-        .btn { width: 100%; padding: 12px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; }
+        .btn { width: 100%; padding: 12px; border: none; font-weight: bold; cursor: pointer; text-transform: uppercase; margin-top: 5px; transition: 0.3s; }
         .btn-add { background: white; color: black; }
+        .btn-add:hover { background: #ccc; }
         .btn-delete { background: var(--red); color: white; display: none; margin-top: 10px; }
+        
+        /* Admin Classes */
         .admin-mode .btn-delete { display: block; }
         .admin-only { display: none; }
         .admin-mode .admin-only { display: block; }
         .admin-mode .coming-soon { display: none; }
+
+        /* --- Side Panels --- */
+        .panel { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background: #0e0e0e; padding: 60px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); overflow-y: auto; }
+        .panel.active { right: 0; }
+        .cart-item { padding: 15px 0; border-bottom: 1px solid var(--border); font-size: 0.9rem; }
 
         /* --- Forms & Modals --- */
         .modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.9); z-index: 2000; display: none; justify-content: center; align-items: center; }
         .modal.active { display: flex; }
         .modal-content { background: #111; padding: 30px; border: 1px solid var(--border); width: 90%; max-width: 400px; }
         input, select { width: 100%; background: #222; border: 1px solid #333; padding: 12px; margin-bottom: 15px; color: white; box-sizing: border-box; }
-
-        /* --- Side Panels --- */
-        .panel { position: fixed; top: 0; right: -100%; width: 320px; height: 100vh; background: #0e0e0e; padding: 60px 20px; transition: 0.4s; z-index: 1500; border-left: 1px solid var(--border); }
-        .panel.active { right: 0; }
+        .checkout-form { display: none; margin-top: 20px; }
     </style>
 </head>
 <body>
@@ -67,43 +72,47 @@
 
 <div class="panel" id="navMenu">
     <div onclick="togglePanel('navMenu')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
-    <a href="#jeans" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:20px;">BAGGY JEANS</a>
-    <a href="#jackets" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:20px;">JACKETS</a>
-    <a href="#hoodies" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:20px;">HOODIES</a>
-    <a href="#accessories" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:20px;">ACCESSORIES</a>
+    <a href="#jeans" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">HOME</a>
+    <a href="#jeans" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">BAGGY JEANS</a>
+    <a href="#jackets" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">JACKETS</a>
+    <a href="#hoodies" onclick="togglePanel('navMenu')" style="display:block; color:white; text-decoration:none; margin-bottom:25px; font-weight:bold;">HOODIES</a>
+</div>
+
+<div class="panel" id="cartPanel">
+    <div onclick="togglePanel('cartPanel')" style="cursor:pointer; margin-bottom:30px;">✕ CLOSE</div>
+    <h2 style="letter-spacing: 2px;">YOUR CART</h2>
+    <div id="cart-items-container"></div>
+    <div id="cart-total" style="margin: 20px 0; font-weight: bold; font-size: 1.2rem;">Total: 0 DH</div>
+    
+    <button class="btn btn-add" id="order-init-btn" onclick="showCheckout()">ORDER NOW</button>
+
+    <div class="checkout-form" id="checkout-section">
+        <input type="text" id="cust-name" placeholder="Full Name">
+        <input type="tel" id="cust-phone" placeholder="Phone Number">
+        <input type="text" id="cust-city" placeholder="City">
+        <button class="btn" style="background:var(--green); color:black;" onclick="sendToWhatsApp()">VALIDATE ORDER</button>
+    </div>
 </div>
 
 <div class="container" id="jeans">
-    <div class="section-title">
-        BAGGY JEANS
-        <button class="admin-only btn" style="width:auto; padding:5px 15px;" onclick="openProductForm('jeans-grid')">+ Add Jean</button>
-    </div>
-    <div class="grid" id="jeans-grid">
-        </div>
+    <div class="section-title">BAGGY JEANS <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('jeans-grid')">+ ADD</button></div>
+    <div class="grid" id="jeans-grid"></div>
 </div>
 
 <div class="container" id="jackets">
-    <div class="section-title">
-        JACKETS 
-        <span class="coming-soon" style="font-size: 10px; color:#444">COMING SOON</span>
-        <button class="admin-only btn" style="width:auto; padding:5px 15px;" onclick="openProductForm('jackets-grid')">+ Add Jacket</button>
-    </div>
+    <div class="section-title">JACKETS <span class="coming-soon" style="font-size:10px; color:#444">COMING SOON</span> <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('jackets-grid')">+ ADD</button></div>
     <div class="grid" id="jackets-grid"></div>
 </div>
 
 <div class="container" id="hoodies">
-    <div class="section-title">
-        HOODIES 
-        <span class="coming-soon" style="font-size: 10px; color:#444">COMING SOON</span>
-        <button class="admin-only btn" style="width:auto; padding:5px 15px;" onclick="openProductForm('hoodies-grid')">+ Add Hoodie</button>
-    </div>
+    <div class="section-title">HOODIES <span class="coming-soon" style="font-size:10px; color:#444">COMING SOON</span> <button class="admin-only btn" style="width:auto; font-size:12px;" onclick="openProductForm('hoodies-grid')">+ ADD</button></div>
     <div class="grid" id="hoodies-grid"></div>
 </div>
 
 <div class="modal" id="loginModal">
     <div class="modal-content">
-        <h2>ADMIN LOGIN</h2>
-        <input type="password" id="adminSecret" placeholder="Enter Secret Code">
+        <h2>ADMIN ACCESS</h2>
+        <input type="password" id="adminSecret" placeholder="Secret Code">
         <button class="btn btn-add" onclick="checkLogin()">LOGIN</button>
         <button class="btn" style="background:transparent; color:#555" onclick="closeModal('loginModal')">CANCEL</button>
     </div>
@@ -111,76 +120,118 @@
 
 <div class="modal" id="productModal">
     <div class="modal-content">
-        <h2 id="modal-title">ADD PRODUCT</h2>
+        <h2>ADD NEW ARTICLE</h2>
         <input type="text" id="p-name" placeholder="Product Name">
-        <input type="text" id="p-img" placeholder="Image Link (URL)">
-        <input type="text" id="p-price" placeholder="Price (e.g. 229dh)">
-        <button class="btn btn-add" onclick="addNewProduct()">SAVE PRODUCT</button>
+        <input type="text" id="p-img" placeholder="Image URL">
+        <input type="number" id="p-price" placeholder="Price (Numbers only)">
+        <button class="btn btn-add" onclick="saveNewProduct()">ADD TO SHOP</button>
         <button class="btn" style="background:transparent; color:#555" onclick="closeModal('productModal')">CANCEL</button>
     </div>
 </div>
 
 <script>
-    let currentGridTarget = '';
+    let cart = [];
+    let currentGrid = '';
+    const myWhatsApp = "212775029974";
     const secretCode = "SPOTTSHOP27_45";
 
-    // Data for initial load
+    // Initial Baggy Jeans Data
     const initialJeans = [
-        { name: "Black Baggy Jeans", price: "229dh", img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
-        { name: "Grey Baggy Jeans", price: "229dh", img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" },
-        { name: "Light Blue Baggy", price: "229dh", img: "https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" },
-        { name: "Black Distressed Baggy", price: "229dh", img: "https://i.postimg.cc/xjkmYFMB/IMG-20260104-202444-277.jpg" },
-        { name: "Black Distressed V2", price: "229dh", img: "https://i.postimg.cc/L8G7CWt0/IMG-20260104-154454-515.jpg" }
+        { name: "Black Baggy Jeans", price: 229, img: "https://i.postimg.cc/L5TfwT9N/IMG-20260104-153608-444.jpg" },
+        { name: "Grey Baggy Jeans", price: 229, img: "https://i.postimg.cc/zB985ZBw/IMG-20260104-154451-843.jpg" },
+        { name: "Light Blue Baggy", price: 229, img: "https://i.postimg.cc/FFdH6GRY/IMG-20260104-154401-304.jpg" },
+        { name: "Black Distressed Baggy", price: 229, img: "https://i.postimg.cc/xjkmYFMB/IMG-20260104-202444-277.jpg" },
+        { name: "Black Distressed V2", price: 229, img: "https://i.postimg.cc/L8G7CWt0/IMG-20260104-154454-515.jpg" }
     ];
 
-    window.onload = () => {
-        initialJeans.forEach(j => renderProduct('jeans-grid', j.name, j.price, j.img));
-    };
+    window.onload = () => { initialJeans.forEach(j => createProductHTML('jeans-grid', j.name, j.price, j.img)); };
 
     function togglePanel(id) { document.getElementById(id).classList.toggle('active'); }
     function closeModal(id) { document.getElementById(id).classList.remove('active'); }
-
     function openLogin() { document.getElementById('loginModal').classList.add('active'); }
 
     function checkLogin() {
-        const input = document.getElementById('adminSecret').value;
-        if(input === secretCode) {
+        if(document.getElementById('adminSecret').value === secretCode) {
             document.body.classList.add('admin-mode');
             closeModal('loginModal');
-            alert("Admin Mode Active. You can now add/delete products.");
-        } else {
-            alert("Incorrect Secret Code.");
-        }
+            alert("Admin Mode Verified.");
+        } else { alert("Wrong Code"); }
     }
 
     function openProductForm(gridId) {
-        currentGridTarget = gridId;
+        currentGrid = gridId;
         document.getElementById('productModal').classList.add('active');
     }
 
-    function addNewProduct() {
+    function saveNewProduct() {
         const name = document.getElementById('p-name').value;
         const img = document.getElementById('p-img').value;
         const price = document.getElementById('p-price').value;
         if(!name || !img || !price) return alert("Fill all fields");
-        
-        renderProduct(currentGridTarget, name, price, img);
+        createProductHTML(currentGrid, name, price, img);
         closeModal('productModal');
     }
 
-    function renderProduct(gridId, name, price, img) {
+    function createProductHTML(gridId, name, price, img) {
         const grid = document.getElementById(gridId);
+        const id = Date.now(); // Unique ID for size selector
         const card = document.createElement('div');
         card.className = 'product-card';
         card.innerHTML = `
             <img src="${img}" class="product-image">
             <h3>${name}</h3>
-            <div class="price">${price}</div>
-            <select><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
-            <button class="btn btn-add">ADD TO CART</button>
-            <button class="btn btn-delete" onclick="this.parentElement.remove()">DELETE ARTICLE</button>
+            <div class="price-tag">${price} DH</div>
+            <select id="size-${id}"><option>S</option><option>M</option><option>L</option><option>XL</option><option>XXL</option></select>
+            <button class="btn btn-add" onclick="addToCart('${name}', ${price}, 'size-${id}')">ADD TO CART</button>
+            <button class="btn btn-delete" onclick="this.parentElement.remove()">DELETE</button>
         `;
         grid.appendChild(card);
+    }
+
+    function addToCart(name, price, sizeId) {
+        const size = document.getElementById(sizeId).value;
+        cart.push({ name, price, size });
+        updateCart();
+        togglePanel('cartPanel');
+    }
+
+    function updateCart() {
+        const container = document.getElementById('cart-items-container');
+        let total = 0;
+        container.innerHTML = "";
+        cart.forEach((item, index) => {
+            total += parseInt(item.price);
+            container.innerHTML += `
+                <div class="cart-item">
+                    <strong>${item.name}</strong> (${item.size}) - ${item.price} DH
+                    <span style="color:red; cursor:pointer; float:right;" onclick="removeItem(${index})">✕</span>
+                </div>`;
+        });
+        document.getElementById('cart-count').innerText = cart.length;
+        document.getElementById('cart-total').innerText = `Total: ${total} DH`;
+    }
+
+    function removeItem(index) {
+        cart.splice(index, 1);
+        updateCart();
+    }
+
+    function showCheckout() {
+        if(cart.length === 0) return alert("Cart is empty");
+        document.getElementById('checkout-section').style.display = 'block';
+        document.getElementById('order-init-btn').style.display = 'none';
+    }
+
+    function sendToWhatsApp() {
+        const name = document.getElementById('cust-name').value;
+        const phone = document.getElementById('cust-phone').value;
+        const city = document.getElementById('cust-city').value;
+        if(!name || !phone || !city) return alert("Please fill shipping details");
+
+        let items = cart.map(i => `- ${i.name} (${i.size})`).join('\n');
+        let total = cart.reduce((sum, i) => sum + i.price, 0);
+        let msg = `*NEW ORDER*\n*Customer:* ${name}\n*Phone:* ${phone}\n*City:* ${city}\n\n*Items:*\n${items}\n\n*Total:* ${total} DH`;
+        window.open(`https://wa.me/${myWhatsApp}?text=${encodeURIComponent(msg)}`, '_blank');
     }
 </script>
 
